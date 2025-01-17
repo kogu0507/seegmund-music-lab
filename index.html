@@ -1,0 +1,101 @@
+<html><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seegmund music lab - 日本語トップページ</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+  <!-- ヘッダー -->
+  <header class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-3">
+      <div class="container-fluid">
+        <a class="navbar-brand fs-4" href="/">Seegmund music lab</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/ja/pages/music-theory/">楽典インデックス</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/pages/music-apps/dictation/rhythm-dictation-mini/">リズム聴音アプリ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/pages/music-apps/dictation/chord-dictation/">和音聴音アプリ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/pages/code-examples/">プログラムコード集</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/pages/board/">掲示板</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/pages/about/">サイトについて</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/pages/contact/">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="container mt-4">
+    <!-- サイト紹介セクション -->
+    <section id="intro" class="mb-5">
+      <h2 class="h4 mb-3">音楽受験生のための学習ツール</h2>
+      <p>
+        Seegmund music labは、音楽受験生や音楽学習者に向けた学習コンテンツを提供しています。  
+        音楽理論問題集アプリや聴音訓練アプリなど、試験対策や日常的なトレーニングに活用できます。
+      </p>
+      <p>
+        現在は基本的な機能に特化していますが、今後和声法、新曲視唱、副科ピアノ学習支援ツールなども順次追加予定です。
+      </p>
+    </section>
+
+    <!-- 最新情報セクション -->
+    <section id="updates" class="mb-5">
+      <h2 class="h4 mb-3">最新情報</h2>
+      <ul class="list-unstyled">
+        <!-- 最新3件 -->
+        <li>2024/12/09: サイト公開準備中</li>
+        <li>2025/01/10: 和声法学習ツール追加予定</li>
+        <li>2025/02/15: リズム聴音アプリ更新</li>
+        <!-- 折りたたみ対象 -->
+        <div id="more-updates" class="collapse">
+          <li>2025/03/01: プログラムコード集追加</li>
+          <li>2025/03/15: 掲示板機能リリース</li>
+          <li>2025/04/01: 和音聴音アプリ改善</li>
+          <li>2025/04/20: 音楽理論問題集アプリ公開</li>
+        </div>
+      </ul>
+      <!-- ボタン -->
+      <button id="more-btn" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#more-updates">
+        もっと見る
+      </button>
+      <!-- アーカイブページリンク（最初は非表示） -->
+      <p id="archive-link" class="mt-3 d-none">
+        <a href="/ja/updates/" class="text-decoration-none">アーカイブを見る</a>
+      </p>
+    </section>
+  </main>
+
+  <!-- フッター -->
+  <footer class="container py-3 border-top">
+    <div class="d-flex justify-content-between">
+      <p class="mb-0">© 2024 Seegmund music lab</p>
+      <p class="mb-0"><a href="/en/index.html" class="text-decoration-none">English</a></p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <!-- カスタムJS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const moreBtn = document.getElementById('more-btn');
+      const archiveLink = document.getElementById('archive-link');
+      const moreUpdates = document.getElementById('more-updates');
+
+      moreBtn.addEventListener('click', () => {
+        moreUpdates.addEventListener('shown.bs.collapse', () => {
+          moreBtn.classList.add('d-none');
+          archiveLink.classList.remove('d-none');
+        });
+      });
+    });
+  </script>
+
+
+</body></html>
