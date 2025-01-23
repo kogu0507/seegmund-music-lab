@@ -13,7 +13,7 @@ export function langSwitcher() {
     const currentLang = currentLangMatch ? currentLangMatch[1] : defaultLang;
 
     langLinks.forEach(link => {
-      const targetLang = link.getAttribute('href').replace('#', '');
+      const targetLang = link.dataset.lang; // data-lang 属性から言語を取得
 
       if (targetLang === currentLang) {
         link.classList.add('d-none'); // Bootstrapの `d-none` クラスで現在の言語のリンクを非表示
