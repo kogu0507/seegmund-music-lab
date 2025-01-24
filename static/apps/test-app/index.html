@@ -7,18 +7,74 @@
     <title>Quiz Game</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
+        /* 通常時 */
         body {
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            /* 画面の高さに合わせる */
         }
 
+        /* フルスクリーン時 */
+        body:-webkit-full-screen {
+            /* Safari */
+            display: block;
+            /* ブロック表示に変更 */
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            /* スクロールバーを非表示 */
+        }
+
+        body:-moz-full-screen {
+            /* Firefox */
+            display: block;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        body:fullscreen {
+            /* 標準 */
+            display: block;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        /* contentクラスも必要に応じて調整 */
         .content {
+            /* 通常時 */
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .content:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .content:-moz-full-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .content:fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
         }
     </style>
 </head>
@@ -107,8 +163,6 @@
             // ボタンのイベントリスナーをまとめて設定
             const buttons = {
                 start: document.getElementById("start-button"),
-                fullscreen: document.getElementById("fullscreen-button"),
-                toggleFullscreen: document.getElementById("toggle-fullscreen-button"),
                 userSelectPlay: document.getElementById("user-select-play-button"),
                 correctAnswerPlay: document.getElementById("correct-answer-play-button"),
                 nextQuestion: document.getElementById("next-question-button"),
@@ -138,39 +192,6 @@
                 //sections.answer.classList.remove("d-none");
                 //sections.explanation.classList.remove("d-none");
             });
-
-
-            function toggleFullScreenFallback() {
-                let element = document.documentElement;
-                isFullscreen = !isFullscreen;
-                if (isFullscreen) {
-                    element.style.position = 'fixed';
-                    element.style.top = '0';
-                    element.style.left = '0';
-                    element.style.width = '100%';
-                    element.style.height = '100%';
-                    document.body.style.backgroundColor = "rgba(0,0,0,0.5)";
-                    document.body.style.overflow = "hidden";
-                    buttons.fullscreen.innerText = "フルスクリーン解除";
-                    buttons.toggleFullscreen.innerText = "フルスクリーン解除";
-                } else {
-                    element.style.position = '';
-                    element.style.top = '';
-                    element.style.left = '';
-                    element.style.width = '';
-                    element.style.height = '';
-                    document.body.style.backgroundColor = "";
-                    document.body.style.overflow = "auto";
-                    buttons.fullscreen.innerText = "フルスクリーン";
-                    buttons.toggleFullscreen.innerText = "フルスクリーン";
-                }
-            }
-
-
-
-
-            buttons.fullscreen.addEventListener("click", toggleFullScreen);
-            buttons.toggleFullscreen.addEventListener("click", toggleFullScreen);
 
             // ユーザー選択を聴くボタン
             buttons.userSelectPlay.addEventListener("click", function () {
