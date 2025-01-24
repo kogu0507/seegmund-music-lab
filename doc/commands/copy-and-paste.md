@@ -1,20 +1,3 @@
-```bash
-# 1️⃣ 変更を確認
-git status
-
-# 2️⃣ すべての変更を Git に追加
-git add .
-
-# 3️⃣ コミット（変更内容を記録）
-git commit -m "footer update"
-
-# 4️⃣ 変更をリモートリポジトリにプッシュ
-git push origin main
-```
-
-
-
-
 ## **📌 コピペ用スクリプト（Git 更新）**
 💡 **これをそのままターミナルに貼り付けて実行！**
 ```bash
