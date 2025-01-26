@@ -1,23 +1,41 @@
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Seegmund Music Lab - 音楽理論、音楽アプリ、技術ノートなどのリソースを提供します。">
+  <meta name="description" content="Test Appは、Seegmund Music Labの音楽アプリの一つです。">
   <meta name="keywords" content="音楽アプリ, 音楽理論, 技術ノート, Seegmund Music Lab">
   <meta name="robots" content="index, follow">
-
-  <title>Seegmund music lab - test-iframe</title>
+  <title>Test App - Seegmund Music Lab</title>
   <link rel="icon" href="/static/images/favicon.ico">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <!-- base JS -->
+
+  <!-- base.js（後で分離する場合は外部ファイル化） -->
   <script type="module" src="/static/js/base.js" defer></script>
+
+  <style>
+    /* フルスクリーンモード時の非表示設定 */
+    .fullscreen-mode header,
+    .fullscreen-mode footer {
+      display: none;
+    }
+
+    .fullscreen-mode main {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow-y: auto;
+      /* スクロールバーを常に表示 */
+    }
+  </style>
 </head>
 
 <body class="bg-light">
-  <!-- ヘッダー -->
+  <!-- サイトヘッダー -->
   <header class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-3">
       <div class="container-fluid">
@@ -28,27 +46,38 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="/ja/music-apps/" aria-label="音楽アプリのページ">音楽アプリ</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/theory-notes/" aria-label="音楽理論ノートのページ">音楽理論ノート</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/technical-notes/" aria-label="技術ノートのページ">技術ノート</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/about/" aria-label="概要のページ">概要</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/contact/" aria-label="お問い合わせページ">お問い合わせ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/music-apps/">音楽アプリ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/theory-notes/">音楽理論ノート</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/technical-notes/">技術ノート</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/about/">概要</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/contact/">お問い合わせ</a></li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
 
-
   <!-- メインコンテンツ -->
-  <main class="container mt-4">
-    <iframe id="myIframe" src="/static/apps/test-app/index.html" allow="fullscreen" allowfullscreen
-      style="width:100%; height:80vh;"></iframe>
-    <button id="fullscreenButton" class="btn btn-primary mt-2">フルスクリーン</button>
+  <main class="container mt-4 text-center">
+    <!-- アプリメニュー -->
+    <div class="d-flex justify-content-between mb-3">
+      <div class="btn-group">
+        <button id="fullscreenButton" class="btn btn-outline-primary">🖥️ フルスクリーン</button>
+        <button id="settingsButton" class="btn btn-outline-secondary">⚙️ 詳細設定</button>
+      </div>
+      <button id="exitAppButton" class="btn btn-danger">🚪 アプリを終了する</button>
+    </div>
+
+    <h1 class="mb-3">Test App</h1>
+    <p class="mb-4">これは Seegmund Music Lab の音楽アプリ「Test App」です。</p>
+
+    <!-- アプリのメインエリア -->
+    <div id="appContainer" class="p-4 border rounded bg-white">
+      <p>🎵 アプリのコンテンツをここに配置 🎵</p>
+    </div>
   </main>
 
-
-  <!-- フッター -->
+  <!-- サイトフッター -->
   <footer class="container py-3 border-top">
     <div class="d-flex justify-content-between flex-wrap">
       <p class="mb-0">© 2024 Seegmund music lab</p>
@@ -67,35 +96,71 @@
     </div>
   </footer>
 
+  <!-- 詳細設定モーダル -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingsModalLabel">詳細設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body">
+          <p>⚙️ ここに設定項目を追加</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- アプリ終了モーダル -->
+  <div class="modal fade" id="exitModal" tabindex="-1" aria-labelledby="exitModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exitModalLabel">アプリを終了</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p>アプリを終了します。どこへ移動しますか？</p>
+          <a href="../" class="btn btn-outline-primary w-100 mb-2">🎵 アプリ一覧に戻る</a>
+          <a href="/" class="btn btn-outline-secondary w-100 mb-2">🏠 サイトトップへ戻る</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 
+  <!-- JavaScript -->
   <script>
-    const iframe = document.getElementById('myIframe');
-    const fullscreenButton = document.getElementById('fullscreenButton');
+    document.addEventListener("DOMContentLoaded", function () {
+      const fullscreenButton = document.getElementById('fullscreenButton');
+      const exitAppButton = document.getElementById('exitAppButton');
+      const settingsButton = document.getElementById('settingsButton');
 
-    fullscreenButton.addEventListener('click', () => {
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-      } else if (iframe.webkitRequestFullscreen) { // Safari (including iOS)
-        iframe.webkitRequestFullscreen();
-      }
-    });
+      // Bootstrapモーダルの取得と初期化
+      const settingsModalElement = document.getElementById('settingsModal');
+      const exitModalElement = document.getElementById('exitModal');
+      const settingsModal = new bootstrap.Modal(settingsModalElement);
+      const exitModal = new bootstrap.Modal(exitModalElement);
 
-    document.addEventListener('fullscreenchange', () => {
-      if (document.fullscreenElement === iframe || document.webkitFullscreenElement === iframe) { // webkitFullscreenElement for Safari
-        fullscreenButton.textContent = 'フルスクリーン解除';
-        document.body.style.overflow = "hidden";
-      } else {
-        fullscreenButton.textContent = 'フルスクリーン';
-        document.body.style.overflow = "auto";
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) { // Safari
-          document.webkitExitFullscreen();
-        }
-      }
+      const FULLSCREEN_TEXT = '🖥️ フルスクリーン';
+      const FULLSCREEN_EXIT_TEXT = '📴 フルスクリーン解除';
+
+      let isFullscreenMode = false;
+
+      // フルスクリーン切り替え
+      fullscreenButton.addEventListener('click', () => {
+        document.body.classList.toggle('fullscreen-mode');
+        isFullscreenMode = !isFullscreenMode;
+        fullscreenButton.textContent = isFullscreenMode ? FULLSCREEN_EXIT_TEXT : FULLSCREEN_TEXT;
+      });
+
+      // 設定モーダルを開く
+      settingsButton.addEventListener('click', () => settingsModal.show());
+
+      // アプリ終了モーダルを開く
+      exitAppButton.addEventListener('click', () => exitModal.show());
     });
   </script>
 </body>
