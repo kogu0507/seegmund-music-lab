@@ -9,15 +9,22 @@ export function langSwitcher() {
   // 1️⃣ `localStorage` から前回の言語設定を取得
   const savedLang = localStorage.getItem('preferredLang');
 
-  // 2️⃣ URL から現在の言語を取得
+  // 2️⃣ URL から現在の言語を取得（ルート `/` の場合は `null`）
   const currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${validLangs.join('|')})/`));
-  let currentLang = currentLangMatch ? currentLangMatch[1] : defaultLang;
+  let currentLang = currentLangMatch ? currentLangMatch[1] : null;
 
-  // 3️⃣ `localStorage` に保存された言語があり、URL の言語と異なる場合はリダイレクト
+  // 3️⃣ ルート (`/`) にアクセスした場合、保存された言語にリダイレクト
+  if (!currentLang && savedLang && validLangs.includes(savedLang)) {
+    window.location.replace(`${baseURL}/${savedLang}/index.html`);
+    return; // ここで処理を止める
+  }
+
+  // 4️⃣ `localStorage` の言語が現在のURLと異なる場合、リダイレクト
   if (savedLang && savedLang !== currentLang && validLangs.includes(savedLang)) {
     const newPath = currentURL.pathname.replace(new RegExp(`^/(${validLangs.join('|')})/`), `/${savedLang}/`);
     const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
     window.location.replace(newURL);
+    return;
   }
 
   langLinks.forEach(link => {
@@ -31,7 +38,7 @@ export function langSwitcher() {
       if (!validLangs.includes(targetLang)) return;
       event.preventDefault();
 
-      // 4️⃣ 言語を `localStorage` に保存
+      // 5️⃣ 言語を `localStorage` に保存
       localStorage.setItem('preferredLang', targetLang);
 
       let newPath = currentURL.pathname;
@@ -43,7 +50,7 @@ export function langSwitcher() {
 
       const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
 
-      // 5️⃣ URL を変更してリロード
+      // 6️⃣ URL を変更してリロード
       window.history.pushState(null, '', newURL);
       location.reload();
     });
