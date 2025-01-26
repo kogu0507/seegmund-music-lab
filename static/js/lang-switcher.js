@@ -18,8 +18,8 @@ export function langSwitcher() {
   let currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${validLangs.join('|')})/`));
   let currentLang = currentLangMatch ? currentLangMatch[1] : defaultLang;
 
-  // 3️⃣ ルート (`/`) にアクセスした場合、localStorage の言語へリダイレクト
-  if (!currentLangMatch && savedLang && validLangs.includes(savedLang)) {
+  // 3️⃣ ルート (`/`) にアクセスした場合、localStorage の言語へリダイレクト（修正）
+  if (currentURL.pathname === "/" && savedLang && validLangs.includes(savedLang)) {
     window.location.replace(`${baseURL}/${savedLang}/index.html`);
     return;
   }
@@ -69,9 +69,26 @@ export function langSwitcher() {
   });
 
   // **新規追加: 言語変更時にページの一部を更新**
-  function updateContentForNewLanguage(lang) {
-    // ページの一部を動的に更新する処理（例: API からデータを取得するなど）
-    // ここでは単純にリロードするが、実際には動的更新が望ましい
-    location.reload();
+  async function updateContentForNewLanguage(lang) {
+    try {
+      // 言語ごとのJSONデータを取得（例: `/lang/en.json`, `/lang/ja.json`）
+      const response = await fetch(`/lang/${lang}.json`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const langData = await response.json();
+
+      // 言語ごとのテキストを適用
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const key = element.getAttribute("data-i18n");
+        if (langData[key]) {
+          element.textContent = langData[key];
+        }
+      });
+
+    } catch (error) {
+      console.error("Error fetching language data:", error);
+      location.reload(); // 失敗した場合はページをリロード
+    }
   }
 }
