@@ -132,37 +132,33 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 
   <!-- JavaScript -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const fullscreenButton = document.getElementById('fullscreenButton');
-      const exitAppButton = document.getElementById('exitAppButton');
-      const settingsButton = document.getElementById('settingsButton');
+  <!-- JavaScript（モジュール） -->
+  <script type="module">
+    import { setupFullscreenToggle } from "/static/js/fullscreen.js";
 
-      // Bootstrapモーダルの取得と初期化
-      const settingsModalElement = document.getElementById('settingsModal');
-      const exitModalElement = document.getElementById('exitModal');
+    document.addEventListener("DOMContentLoaded", () => {
+      // フルスクリーン機能をセットアップ
+      setupFullscreenToggle("fullscreenButton");
+
+      // モーダルの設定
+      const exitAppButton = document.getElementById("exitAppButton");
+      const settingsButton = document.getElementById("settingsButton");
+
+      const settingsModalElement = document.getElementById("settingsModal");
+      const exitModalElement = document.getElementById("exitModal");
+
       const settingsModal = new bootstrap.Modal(settingsModalElement);
       const exitModal = new bootstrap.Modal(exitModalElement);
 
-      const FULLSCREEN_TEXT = '🖥️ フルスクリーン';
-      const FULLSCREEN_EXIT_TEXT = '📴 フルスクリーン解除';
-
-      let isFullscreenMode = false;
-
-      // フルスクリーン切り替え
-      fullscreenButton.addEventListener('click', () => {
-        document.body.classList.toggle('fullscreen-mode');
-        isFullscreenMode = !isFullscreenMode;
-        fullscreenButton.textContent = isFullscreenMode ? FULLSCREEN_EXIT_TEXT : FULLSCREEN_TEXT;
-      });
-
       // 設定モーダルを開く
-      settingsButton.addEventListener('click', () => settingsModal.show());
+      settingsButton.addEventListener("click", () => settingsModal.show());
 
       // アプリ終了モーダルを開く
-      exitAppButton.addEventListener('click', () => exitModal.show());
+      exitAppButton.addEventListener("click", () => exitModal.show());
     });
   </script>
+
+
 </body>
 
 </html>
