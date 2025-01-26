@@ -13,32 +13,35 @@ export function langSwitcher() {
   const currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${validLangs.join('|')})/`));
   let currentLang = currentLangMatch ? currentLangMatch[1] : null;
 
-  // 3️⃣ ルート (`/`) にアクセスした場合、保存された言語にリダイレクト
+  // 3️⃣ ルート (`/`) にアクセスした場合のみ、localStorage の言語へリダイレクト
   if (!currentLang && savedLang && validLangs.includes(savedLang)) {
     window.location.replace(`${baseURL}/${savedLang}/index.html`);
-    return; // ここで処理を止める
+    return;
   }
 
-  // 4️⃣ `localStorage` の言語が現在のURLと異なる場合、リダイレクト
-  if (savedLang && savedLang !== currentLang && validLangs.includes(savedLang)) {
+  // 4️⃣ 現在のページの言語が localStorage の言語と異なる場合のみリダイレクト
+  if (savedLang && savedLang !== currentLang && validLangs.includes(savedLang) && currentLang) {
     const newPath = currentURL.pathname.replace(new RegExp(`^/(${validLangs.join('|')})/`), `/${savedLang}/`);
     const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
     window.location.replace(newURL);
     return;
   }
 
+  // 5️⃣ 言語切り替えボタンの表示制御
   langLinks.forEach(link => {
     const targetLang = link.dataset.lang;
 
     if (targetLang === currentLang) {
-      link.classList.add('d-none'); // Bootstrapの `d-none` クラスで現在の言語のリンクを非表示
+      link.classList.add('d-none'); // 現在の言語のリンクを非表示にする
+    } else {
+      link.classList.remove('d-none'); // 他の言語のリンクは表示
     }
 
     link.addEventListener('click', (event) => {
       if (!validLangs.includes(targetLang)) return;
       event.preventDefault();
 
-      // 5️⃣ 言語を `localStorage` に保存
+      // 6️⃣ 言語を `localStorage` に保存
       localStorage.setItem('preferredLang', targetLang);
 
       let newPath = currentURL.pathname;
@@ -50,7 +53,7 @@ export function langSwitcher() {
 
       const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
 
-      // 6️⃣ URL を変更してリロード
+      // 7️⃣ URL を変更してリロード
       window.history.pushState(null, '', newURL);
       location.reload();
     });
