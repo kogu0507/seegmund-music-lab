@@ -10,20 +10,18 @@ export function langSwitcher() {
   const savedLang = localStorage.getItem('preferredLang');
 
   // 2️⃣ URL から現在の言語を取得（ルート `/` の場合は `null`）
-  const currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${validLangs.join('|')})/`));
+  let currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${validLangs.join('|')})/`));
   let currentLang = currentLangMatch ? currentLangMatch[1] : null;
 
-  // 3️⃣ ルート (`/`) にアクセスした場合のみ、localStorage の言語へリダイレクト
+  // 3️⃣ ルート (`/`) にアクセスした場合、localStorage の言語へリダイレクト
   if (!currentLang && savedLang && validLangs.includes(savedLang)) {
     window.location.replace(`${baseURL}/${savedLang}/index.html`);
     return;
   }
 
-  // 4️⃣ 現在のページの言語が localStorage の言語と異なる場合のみリダイレクト
-  if (savedLang && savedLang !== currentLang && validLangs.includes(savedLang) && currentLang) {
-    const newPath = currentURL.pathname.replace(new RegExp(`^/(${validLangs.join('|')})/`), `/${savedLang}/`);
-    const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
-    window.location.replace(newURL);
+  // 4️⃣ `index.html` が明示的に含まれていない場合、自動補完
+  if (currentLang && currentURL.pathname.endsWith(`/${currentLang}/`)) {
+    window.location.replace(`${baseURL}/${currentLang}/index.html`);
     return;
   }
 
@@ -45,15 +43,17 @@ export function langSwitcher() {
       localStorage.setItem('preferredLang', targetLang);
 
       let newPath = currentURL.pathname;
+
+      // 7️⃣ `index.html` が抜ける問題を修正
       if (currentLangMatch) {
         newPath = newPath.replace(new RegExp(`^/(${validLangs.join('|')})/`), `/${targetLang}/`);
       } else {
-        newPath = `/${targetLang}${newPath}`;
+        newPath = `/${targetLang}/index.html`;
       }
 
       const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
 
-      // 7️⃣ URL を変更してリロード
+      // 8️⃣ URL を変更してリロード
       window.history.pushState(null, '', newURL);
       location.reload();
     });
