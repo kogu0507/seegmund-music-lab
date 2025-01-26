@@ -135,26 +135,14 @@
   <!-- JavaScript（モジュール） -->
   <script type="module">
     import { setupFullscreenToggle } from "/static/js/fullscreen.js";
+    import { setupModal } from "/static/js/setupModal.js";
 
     document.addEventListener("DOMContentLoaded", () => {
       // フルスクリーン機能をセットアップ
       setupFullscreenToggle("fullscreenButton");
-
-      // モーダルの設定
-      const exitAppButton = document.getElementById("exitAppButton");
-      const settingsButton = document.getElementById("settingsButton");
-
-      const settingsModalElement = document.getElementById("settingsModal");
-      const exitModalElement = document.getElementById("exitModal");
-
-      const settingsModal = new bootstrap.Modal(settingsModalElement);
-      const exitModal = new bootstrap.Modal(exitModalElement);
-
-      // 設定モーダルを開く
-      settingsButton.addEventListener("click", () => settingsModal.show());
-
-      // アプリ終了モーダルを開く
-      exitAppButton.addEventListener("click", () => exitModal.show());
+      // モーダルのセットアップ
+      setupModal("settingsButton", "settingsModal");
+      setupModal("exitAppButton", "exitModal");
     });
   </script>
 

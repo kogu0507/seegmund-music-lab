@@ -1,15 +1,24 @@
+//lang-switcher.js
+import { validLangs, defaultLang } from './globalConfig.js';
+
 export function langSwitcher() {  
   const langLinks = document.querySelectorAll('.lang-switch');
   const currentURL = new URL(window.location.href);
   const baseURL = window.location.origin;
-  const defaultLang = 'ja';
-  const validLangs = ['ja', 'en'];
 
-  console.log("lang-switcher.js loaded"); // デバッグ用
+  // 1️⃣ `localStorage` から前回の言語設定を取得
+  const savedLang = localStorage.getItem('preferredLang');
 
-  // URL から現在の言語を取得
-  const currentLangMatch = currentURL.pathname.match(/^\/(ja|en)\//);
-  const currentLang = currentLangMatch ? currentLangMatch[1] : defaultLang;
+  // 2️⃣ URL から現在の言語を取得
+  const currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${validLangs.join('|')})/`));
+  let currentLang = currentLangMatch ? currentLangMatch[1] : defaultLang;
+
+  // 3️⃣ `localStorage` に保存された言語があり、URL の言語と異なる場合はリダイレクト
+  if (savedLang && savedLang !== currentLang && validLangs.includes(savedLang)) {
+    const newPath = currentURL.pathname.replace(new RegExp(`^/(${validLangs.join('|')})/`), `/${savedLang}/`);
+    const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
+    window.location.replace(newURL);
+  }
 
   langLinks.forEach(link => {
     const targetLang = link.dataset.lang;
@@ -19,19 +28,24 @@ export function langSwitcher() {
     }
 
     link.addEventListener('click', (event) => {
-      event.preventDefault();
       if (!validLangs.includes(targetLang)) return;
+      event.preventDefault();
+
+      // 4️⃣ 言語を `localStorage` に保存
+      localStorage.setItem('preferredLang', targetLang);
 
       let newPath = currentURL.pathname;
       if (currentLangMatch) {
-        newPath = newPath.replace(/^\/(ja|en)\//, `/${targetLang}/`);
+        newPath = newPath.replace(new RegExp(`^/(${validLangs.join('|')})/`), `/${targetLang}/`);
       } else {
         newPath = `/${targetLang}${newPath}`;
       }
 
       const newURL = `${baseURL}${newPath}${currentURL.search}${currentURL.hash}`;
-      console.log("Switching language to:", newURL);
-      window.location.href = newURL;
+
+      // 5️⃣ URL を変更してリロード
+      window.history.pushState(null, '', newURL);
+      location.reload();
     });
   });
 }
