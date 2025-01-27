@@ -10,6 +10,7 @@ export function langSwitcher() {
     const baseURL = window.location.origin;
 
     let savedLang;
+
     try {
         savedLang = localStorage.getItem('preferredLang');
     } catch (error) {
@@ -20,9 +21,10 @@ export function langSwitcher() {
     let currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${VALID_LANGS.join('|')})/`));
     let currentLang = currentLangMatch ? currentLangMatch[1] : DEFAULT_LANG;
 
-    if (currentURL.pathname === "/" && savedLang && VALID_LANGS.includes(savedLang)) {
+    // **初回アクセス時のリダイレクト処理**
+    if (!currentLangMatch && savedLang && VALID_LANGS.includes(savedLang)) {
         window.location.replace(`${baseURL}/${savedLang}/`);
-        return;
+        return; // **リダイレクト後は処理を続行しない**
     }
 
     langLinks.forEach(link => {
@@ -66,9 +68,9 @@ export function langSwitcher() {
             if (!commonResponse.ok) throw new Error(`Failed to load ${commonPath}`);
             const commonLangData = await commonResponse.json();
 
-            // 言語選択ボタンのテキストを変更
+            // 言語選択ボタンのテキストを変更（現在の言語を表示）
             if (langDropdownButton && commonLangData.common.lang_switch) {
-                langDropdownButton.textContent = `🌍 ${commonLangData.common.lang_switch[currentLang] || "Language"}`;
+                langDropdownButton.textContent = `🌍 ${currentLang === 'ja' ? '日本語' : currentLang === 'en' ? 'English' : 'Language'}`;
             }
         } catch (error) {
             console.error("Error updating language dropdown:", error);
