@@ -6,12 +6,14 @@
  * @param {object} [options] - モーダルのオプション (Bootstrapのオプション)
  * @returns {function} - モーダルのイベントリスナーを削除し、モーダルを破棄する関数
  */
+import { log } from './globalConfig.js'; // log関数をインポート
+
 export function setupModal(buttonIds, modalId, options = {}) {
     const buttonIdsArray = Array.isArray(buttonIds) ? buttonIds : [buttonIds];
     const modalElement = document.getElementById(modalId);
 
     if (!modalElement) {
-        console.error(`Error: モーダル (ID: ${modalId}) が見つかりません。`);
+        log(`Error: モーダル (ID: ${modalId}) が見つかりません。`);
         return () => {}; // 空の削除関数を返す
     }
 
@@ -22,7 +24,7 @@ export function setupModal(buttonIds, modalId, options = {}) {
     for (const buttonId of buttonIdsArray) {
         const button = document.getElementById(buttonId);
         if (!button) {
-            console.error(`Error: ボタン (ID: ${buttonId}) が見つかりません。`);
+            log(`Error: ボタン (ID: ${buttonId}) が見つかりません。`);
             continue;
         }
 

@@ -1,4 +1,4 @@
-import { VALID_LANGS, DEFAULT_LANG } from './globalConfig.js';
+import { VALID_LANGS, DEFAULT_LANG, log } from './globalConfig.js';
 
 /**
  * 言語切り替え機能を提供する関数
@@ -14,7 +14,7 @@ export function langSwitcher() {
     try {
         savedLang = localStorage.getItem('preferredLang');
     } catch (error) {
-        console.error("Error accessing localStorage:", error);
+        log("Error accessing localStorage:", error);
         savedLang = null;
     }
 
@@ -49,7 +49,7 @@ export function langSwitcher() {
             try {
                 localStorage.setItem('preferredLang', targetLang);
             } catch (error) {
-                console.error("Error saving to localStorage:", error);
+                log("Error saving to localStorage:", error);
             }
 
             let newPath = currentLangMatch
