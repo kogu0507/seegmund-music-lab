@@ -99,9 +99,10 @@ export function langSwitcher() {
                 const key = element.getAttribute("data-i18n");
                 console.log("Processing element with key:", key); // どの要素を処理しているか
                 const keys = key.split('.'); // キーを分割
+                console.log("Split keys:", keys);
                 let translatedText = langData;
                 for (const k of keys) {
-                    if (translatedText && translatedText.hasOwnProperty(k)) {
+                    if (translatedText && typeof translatedText === 'object' && translatedText.hasOwnProperty(k)) {
                         translatedText = translatedText[k];
                     } else {
                         console.warn(`Translation for key ${key} not found in ${lang}.json`);
