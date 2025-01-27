@@ -19,12 +19,18 @@ export function langSwitcher() {
     }
 
     let currentLangMatch = currentURL.pathname.match(new RegExp(`^/(${VALID_LANGS.join('|')})/`));
-    let currentLang = currentLangMatch ? currentLangMatch[1] : DEFAULT_LANG;
+    let currentLang = currentLangMatch ? currentLangMatch[1] : null;
 
-    // **初回アクセス時のリダイレクト処理**
-    if (!currentLangMatch && savedLang && VALID_LANGS.includes(savedLang)) {
+    // **初回アクセス時のリダイレクト処理（サイトのルート `/` の場合）**
+    if (!currentLang && savedLang && VALID_LANGS.includes(savedLang)) {
         window.location.replace(`${baseURL}/${savedLang}/`);
-        return; // **リダイレクト後は処理を続行しない**
+        return;
+    }
+
+    // 言語が決定できない場合、デフォルトの `DEFAULT_LANG` にリダイレクト
+    if (!currentLang) {
+        window.location.replace(`${baseURL}/${DEFAULT_LANG}/`);
+        return;
     }
 
     langLinks.forEach(link => {
@@ -57,23 +63,9 @@ export function langSwitcher() {
     /**
      * 言語ドロップダウンボタンを更新する関数
      */
-    async function updateLangDropdown() {
-        try {
-            const currentLangMatch = window.location.pathname.match(new RegExp(`^/(${VALID_LANGS.join('|')})/`));
-            const currentLang = currentLangMatch ? currentLangMatch[1] : DEFAULT_LANG;
-            const commonPath = `/lang/${currentLang}/common.json`;
-
-            console.log("Fetching common:", commonPath);
-            const commonResponse = await fetch(commonPath);
-            if (!commonResponse.ok) throw new Error(`Failed to load ${commonPath}`);
-            const commonLangData = await commonResponse.json();
-
-            // 言語選択ボタンのテキストを変更（現在の言語を表示）
-            if (langDropdownButton && commonLangData.common.lang_switch) {
-                langDropdownButton.textContent = `🌍 ${currentLang === 'ja' ? '日本語' : currentLang === 'en' ? 'English' : 'Language'}`;
-            }
-        } catch (error) {
-            console.error("Error updating language dropdown:", error);
+    function updateLangDropdown() {
+        if (langDropdownButton) {
+            langDropdownButton.textContent = "🌍 Language";
         }
     }
 

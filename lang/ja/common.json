@@ -1,18 +1,17 @@
 {
-  "footer": {
-      "copyright": "© 2024 Seegmund music lab",
-      "privacy_policy": "プライバシーポリシー",
-      "disclaimer": "免責事項"
-  },
-  "navigation": {
-      "music_apps": "音楽アプリ",
-      "theory_notes": "音楽理論ノート",
-      "technical_notes": "技術ノート",
-      "about": "概要",
-      "contact": "お問い合わせ"
-  },
-  "lang_switch": {
-      "en": "English",
-      "ja": "日本語"
+    "common": {
+      "footer": {
+        "copyright": "© 2024 Seegmund music lab",
+        "privacy_policy": "プライバシーポリシー",
+        "disclaimer": "免責事項"
+      },
+      "navigation": {
+        "music_apps": "音楽アプリ",
+        "theory_notes": "音楽理論ノート",
+        "technical_notes": "技術ノート",
+        "about": "概要",
+        "contact": "お問い合わせ"
+      }
+    }
   }
-}
+  
