@@ -67,35 +67,53 @@ export function langSwitcher() {
      */
     async function updateContentForNewLanguage(lang, pageKey) {
         try {
-            const commonResponse = await fetch(`/lang/${lang}/common.json`);
+            const commonPath = `/lang/${lang}/common.json`;
+            const pagePath = `/lang/${lang}/${pageKey}.json`;
+
+            console.log("Fetching common:", commonPath);
+            const commonResponse = await fetch(commonPath);
             if (!commonResponse.ok) {
                 throw new Error(`HTTP error! status: ${commonResponse.status} (common.json)`);
             }
             const commonLangData = await commonResponse.json();
-            
+            console.dir("commonLangData:", commonLangData); // console.dirに変更
+
+            console.log("Fetching page:", pagePath);
             let pageLangData = {};
-            try{
-                const pageResponse = await fetch(`/lang/${lang}/${pageKey}.json`);
+            try {
+                const pageResponse = await fetch(pagePath);
                 if (!pageResponse.ok) {
-                    // console.warn(`HTTP error! status: ${pageResponse.status} (${pageKey}.json)`);
-                    // ページ固有のJSONがない場合はエラーにしない
+                    console.warn(`HTTP error! status: ${pageResponse.status} (${pageKey}.json)`);
                 } else {
                     pageLangData = await pageResponse.json();
+                    console.dir("pageLangData:", pageLangData); // console.dirに変更
                 }
-            }catch(pageError){
+            } catch (pageError) {
                 console.error("Error fetching page language data:", pageError);
             }
 
             const langData = { ...commonLangData, ...pageLangData };
+            console.dir("Combined langData:", langData); //console.dirに変更
 
             document.querySelectorAll("[data-i18n]").forEach((element) => {
                 const key = element.getAttribute("data-i18n");
-                if (langData[key]) {
-                    element.textContent = langData[key];
-
-                    if (element.tagName === 'HTML') {
-                        element.lang = lang;
+                console.log("Processing element with key:", key); // どの要素を処理しているか
+                const keys = key.split('.'); // キーを分割
+                let translatedText = langData;
+                for (const k of keys) {
+                    if (translatedText && translatedText.hasOwnProperty(k)) {
+                        translatedText = translatedText[k];
+                    } else {
+                        console.warn(`Translation for key ${key} not found in ${lang}.json`);
+                        translatedText = undefined;
+                        break;
                     }
+                }
+                if (translatedText !== undefined) {
+                    console.log("Setting textContent to:", translatedText); // 翻訳後のテキストをログ出力
+                    element.textContent = translatedText;
+                } else {
+                    console.warn(`Translation not found for key: ${key}`);
                 }
             });
 
