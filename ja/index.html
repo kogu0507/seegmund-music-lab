@@ -26,11 +26,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="/ja/music-apps/" aria-label="音楽アプリのページ" data-i18n="navigation.music_apps">音楽アプリ</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/theory-notes/" aria-label="音楽理論ノートのページ" data-i18n="navigation.theory_notes">音楽理論ノート</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/technical-notes/" aria-label="技術ノートのページ" data-i18n="navigation.technical_notes">技術ノート</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/about/" aria-label="概要のページ" data-i18n="navigation.about">概要</a></li>
-            <li class="nav-item"><a class="nav-link" href="/ja/contact/" aria-label="お問い合わせページ" data-i18n="navigation.contact">お問い合わせ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/music-apps/" aria-label="音楽アプリのページ"
+                data-i18n="navigation.music_apps">音楽アプリ</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/theory-notes/" aria-label="音楽理論ノートのページ"
+                data-i18n="navigation.theory_notes">音楽理論ノート</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/technical-notes/" aria-label="技術ノートのページ"
+                data-i18n="navigation.technical_notes">技術ノート</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/about/" aria-label="概要のページ"
+                data-i18n="navigation.about">概要</a></li>
+            <li class="nav-item"><a class="nav-link" href="/ja/contact/" aria-label="お問い合わせページ"
+                data-i18n="navigation.contact">お問い合わせ</a></li>
           </ul>
         </div>
       </div>
@@ -75,13 +80,22 @@
             data-i18n="common.footer.privacy_policy">プライバシーポリシー</a>
         </li>
         <li class="list-inline-item">
-          <a href="/ja/disclaimer.html" class="text-decoration-none" aria-label="免責事項" data-i18n="common.footer.disclaimer">免責事項</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#" class="lang-switch text-decoration-none" data-lang="en" aria-label="English">English</a>
-          <a href="#" class="lang-switch text-decoration-none" data-lang="ja" aria-label="日本語">日本語</a>
+          <a href="/ja/disclaimer.html" class="text-decoration-none" aria-label="免責事項"
+            data-i18n="common.footer.disclaimer">免責事項</a>
         </li>
       </ul>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          🌍 Language
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="langDropdown">
+          <li><a class="dropdown-item lang-switch" href="#" data-lang="en">English</a></li>
+          <li><a class="dropdown-item lang-switch" href="#" data-lang="ja">日本語</a></li>
+          <li><a class="dropdown-item lang-switch" href="#" data-lang="fr">Français</a></li>
+          <li><a class="dropdown-item lang-switch" href="#" data-lang="de">Deutsch</a></li>
+        </ul>
+      </div>
     </div>
   </footer>
 
