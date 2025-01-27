@@ -1,18 +1,20 @@
 {
-  "footer": {
-    "copyright": "© 2024 Seegmund music lab",
-    "privacy_policy": "Privacy Policy",
-    "disclaimer": "Disclaimer"
-  },
-  "navigation": {
-    "music_apps": "Music Apps",
-    "theory_notes": "Theory Notes",
-    "technical_notes": "Technical Notes",
-    "about": "About",
-    "contact": "Contact"
-  },
-  "lang_switch": {
-    "en": "Switch to English",
-    "ja": "Switch to Japanese"
+  "common": {
+    "footer": {
+      "copyright": "© 2024 Seegmund music lab",
+      "privacy_policy": "Privacy Policy",
+      "disclaimer": "Disclaimer"
+    },
+    "navigation": {
+      "music_apps": "Music Apps",
+      "theory_notes": "Theory Notes",
+      "technical_notes": "Technical Notes",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "lang_switch": {
+      "en": "Switch to English",
+      "ja": "Switch to Japanese"
+    }
   }
 }
