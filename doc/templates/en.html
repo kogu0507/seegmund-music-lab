@@ -1,161 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-page="template">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Seegmund Music Lab - Providing resources on music theory, music apps, and technical notes.">
-  <meta name="keywords" content="music apps, music theory, technical notes, Seegmund Music Lab">
-  <meta name="robots" content="index, follow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Seegmund Music Lab - Learning resources for music students, music apps, technical notes, and more.">
+    <meta name="keywords" content="Music apps, Music theory, Technical notes, Seegmund Music Lab">
+    <meta name="robots" content="index, follow">
 
-  <title>Seegmund Music Lab - English Home</title>
-  <link rel="icon" href="/static/images/favicon.ico">
+    <title data-i18n="template.title">Seegmund Music Lab - Template</title>
+    <link rel="icon" href="/static/images/favicon.ico">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <!-- base JS -->
-  <script type="module" src="/static/js/base.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 
 <body class="bg-light">
-  <!-- Header -->
-  <header class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-3">
-      <div class="container-fluid">
-        <a class="navbar-brand fs-4" href="/" aria-label="Seegmund Music Lab Home">Seegmund Music Lab</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="/en/music-apps/" aria-label="Music Apps">Music Apps</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/theory-notes/" aria-label="Music Theory Notes">Music Theory Notes</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/technical-notes/" aria-label="Technical Notes">Technical Notes</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/about/" aria-label="About">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/contact/" aria-label="Contact">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Main Content -->
-  <main class="container mt-4">
-
-    <!-- Section 1: Introduction -->
-    <section aria-labelledby="intro-heading">
-      <h2 id="intro-heading" class="display-4 mb-3">Welcome to Seegmund Music Lab</h2>
-      <p>We provide a variety of resources on music theory, music apps, and technical notes. Explore our site to enhance your musical journey!</p>
-    </section>
-
-    <!-- Section 2: Services -->
-    <section aria-labelledby="services-heading">
-      <h2 id="services-heading" class="h3 mb-3">Our Services</h2>
-      <ul class="list-group">
-        <li class="list-group-item">In-depth resources on music theory</li>
-        <li class="list-group-item">Tutorials and guides for music apps</li>
-        <li class="list-group-item">Technical notes for music production</li>
-      </ul>
-    </section>
-
-    <!-- Section 3: Music Apps -->
-    <section aria-labelledby="apps-heading" class="mt-4">
-      <h2 id="apps-heading" class="h3 mb-3">Music Apps</h2>
-      <div class="row">
-        <!-- Card 1 -->
-        <div class="col-md-4 mb-3">
-          <div class="card" aria-labelledby="app1-title">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="App 1">
-            <div class="card-body">
-              <h5 id="app1-title" class="card-title">Music App 1</h5>
-              <p class="card-text">An excellent tool for learning music theory.</p>
-              <a href="#" class="btn btn-primary">Learn More</a>
+    <header class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fs-4" href="/" aria-label="Seegmund Music Lab's Homepage"
+                    data-i18n="navigation.home">Seegmund Music Lab</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/en/music-apps/" aria-label="Music Apps"
+                                data-i18n="navigation.music_apps">Music Apps</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/en/theory-notes/"
+                                aria-label="Music Theory Notes" data-i18n="navigation.theory_notes">Music Theory
+                                Notes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/en/technical-notes/"
+                                aria-label="Technical Notes" data-i18n="navigation.technical_notes">Technical
+                                Notes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/en/about/" aria-label="About"
+                                data-i18n="navigation.about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/en/contact/" aria-label="Contact"
+                                data-i18n="navigation.contact">Contact</a></li>
+                    </ul>
+                </div>
             </div>
-          </div>
-        </div>
-        <!-- Card 2 -->
-        <div class="col-md-4 mb-3">
-          <div class="card" aria-labelledby="app2-title">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="App 2">
-            <div class="card-body">
-              <h5 id="app2-title" class="card-title">Music App 2</h5>
-              <p class="card-text">A powerful multi-functional tool for music production.</p>
-              <a href="#" class="btn btn-primary">Learn More</a>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        <!-- Template components for page creation -->
+
+        <!-- Section: Page Introduction -->
+        <section aria-labelledby="template-heading">
+            <h2 id="template-heading" class="display-4 mb-3" data-i18n="template.placeholder.title">Template Title</h2>
+            <p data-i18n="template.placeholder.description">This section contains a placeholder description. Modify it as needed.</p>
+        </section>
+
+        <!-- Section: Services List -->
+        <section aria-labelledby="services-heading">
+            <h2 id="services-heading" class="h3 mb-3" data-i18n="template.services.title">Our Services</h2>
+            <ul class="list-group">
+                <li class="list-group-item" data-i18n="template.services.item1">Comprehensive music theory resources</li>
+                <li class="list-group-item" data-i18n="template.services.item2">Tutorials and guides for our music apps</li>
+                <li class="list-group-item" data-i18n="template.services.item3">Technical notes for music production</li>
+            </ul>
+        </section>
+
+        <!-- Section: Music Apps Showcase (Cards) -->
+        <section aria-labelledby="apps-heading" class="mt-4">
+            <h2 id="apps-heading" class="h3 mb-3" data-i18n="template.apps.title">Music Apps</h2>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="App 1">
+                        <div class="card-body">
+                            <h5 class="card-title" data-i18n="template.apps.app1.title">Music App 1</h5>
+                            <p class="card-text" data-i18n="template.apps.app1.description">This app is a great tool for learning music theory.</p>
+                            <a href="#" class="btn btn-primary" data-i18n="template.apps.app1.link">Learn More</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <!-- Card 3 -->
-        <div class="col-md-4 mb-3">
-          <div class="card" aria-labelledby="app3-title">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="App 3">
-            <div class="card-body">
-              <h5 id="app3-title" class="card-title">Music App 3</h5>
-              <p class="card-text">A tool for music analysis and composition.</p>
-              <a href="#" class="btn btn-primary">Learn More</a>
+        </section>
+    </main>
+
+    <footer class="container py-3 border-top">
+        <div class="d-flex justify-content-between flex-wrap">
+            <p class="mb-0" data-i18n="common.footer.copyright">© 2024 Seegmund Music Lab</p>
+            <ul class="list-inline mb-0">
+                <li class="list-inline-item">
+                    <a href="/en/privacy-policy.html" class="text-decoration-none" aria-label="Privacy Policy"
+                        data-i18n="common.footer.privacy_policy">Privacy Policy</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="/en/disclaimer.html" class="text-decoration-none" aria-label="Disclaimer"
+                        data-i18n="common.footer.disclaimer">Disclaimer</a>
+                </li>
+            </ul>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="langDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    🌍 Language
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="langDropdown">
+                    <li><a class="dropdown-item lang-switch" href="#" data-lang="en">English</a></li>
+                    <li><a class="dropdown-item lang-switch" href="#" data-lang="ja">日本語</a></li>
+                </ul>
             </div>
-          </div>
         </div>
-      </div>
-    </section>
+    </footer>
 
-    <!-- Section 4: Resources -->
-    <section aria-labelledby="resources-heading" class="mt-4">
-      <h2 id="resources-heading" class="h3 mb-3">Resource List</h2>
-      <table class="table table-striped" aria-describedby="resources-desc">
-        <caption id="resources-desc">Key resources on music theory.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Category</th>
-            <th scope="col">Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Introduction to Music Theory</td>
-            <td>Theory</td>
-            <td><a href="#">Link</a></td>
-          </tr>
-          <tr>
-            <td>App Tutorials</td>
-            <td>Apps</td>
-            <td><a href="#">Link</a></td>
-          </tr>
-          <tr>
-            <td>Technical Notes for Music Production</td>
-            <td>Technical</td>
-            <td><a href="#">Link</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="container py-3 border-top">
-    <div class="d-flex justify-content-between flex-wrap">
-      <p class="mb-0">© 2024 Seegmund music lab</p>
-      <ul class="list-inline mb-0">
-        <li class="list-inline-item">
-          <a href="/en/privacy-policy.html" class="text-decoration-none" aria-label="Privacy Policy">Privacy Policy</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="/en/disclaimer.html" class="text-decoration-none" aria-label="Disclaimer">Disclaimer</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#" class="lang-switch text-decoration-none" data-lang="en" aria-label="English">English</a>
-          <a href="#" class="lang-switch text-decoration-none" data-lang="ja" aria-label="日本語">日本語</a>
-        </li>
-      </ul>
-    </div>
-  </footer>
-
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/static/js/base.js" defer></script>
 </body>
 
 </html>
