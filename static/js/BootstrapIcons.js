@@ -13,13 +13,15 @@ export function getIcon(iconName, options = {}) {
         rotate = 0,           // 回転角度（デフォルトなし）
         spin = false,         // アニメーション有無（デフォルト: false）
         onClick = null,       // クリックイベント
-        ariaLabel = ""        // アクセシビリティ対応（スクリーンリーダー用）
+        ariaLabel = "",        // アクセシビリティ対応（スクリーンリーダー用）
+        spacing = "0.25em"     // アイコンとテキストの間隔 (デフォルト: 0.25em)
     } = options;
 
     const iconElement = document.createElement("i");
     iconElement.className = `bi bi-${iconName} ${additionalClass}`.trim();
     iconElement.style.fontSize = size;
     iconElement.style.color = color;
+    iconElement.style.marginRight = spacing; // ← ここでスペースを設定
 
     // 回転設定
     if (rotate) {
