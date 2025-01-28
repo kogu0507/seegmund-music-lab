@@ -75,26 +75,72 @@
     <div id="appContainer" class="p-4 border rounded bg-white">
       <p>🎵 アプリのコンテンツをここに配置 🎵</p>
     </div>
+    <div class="container mt-4">
+      <h5 class="text-center">保存されたメモ</h5>
+      <div id="preview-area" class="border p-3 bg-light text-start">
+        ここに保存されたメモが表示されます。
+      </div>
+    </div>
+    <div class="container mt-4">
+      <p>何かその他のコンテンツ</p>
+    </div>
+
   </main>
 
   <!-- サイトフッター -->
-  <footer class="container py-3 border-top">
-    <div class="d-flex justify-content-between flex-wrap">
-      <p class="mb-0">© 2024 Seegmund music lab</p>
-      <ul class="list-inline mb-0">
-        <li class="list-inline-item">
-          <a href="/ja/privacy-policy.html" class="text-decoration-none" aria-label="プライバシーポリシー">プライバシーポリシー</a>
+  <footer class="container py-4 border-top">
+    <div class="container text-center mb-4">
+      <h5 class="mb-3">メモアプリ</h5>
+      <textarea id="memo-input" class="form-control text-start" rows="4" placeholder="メモを入力してください"></textarea>
+      <div class="mt-3">
+        <button id="preview-memo" class="btn btn-primary">プレビュー</button>
+        <button id="clear-memo" class="btn btn-danger">メモをクリア</button>
+      </div>
+    </div>
+
+    <nav class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+      <ul class="list-unstyled mb-0 d-flex">
+        <li class="me-3">
+          <a href="/ja/privacy-policy.html" class="text-decoration-none" aria-label="プライバシーポリシー"
+            data-i18n="common.footer.privacy_policy">プライバシーポリシー</a>
         </li>
-        <li class="list-inline-item">
-          <a href="/ja/disclaimer.html" class="text-decoration-none" aria-label="免責事項">免責事項</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#" class="lang-switch text-decoration-none" data-lang="en" aria-label="English">English</a>
-          <a href="#" class="lang-switch text-decoration-none" data-lang="ja" aria-label="日本語">日本語</a>
+        <li>
+          <a href="/ja/disclaimer.html" class="text-decoration-none" aria-label="免責事項"
+            data-i18n="common.footer.disclaimer">免責事項</a>
         </li>
       </ul>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Language
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="langDropdown">
+          <li><a class="dropdown-item lang-switch" href="#" data-lang="en">English</a></li>
+          <li><a class="dropdown-item lang-switch" href="#" data-lang="ja">日本語</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="text-center">
+      <p class="mb-0" data-i18n="common.footer.copyright">© 2024 Seegmund music lab</p>
     </div>
   </footer>
+
+
+  <!-- メモ帳プレビューモーダル (BootStrap) -->
+  <div class="modal fade" id="memoModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">メモのプレビュー</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-start">
+          <p id="preview-content"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- 詳細設定モーダル -->
   <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
@@ -132,6 +178,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 
   <!-- JavaScript -->
+
   <!-- JavaScript（モジュール） -->
   <script type="module">
     import { setupFullscreenToggle } from "/static/js/fullscreen.js";
@@ -146,6 +193,114 @@
     });
   </script>
 
+
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      /**
+       * メモを localStorage に保存する関数
+       * @param {string} memo 保存するメモの内容
+       */
+      function saveMemo(memo) {
+        localStorage.setItem("myMemo", memo);
+      }
+
+      /**
+       * localStorage からメモを読み込む関数
+       * @returns {string} 保存されているメモ（ない場合は空文字を返す）
+       */
+      function loadMemo() {
+        return localStorage.getItem("myMemo") || "";
+      }
+
+      /**
+       * メモをクリアする関数
+       * localStorage からデータを削除し、画面の入力欄をリセット
+       */
+      function clearMemo() {
+        updateMemo(""); // メモを空にして保存
+      }
+
+      /**
+       * HTMLエスケープ処理を行い、XSS 対策をする関数
+       * @param {string} unsafe エスケープする文字列
+       * @returns {string} エスケープされた文字列
+       */
+      function escapeHtml(unsafe) {
+        return unsafe.replace(/[&<>"']/g, function (m) {
+          switch (m) {
+            case "&":
+              return "&amp;";
+            case "<":
+              return "&lt;";
+            case ">":
+              return "&gt;";
+            case '"':
+              return "&quot;";
+            case "'":
+              return "&#039;";
+            default:
+              return m;
+          }
+        });
+      }
+
+      /**
+       * メモの内容を更新し、画面と localStorage に反映させる関数
+       * @param {string} content 更新するメモの内容
+       */
+      function updateMemo(content) {
+        memoInput.value = content;
+        previewArea.innerHTML = escapeHtml(content.trim()).replace(/\n/g, "<br>");
+        try {
+          saveMemo(content);
+        } catch (error) {
+          console.error("メモの保存に失敗しました:", error);
+          alert("メモの保存に失敗しました。");
+        }
+      }
+
+      // ====== DOM 要素の取得 ======
+      const memoInput = document.getElementById("memo-input");
+      const clearButton = document.getElementById("clear-memo");
+      const previewButton = document.getElementById("preview-memo");
+      const previewContent = document.getElementById("preview-content");
+      const previewArea = document.getElementById("preview-area");
+
+      // ====== 初期チェック ======
+      if (!memoInput || !clearButton || !previewArea) {
+        console.warn("メモの要素が見つかりません。");
+        return;
+      }
+
+      // ====== 初期表示 ======
+      updateMemo(loadMemo());
+
+      // ====== 入力イベントリスナー（debounce付き） ======
+      let timer;
+      memoInput.addEventListener("input", () => {
+        clearTimeout(timer); // 直前のタイマーをクリア
+        timer = setTimeout(() => {
+          updateMemo(memoInput.value);
+        }, 500); // 500ms 待ってから保存
+      });
+
+      // ====== クリアボタンのクリックイベント ======
+      clearButton.addEventListener("click", () => {
+        clearMemo();
+      });
+
+      // ====== プレビューボタンのクリックイベント ======
+      if (previewButton) {
+        previewButton.addEventListener("click", () => {
+          previewContent.innerHTML = escapeHtml(loadMemo()).replace(/\n/g, "<br>");
+          new bootstrap.Modal(document.getElementById("memoModal")).show();
+        });
+      }
+    });
+
+  </script>
 
 </body>
 
