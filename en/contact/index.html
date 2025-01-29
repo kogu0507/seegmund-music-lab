@@ -4,39 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Seegmund Music Lab - Providing resources on music theory, music apps, and technical notes.">
+  <meta name="description" content="Seegmund Music Lab - Providing resources such as music theory, music apps, and technical notes.">
   <meta name="keywords" content="music apps, music theory, technical notes, Seegmund Music Lab">
   <meta name="robots" content="index, follow">
 
   <title>Seegmund Music Lab - Contact</title>
   <link rel="icon" href="/static/images/favicon.ico">
+  <link rel="alternate" href="https://seegmund-music-lab.com/en/" hreflang="en" />
+  <link rel="alternate" href="https://seegmund-music-lab.com/ja/" hreflang="ja" />
 
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <!-- base JS -->
-  <script type="module" src="/static/js/base.js" defer></script>
 </head>
 
 <body class="bg-light">
-  <!-- Header -->
   <header class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-3">
       <div class="container-fluid">
-        <a class="navbar-brand fs-4" href="/" aria-label="Seegmund Music Lab Home">Seegmund Music Lab</a>
+        <a class="navbar-brand fs-4" href="/" aria-label="Seegmund Music Lab Homepage">Seegmund Music Lab</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="/en/music-apps/" aria-label="Music Apps">Music Apps</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/theory-notes/" aria-label="Music Theory Notes">Music
-                Theory Notes</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/technical-notes/" aria-label="Technical Notes">Technical
-                Notes</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/about/" aria-label="About">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="/en/contact/" aria-label="Contact">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="/en/music-apps/" aria-label="Music Apps Page">Music Apps</a></li>
+            <li class="nav-item"><a class="nav-link" href="/en/theory-notes/" aria-label="Music Theory Notes Page">Music Theory Notes</a></li>
+            <li class="nav-item"><a class="nav-link" href="/en/technical-notes/" aria-label="Technical Notes Page">Technical Notes</a></li>
+            <li class="nav-item"><a class="nav-link" href="/en/about/" aria-label="About Page">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/en/contact/" aria-label="Contact Page">Contact</a></li>
           </ul>
         </div>
       </div>
@@ -52,7 +47,7 @@
   <!-- Footer -->
   <footer class="container py-3 border-top">
     <div class="d-flex justify-content-between flex-wrap">
-      <p class="mb-0">© 2024 Seegmund music lab</p>
+      <p class="mb-0">© 2024 Seegmund Music Lab</p>
       <ul class="list-inline mb-0">
         <li class="list-inline-item">
           <a href="/en/privacy-policy.html" class="text-decoration-none" aria-label="Privacy Policy">Privacy Policy</a>
@@ -60,19 +55,21 @@
         <li class="list-inline-item">
           <a href="/en/disclaimer.html" class="text-decoration-none" aria-label="Disclaimer">Disclaimer</a>
         </li>
-        <li class="list-inline-item">
+      </ul>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown">
+          🌍 English
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="langDropdown">
           <a href="#" class="lang-switch text-decoration-none" data-lang="en" aria-label="English">English</a>
           <a href="#" class="lang-switch text-decoration-none" data-lang="ja" aria-label="日本語">日本語</a>
-        </li>
-      </ul>
+        </ul>
+      </div>
     </div>
   </footer>
 
-
-
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+  <script type="module" src="/static/js/base.js" defer></script>
 </body>
 
 </html>
