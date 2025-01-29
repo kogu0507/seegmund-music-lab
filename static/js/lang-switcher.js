@@ -52,6 +52,8 @@ export function langSwitcher() {
 
         // リンクをクリックしたときの処理
         link.addEventListener('click', (event) => {
+            event.preventDefault(); // デフォルトのリンク動作を防止
+
             if (!VALID_LANGS.includes(targetLang)) return; // 有効な言語でない場合は何もしない
 
             // 選択された言語をローカルストレージに保存
@@ -90,6 +92,7 @@ export function langSwitcher() {
     function saveLang(lang) {
         try {
             localStorage.setItem('preferredLang', lang);
+            log(`preferredLang set to ${lang}`);
         } catch (error) {
             log("Error saving to localStorage:", error);
         }
