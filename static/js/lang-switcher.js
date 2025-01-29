@@ -91,7 +91,8 @@ export function langSwitcher() {
     function updateLangDropdown() {
         if (langDropdownButton) {
             const displayName = LANG_DISPLAY_NAMES[currentLang] || "Language";
-            langDropdownButton.textContent = ` ${displayName}`;
+            const emoji = '🌍'; 
+            langDropdownButton.textContent = `${emoji} ${displayName}`;
             langDropdownButton.setAttribute('aria-label', `Change language to ${displayName}`);
             log(`Language dropdown updated to: ${displayName}`); // デバッグログ追加
         }
