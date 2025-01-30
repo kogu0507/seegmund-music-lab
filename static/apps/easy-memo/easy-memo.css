@@ -19,6 +19,9 @@
     background-color: var(--bs-primary);
     color: var(--bs-light);
     border: none;
+
+    pointer-events: auto;
+    opacity: 1;
 }
 
 .floating-button:hover {
@@ -29,8 +32,24 @@
 /* 📜 スライドメモ（横スライド） */
 /* ===================================== */
 #easyMemoContainer {
-    transition: max-width 0.4s ease-in-out;
-    max-width: 100%; /* 必要以上に横幅を広げない */
+    position: fixed;
+    right: -100%; /* 画面外に配置 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 350px;
+    max-width: 90vw;
+    transition: right 0.4s ease-in-out;
+    z-index: 1050;
+    background: var(--bs-light);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    box-shadow: var(--bs-box-shadow);
+    padding: var(--bs-spacer);
+}
+
+/* ✅ スライドが開いたとき */
+#easyMemoContainer.open {
+    right: 0;
 }
 
 /* スライドするメモの中身 */

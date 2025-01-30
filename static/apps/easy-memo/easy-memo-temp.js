@@ -33,8 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.key === "Escape" && memoContainer.classList.contains("open")) {
             toggleMemo();
         }
-    });
-    
+    });    
     // ✅ メモを保存
     function saveMemo() {
         const content = memoTextarea.value;
@@ -124,5 +123,3 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>`;
     }
 });
-
-
