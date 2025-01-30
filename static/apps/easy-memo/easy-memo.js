@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const copyButton = document.querySelector(".easy-memo-copy");
     const charCountElement = document.querySelector(".memo-char-count");
     const alertBox = document.getElementById("memoAlert"); // ✅ 通知用のバー
-    const MAX_MEMO_LENGTH = 50000;
+    const MAX_MEMO_LENGTH = 500;
 
 
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -76,21 +76,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ✅ メモをコピー（クリップボードにコピー）
-    copyButton.addEventListener("click", () => {
-        if (!memoTextarea.value) {
-            showAlert("⚠️ コピーするメモがありません。", "warning");
-            return;
-        }
+  
+    // ✅ メモをコピー（クリップボードにコピー）
+    document.querySelectorAll(".easy-memo-copy").forEach(copyBtn => {
+        copyBtn.addEventListener("click", async () => {
+            const memoContent = memoTextarea.value;
+            if (!memoContent) {
+                showAlert("⚠️ コピーするメモがありません。", "warning");
+                return;
+            }
 
-        navigator.clipboard.writeText(memoTextarea.value)
-            .then(() => {
+            if (!navigator.clipboard) {
+                showAlert("⚠️ クリップボード API がサポートされていません。", "danger");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(memoContent);
                 showAlert("📋 メモをコピーしました！", "info");
-            })
-            .catch((err) => {
+            } catch (err) {
                 console.error("コピーに失敗しました:", err);
                 showAlert("⚠️ コピーに失敗しました。", "danger");
-            });
+            }
+        });
     });
+
 
     // ✅ 文字数カウンターを更新（すべてのカウンターを更新するように修正）
     function updateCharCount(content) {
