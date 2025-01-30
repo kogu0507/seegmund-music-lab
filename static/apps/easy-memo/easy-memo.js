@@ -118,10 +118,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // ✅ Bootstrap のアラートを表示（画面上部に通知）
     function showAlert(message, type) {
         if (!alertBox) return; // 🔹 alertBox が null の場合、エラーを防ぐ
-        alertBox.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+    
+        // 🔥 既存のアラートがある場合は削除
+        alertBox.innerHTML = "";
+    
+        // ✅ Bootstrap のアラートHTMLを生成
+        const alertElement = document.createElement("div");
+        alertElement.className = `alert alert-${type} alert-dismissible fade show`;
+        alertElement.setAttribute("role", "alert");
+        alertElement.innerHTML = `
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>`;
+        `;
+    
+        // 🔥 アラートを追加
+        alertBox.appendChild(alertElement);
+    
+        // ⏳ 3秒後にアラートをフェードアウト＆削除
+        setTimeout(() => {
+            alertElement.classList.remove("show"); // Bootstrap の `fade` エフェクトを適用
+            alertElement.classList.add("fade"); // アニメーションで消す
+            setTimeout(() => alertElement.remove(), 500); // さらに0.5秒後に完全削除
+        }, 3000);
     }
 });
 
