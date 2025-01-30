@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const alertBox = document.getElementById("memoAlert"); // ✅ 通知用のバー
     const MAX_MEMO_LENGTH = 50000;
 
-    
+
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
@@ -38,7 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleMemo();
         }
     });
-    
+
+    // ✅ スライド外をクリックしたら閉じる
+    document.addEventListener("click", (event) => {
+        if (memoContainer.classList.contains("open") && !memoContainer.contains(event.target) && !event.target.closest(".open-memo-button, .floating-button")) {
+            toggleMemo();
+        }
+    });
+
+
+
     // ✅ メモを保存
     function saveMemo() {
         const content = memoTextarea.value;
@@ -53,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showAlert("✅ メモを保存しました！", "success");
     }
 
-    saveButton.addEventListener("click", saveMemo);
+    // saveButton.addEventListener("click", saveMemo); // saveボタンは削除して自動保存のみ
 
     // ✅ メモを削除（確認メッセージ付き）
     clearButton.addEventListener("click", () => {
@@ -83,25 +92,29 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     });
 
-    // ✅ 文字数カウンターを更新
+    // ✅ 文字数カウンターを更新（すべてのカウンターを更新するように修正）
     function updateCharCount(content) {
         const charCount = content.length;
         const warningThreshold = Math.floor(MAX_MEMO_LENGTH * 0.9);
+        const charCountElements = document.querySelectorAll(".memo-char-count"); // 🔹 すべての文字数カウンターを取得
 
-        if (charCount >= MAX_MEMO_LENGTH) {
-            charCountElement.textContent = `⚠️ ${charCount} / ${MAX_MEMO_LENGTH} 文字 - 上限を超えています！`;
-            charCountElement.classList.remove("text-muted");
-            charCountElement.classList.add("text-danger");
-        } else if (charCount >= warningThreshold) {
-            charCountElement.textContent = `⚠️ ${charCount} / ${MAX_MEMO_LENGTH} 文字 - 上限が近づいています！`;
-            charCountElement.classList.remove("text-muted");
-            charCountElement.classList.add("text-danger");
-        } else {
-            charCountElement.textContent = `${charCount} / ${MAX_MEMO_LENGTH} 文字`;
-            charCountElement.classList.remove("text-danger");
-            charCountElement.classList.add("text-muted");
-        }
+        charCountElements.forEach(element => {
+            if (charCount >= MAX_MEMO_LENGTH) {
+                element.textContent = `⚠️ ${charCount} / ${MAX_MEMO_LENGTH} 文字 - 上限を超えています！`;
+                element.classList.remove("text-muted");
+                element.classList.add("text-danger");
+            } else if (charCount >= warningThreshold) {
+                element.textContent = `⚠️ ${charCount} / ${MAX_MEMO_LENGTH} 文字 - 上限が近づいています！`;
+                element.classList.remove("text-muted");
+                element.classList.add("text-danger");
+            } else {
+                element.textContent = `${charCount} / ${MAX_MEMO_LENGTH} 文字`;
+                element.classList.remove("text-danger");
+                element.classList.add("text-muted");
+            }
+        });
     }
+
 
     // ✅ プレビュー更新関数（Markdown簡易変換 & XSS対策）
     function updatePreview(content) {
@@ -122,10 +135,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // ✅ Bootstrap のアラートを表示（画面上部に通知）
     function showAlert(message, type) {
         if (!alertBox) return; // 🔹 alertBox が null の場合、エラーを防ぐ
-    
+
         // 🔥 既存のアラートがある場合は削除
         alertBox.innerHTML = "";
-    
+
         // ✅ Bootstrap のアラートHTMLを生成
         const alertElement = document.createElement("div");
         alertElement.className = `alert alert-${type} alert-dismissible fade show`;
@@ -134,10 +147,10 @@ document.addEventListener("DOMContentLoaded", () => {
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
-    
+
         // 🔥 アラートを追加
         alertBox.appendChild(alertElement);
-    
+
         // ⏳ 3秒後にアラートをフェードアウト＆削除
         setTimeout(() => {
             alertElement.classList.remove("show"); // Bootstrap の `fade` エフェクトを適用
