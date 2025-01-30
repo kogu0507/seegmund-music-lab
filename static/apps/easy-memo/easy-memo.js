@@ -8,9 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const copyButton = document.querySelector(".easy-memo-copy");
     const charCountElement = document.querySelector(".memo-char-count");
     const alertBox = document.getElementById("memoAlert"); // ✅ 通知用のバー
-
-    // ✅ メモの最大文字数（50,000 文字まで）
     const MAX_MEMO_LENGTH = 50000;
+
+    
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 
     // ✅ 初回ロード時にローカルストレージからメモを復元
     const savedMemo = localStorage.getItem("easyMemo") || "";

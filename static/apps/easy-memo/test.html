@@ -15,11 +15,9 @@
 </head>
 
 <body>
-        <!-- 🔔 Bootstrap のアラートボックス -->
-        <div id="memoAlert" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1050;"></div>
 
     <!-- 🖊️ フロートボタン -->
-    <button class="btn btn-primary rounded-circle floating-button">
+    <button class="btn btn-primary rounded-circle floating-button z-3">
         <i class="bi bi-pencil"></i>
     </button>
 
@@ -28,25 +26,9 @@
         <i class="bi bi-pencil"></i> 簡易メモ帳
     </button>
 
-    <!-- 📜 フロートスライドでメモ帳を表示 -->
-    <div id="easyMemoContainer" class="closed">
-        <div class="card card-body">
-            <h5>簡易メモ</h5>
-            <textarea id="easyMemoTextarea" class="form-control" rows="5" placeholder="メモを入力..."></textarea>
-            <div class="text-end mt-2">
-                <small class="memo-char-count text-muted">0 / 50000 文字</small>
-            </div>
-            <div class="mt-2 d-flex justify-content-between">
-                <button class="btn btn-sm btn-danger easy-memo-clear">削除</button>
-                <button class="btn btn-sm btn-primary easy-memo-copy">メモをコピー</button>
-                <button class="btn btn-sm btn-success easy-memo-save">保存</button>
-            </div>
-        </div>
-    </div>
-
     <!-- 🔍 プレビューエリア -->
     <div class="previewarea container my-4 p-3 border bg-white">
-        <div class="preview-title">簡易メモ帳 プレビュー</div>
+        <div class="preview-title fw-bold fs-5 mb-3">簡易メモ帳 プレビュー</div>
         <div class="preview-content"></div>
         <div class="text-end mt-2">
             <small class="memo-char-count text-muted">0 / 50000 文字</small>
@@ -57,8 +39,38 @@
         <button class="btn btn-sm btn-primary mt-2 easy-memo-copy">メモをコピー</button>
     </div>
 
-<!-- 📌 テスト項目 -->
-<pre>
+    <!-- 📜 フロートスライドでメモ帳を表示 -->
+    <div id="easyMemoContainer" class="closed">
+        <div class="card card-body">
+            <div class="d-flex justify-content-between">
+                <h5>簡易メモ帳</h5>
+                <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="ページを閉じてもメモは残りますが、ブラウザの設定やローカルストレージのクリア によって削除されることがあります。">
+                    <i class="bi bi-question-circle"></i>
+                </button>
+            </div>
+            <textarea id="easyMemoTextarea" class="form-control" rows="5" placeholder="メモを入力...（デバイスに自動保存）"></textarea>
+            <div class="text-end mt-2">
+                <small class="memo-char-count text-muted">0 / 50000 文字</small>
+            </div>
+            <div class="mt-2 d-flex justify-content-between">
+                <button class="btn btn-sm btn-danger easy-memo-clear" title="削除">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <button class="btn btn-sm btn-primary easy-memo-copy" title="コピー">
+                    <i class="bi bi-files"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <!-- 🔔 Bootstrap のアラートボックス -->
+    <div id="memoAlert" class="position-fixed top-0 start-50 translate-middle-x mt-3 z-3"></div>
+
+
+
+    <!-- 📌 テスト項目 -->
+    <pre>
     ✅ メモの保存・復元
     ✅ メモの削除
     ✅ メモのコピー
@@ -76,4 +88,3 @@
 </body>
 
 </html>
-
