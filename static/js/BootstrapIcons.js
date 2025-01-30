@@ -1,24 +1,47 @@
+/**
+ * Bootstrap Icons のアイコンを動的に生成するユーティリティ
+ * @module BootstrapIcons
+ */
+
+/**
+ * アイコンのマッピング（動的に使用するアイコンのみ）
+ * @property {string} question - ヘルプアイコン
+ */
 export const ICON_MAP = {
-    pencil: "pencil",
-    clipboard: "clipboard",
-    question: "question-circle",
-    trash: "trash",
-    save: "save"
+    question: "question-circle"
 };
 
+// アイコンキャッシュ（同じアイコンを繰り返し作成しないようにする）
+const iconCache = new Map();
+
+/**
+ * Bootstrap Icons のアイコンを生成する
+ * @param {string} iconName - アイコンのキー名（ICON_MAP に定義されている）
+ * @param {Object} [options={}] - オプション（サイズ・色・スピンアニメーションなど）
+ * @param {string} [options.size="1em"] - アイコンのサイズ（例: "1.5rem", "20px"）
+ * @param {string} [options.color="inherit"] - アイコンの色
+ * @param {string} [options.additionalClass=""] - 追加のクラス
+ * @param {boolean} [options.spin=false] - スピンアニメーションを適用するか
+ * @param {string} [options.ariaLabel=""] - アクセシビリティのラベル
+ * @param {string} [options.spacing="0.25em"] - アイコンとテキストの間隔（単位指定可）
+ * @returns {HTMLElement | null} - 生成したアイコン要素（または null）
+ */
 export function getIcon(iconName, options = {}) {
     if (!ICON_MAP[iconName]) {
         console.error(`Icon "${iconName}" is not defined in ICON_MAP.`);
-        return "";
+        return null; // ❗ `throw` ではなく `null` を返すことで柔軟なエラーハンドリングが可能
+    }
+
+    const cacheKey = `${iconName}-${JSON.stringify(options)}`;
+    if (iconCache.has(cacheKey)) {
+        return iconCache.get(cacheKey).cloneNode(true); // クローンを返すことで変更が影響しない
     }
 
     const {
         size = "1em",
         color = "inherit",
         additionalClass = "",
-        rotate = 0,
         spin = false,
-        onClick = null,
         ariaLabel = "",
         spacing = "0.25em"
     } = options;
@@ -29,26 +52,19 @@ export function getIcon(iconName, options = {}) {
     iconElement.style.color = color;
     iconElement.style.marginRight = spacing;
 
-    if (rotate) {
-        iconElement.style.transform = `rotate(${rotate}deg)`;
-    }
-
     if (spin) {
         iconElement.style.animation = "spin 1s linear infinite";
-    }
-
-    if (onClick && typeof onClick === "function") {
-        iconElement.addEventListener("click", onClick);
-        iconElement.style.cursor = "pointer";
     }
 
     if (ariaLabel) {
         iconElement.setAttribute("aria-label", ariaLabel);
     }
 
+    iconCache.set(cacheKey, iconElement); // キャッシュに保存
     return iconElement;
 }
 
+// ✅ スピンアニメーションのCSS（スピンオプション用）
 const style = document.createElement("style");
 style.textContent = `
 @keyframes spin {

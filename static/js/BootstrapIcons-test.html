@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seegmund Music Lab - 音楽理論、音楽アプリ、技術ノートなどのリソースを提供します。">
+    <meta name="keywords" content="音楽アプリ, 音楽理論, 技術ノート, Seegmund Music Lab">
+    <meta name="robots" content="index, follow">
+
+    <title>Seegmund Music Lab - 日本語版</title>
+    <link rel="icon" href="/static/images/favicon.ico">
+    <link rel="alternate" href="https://seegmund-music-lab.com/en/" hreflang="en" />
+    <link rel="alternate" href="https://seegmund-music-lab.com/ja/" hreflang="ja" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+</head>
+
+<body class="bg-light">
+    <main class="container mt-4">
+        <h1>Bootstrap Icons のテスト</h1>
+
+        <p>
+            ヘルプアイコン：
+            <span id="help-icon"></span>
+        </p>
+
+        <p>
+            スピンアニメーション付きのヘルプアイコン：
+            <span id="help-icon-spin"></span>
+        </p>
+
+
+
+        <footer class="container py-3 border-top">
+            <div class="d-flex justify-content-between flex-wrap">
+                <p class="mb-0">© 2024 Seegmund Music Lab</p>
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <a href="/ja/privacy-policy.html" class="text-decoration-none"
+                            aria-label="プライバシーポリシー">プライバシーポリシー</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="/ja/disclaimer.html" class="text-decoration-none" aria-label="免責事項">免責事項</a>
+                    </li>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="langDropdown"
+                        data-bs-toggle="dropdown">
+                        🌍 日本語
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="langDropdown">
+                        <li><a class="dropdown-item lang-switch" href="/en/" data-lang="en"
+                                aria-label="English">English</a></li>
+                        <li><a class="dropdown-item lang-switch" href="/ja/" data-lang="ja" aria-label="日本語">日本語</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/static/js/base.js" defer></script>
+
+    <script type="module">
+        import { getIcon } from './BootstrapIcons.js'; // BootstrapIcons.js のパス
+        import { log } from './globalConfig.js';
+
+        // ✅ base.js の動作確認
+        log('✅ base.js のテスト開始');
+        console.log('✅ base.js は正しく読み込まれました');
+
+        // ✅ BootstrapIcons.js の動作確認
+        console.log('✅ BootstrapIcons.js のテスト開始');
+
+
+
+        const helpIcon = getIcon('question', { size: '2em', color: 'blue' });
+        console.log('✅ helpIcon:', helpIcon);
+        if (helpIcon) {
+            document.getElementById('help-icon').appendChild(helpIcon);
+        }
+        const helpIconSpin = getIcon('question', { size: '2em', color: 'red', spin: true });
+        console.log('✅ helpIconSpin:', helpIconSpin);
+        if (helpIconSpin) {
+            document.getElementById('help-icon-spin').appendChild(helpIconSpin);
+        }
+
+        // 存在しないアイコンのテスト（エラーハンドリング確認用）
+        const invalidIcon = getIcon('invalid-icon');
+        console.log('🚨 invalidIcon (should be null):', invalidIcon);
+
+
+        console.log(getIcon(null));  // 🚨 null が渡された場合
+        console.log(getIcon(''));    // 🚨 空文字列が渡された場合
+        console.log(getIcon('unknown-icon'));  // 🚨 ICON_MAP にないアイコンを指定
+        console.log(getIcon('question', { size: '3rem', color: 12345 })); // 🚨 color に不正な値
+        console.log(getIcon('question', { spacing: '100abc' })); // 🚨 spacing の不正値
+
+        console.log('✅ すべてのテストが完了しました！');
+
+    </script>
+</body>
+
+</html>
