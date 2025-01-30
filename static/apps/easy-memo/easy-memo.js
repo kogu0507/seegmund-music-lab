@@ -1,27 +1,22 @@
-import { getIcon } from './BootstrapIcons.js';
-
+// easy-memo.js
 document.addEventListener("DOMContentLoaded", () => {
     const memoTextarea = document.getElementById("easyMemoTextarea");
     const memoContainer = document.getElementById("easyMemoContainer");
     const toggleButtons = document.querySelectorAll(".open-memo-button, .floating-button");
     const previewArea = document.querySelector(".preview-content");
-    const saveButton = document.querySelector(".easy-memo-save");
+    //const saveButton = document.querySelector(".easy-memo-save");
     const clearButton = document.querySelector(".easy-memo-clear");
     const copyButton = document.querySelector(".easy-memo-copy");
     const charCountElement = document.querySelector(".memo-char-count");
-    const alertBox = document.getElementById("memoAlert"); 
-    const MAX_MEMO_LENGTH = 500;
+    const alertBox = document.getElementById("memoAlert");
+    const MAX_MEMO_LENGTH = 10000;
 
-        // ✅ アイコンをボタンに適用（getIcon() を使用）
-        if (saveButton) {
-            saveButton.prepend(getIcon("save", { size: "1.2rem", color: "#fff" }));
-        }
-        if (clearButton) {
-            clearButton.prepend(getIcon("trash", { size: "1.2rem", color: "red" }));
-        }
-        if (copyButton) {
-            copyButton.prepend(getIcon("clipboard", { size: "1.2rem", color: "#007bff" }));
-        }
+    // 🚨 重要: 必要な要素がない場合は処理を中断
+    if (!memoTextarea || !memoContainer /* || !previewArea */) {
+        console.warn("🛑 メモ帳の要素が見つかりません。スクリプトを停止します。");
+        return;
+    }
+
 
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -37,6 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // ✅ メモの開閉トグル
     function toggleMemo() {
         memoContainer.classList.toggle("open");
+
+        if (memoContainer.classList.contains("open")) {
+            memoTextarea.focus();  // ✅ メモ帳が開いたら、フォーカスをテキストエリアへ移動
+        }
     }
 
     // ✅ すべての開閉ボタンにイベントを設定
@@ -87,8 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // ✅ メモをコピー（クリップボードにコピー）
-  
     // ✅ メモをコピー（クリップボードにコピー）
     document.querySelectorAll(".easy-memo-copy").forEach(copyBtn => {
         copyBtn.addEventListener("click", async () => {

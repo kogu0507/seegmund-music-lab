@@ -39,7 +39,7 @@ export function langSwitcher() {
     }
 
     // 初回アクセス時のリダイレクト処理 (サイトのルート `/` の場合)
-    if (!currentLang) {
+    if (!currentLang && currentURL.pathname === "/") {
         log("No current language detected, redirecting..."); // デバッグログ追加
         // ローカルストレージに保存された言語があれば、そちらにリダイレクト
         if (savedLang && VALID_LANGS.includes(savedLang)) {

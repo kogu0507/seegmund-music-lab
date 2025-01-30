@@ -1,3 +1,4 @@
+// base.js
 import { langSwitcher } from './lang-switcher.js';
 import { log } from './globalConfig.js';
 

@@ -6,76 +6,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>簡易メモ帳 - テストページ</title>
 
-    <!-- Bootstrap -->
+    <!-- ✅ 簡易メモ帳用 CSS -->
+    <!-- Bootstrap（すでにある場合は追加不要） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-    <!-- カスタムCSS -->
+    <!-- ✅ 簡易メモ帳専用 CSS（必須） -->
     <link rel="stylesheet" href="/static/apps/easy-memo/easy-memo.css">
 </head>
 
 <body>
-
-    <!-- 🖊️ フロートボタン -->
-    <button class="btn btn-primary rounded-circle floating-button z-3">
-        <i class="bi bi-pencil"></i>
-    </button>
-
-    <!-- 📝 簡易メモ帳を開くボタン -->
-    <button class="btn btn-primary open-memo-button">
-        <i class="bi bi-pencil"></i> 簡易メモ帳
-    </button>
-    <button class="open-memo-modal"> メモを開く</button>
-    <button class="easy-memo-copy"> メモをコピー</button>
-
-    <!-- 🔍 プレビューエリア -->
-    <div class="previewarea container my-4 p-3 border bg-white">
-        <div class="preview-title fw-bold fs-5 mb-3">簡易メモ帳 プレビュー</div>
-        <div class="preview-content"></div>
-        <div class="text-end mt-2">
-            <small class="memo-char-count text-muted"></small>
-        </div>
-        <button class="btn btn-sm btn-primary mt-2 open-memo-button" title="編集">
-            <i class="bi bi-pencil"></i>
-        </button>        
-        <button class="btn btn-sm btn-primary mt-2 easy-memo-copy" title="コピー">
-            <i class="bi bi-files"></i>
+    <section id="easy-memo" class="mb-5">
+        <!-- 📝 メモ帳を開くボタン（削除しない） -->
+        <button class="btn btn-primary open-memo-button" tabindex="0">
+            <i class="bi bi-pencil"></i> 簡易メモ帳
         </button>
-    
-    </div>
 
-    <!-- 📜 フロートスライドでメモ帳を表示 -->
-    <div id="easyMemoContainer" class="closed">
-        <div class="card card-body">
-            <div class="d-flex justify-content-between">
-                <h5>簡易メモ帳</h5>
-                <button class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="ページを閉じてもメモは残りますが、ブラウザの設定やローカルストレージのクリア によって削除されることがあります。">
-                    <i class="bi bi-question-circle"></i>
-                </button>
-            </div>
-            <textarea id="easyMemoTextarea" class="form-control" rows="5" placeholder="メモを入力...（デバイスに自動保存）"></textarea>
+        <!-- 🔍 プレビューエリア -->
+        <div class="previewarea container my-4 p-3 border bg-white">
+            <div class="preview-title fw-bold fs-5 mb-3">簡易メモ帳 プレビュー</div>
+            <div class="preview-content"></div>
             <div class="text-end mt-2">
                 <small class="memo-char-count text-muted"></small>
             </div>
-            <div class="mt-2 d-flex justify-content-between">
-                <button class="btn btn-sm btn-danger easy-memo-clear" title="削除">
-                    <i class="bi bi-trash"></i>
-                </button>
-                <button class="btn btn-sm btn-primary easy-memo-copy" title="コピー">
-                    <i class="bi bi-files"></i>
-                </button>
-
+            <button class="btn btn-sm btn-primary mt-2 open-memo-button" title="編集" aria-label="メモを編集">
+                <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-primary mt-2 easy-memo-copy" title="コピー" aria-label="コピー">
+                <i class="bi bi-files"></i>
+            </button>
+        </div>
+        
+        <!-- ✏️ フロートボタン（メモ帳を開く） -->
+        <button class="btn btn-primary rounded-circle floating-button open-memo-button" title="簡易メモ帳を開く" aria-label="簡易メモ帳を開く">
+            <i class="bi bi-pencil"></i>
+        </button>
+        
+        <!-- 📜 メモ入力エリア（削除しない） -->
+        <div id="easyMemoContainer" class="closed">
+            <div class="card card-body">
+                <div class="d-flex justify-content-between">
+                    <h5>簡易メモ帳</h5>
+                    <button class="btn btn-light" data-bs-toggle="tooltip" title="メモはブラウザに保存されます">
+                        <i class="bi bi-question-circle"></i>
+                    </button>
+                </div>
+                <textarea id="easyMemoTextarea" class="form-control" rows="5" placeholder="メモを入力..."
+                    aria-label="メモ入力エリア"></textarea> <!-- アクセシビリティ強化 -->
+                <div class="text-end mt-2">
+                    <small class="memo-char-count text-muted"></small>
+                </div>
+                <div class="mt-2 d-flex justify-content-between">
+                    <button class="btn btn-sm btn-danger easy-memo-clear" title="削除" aria-label="メモを削除">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-primary easy-memo-copy" title="コピー" aria-label="メモをコピー">
+                        <i class="bi bi-files"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- 🔔 Bootstrap のアラートボックス -->
-    <div id="memoAlert" class="position-fixed top-0 start-50 translate-middle-x mt-3 z-3"></div>
 
-    <!-- Bootstrap & JavaScript -->
+        <!-- 🔔 アラートボックス（必須・削除しない） -->
+        <div id="memoAlert" class="position-fixed top-0 start-50 translate-middle-x mt-3 z-3" aria-live="assertive">
+        </div>
+
+    </section>
+
+
+
+    <!-- ✅ 必須 JavaScript -->
+    <!-- Bootstrap（すでにある場合は追加不要） -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ DOMPurify（XSS対策用、必須） -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.10/purify.min.js"></script>
+
+    <!-- ✅ 基本機能（環境による：すでにある場合は追加不要） -->
     <script type="module" src="/static/js/base.js"></script>
+
+    <!-- ✅ 簡易メモ帳のスクリプト（必須） -->
     <script type="module" src="/static/apps/easy-memo/easy-memo.js"></script>
 </body>
 
