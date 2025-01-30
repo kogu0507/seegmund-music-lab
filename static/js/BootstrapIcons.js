@@ -1,45 +1,47 @@
-// BootstrapIcons.js
+export const ICON_MAP = {
+    pencil: "pencil",
+    clipboard: "clipboard",
+    question: "question-circle",
+    trash: "trash",
+    save: "save"
+};
 
 export function getIcon(iconName, options = {}) {
-    if (!iconName) {
-        console.error("Icon name is required.");
+    if (!ICON_MAP[iconName]) {
+        console.error(`Icon "${iconName}" is not defined in ICON_MAP.`);
         return "";
     }
 
     const {
-        size = "1em",         // アイコンのサイズ（デフォルト: 1em）
-        color = "inherit",    // アイコンの色（デフォルト: 継承）
-        additionalClass = "", // 追加クラス
-        rotate = 0,           // 回転角度（デフォルトなし）
-        spin = false,         // アニメーション有無（デフォルト: false）
-        onClick = null,       // クリックイベント
-        ariaLabel = "",        // アクセシビリティ対応（スクリーンリーダー用）
-        spacing = "0.25em"     // アイコンとテキストの間隔 (デフォルト: 0.25em)
+        size = "1em",
+        color = "inherit",
+        additionalClass = "",
+        rotate = 0,
+        spin = false,
+        onClick = null,
+        ariaLabel = "",
+        spacing = "0.25em"
     } = options;
 
     const iconElement = document.createElement("i");
-    iconElement.className = `bi bi-${iconName} ${additionalClass}`.trim();
+    iconElement.className = `bi bi-${ICON_MAP[iconName]} ${additionalClass}`.trim();
     iconElement.style.fontSize = size;
     iconElement.style.color = color;
-    iconElement.style.marginRight = spacing; // ← ここでスペースを設定
+    iconElement.style.marginRight = spacing;
 
-    // 回転設定
     if (rotate) {
         iconElement.style.transform = `rotate(${rotate}deg)`;
     }
 
-    // スピン（無限回転）設定
     if (spin) {
         iconElement.style.animation = "spin 1s linear infinite";
     }
 
-    // クリックイベントが指定されている場合
     if (onClick && typeof onClick === "function") {
         iconElement.addEventListener("click", onClick);
-        iconElement.style.cursor = "pointer"; // クリック可能な見た目に
+        iconElement.style.cursor = "pointer";
     }
 
-    // スクリーンリーダー用の説明
     if (ariaLabel) {
         iconElement.setAttribute("aria-label", ariaLabel);
     }
@@ -47,7 +49,6 @@ export function getIcon(iconName, options = {}) {
     return iconElement;
 }
 
-// スピンアニメーションをCSSで定義
 const style = document.createElement("style");
 style.textContent = `
 @keyframes spin {

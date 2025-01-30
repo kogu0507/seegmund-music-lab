@@ -1,3 +1,5 @@
+import { getIcon } from './BootstrapIcons.js';
+
 document.addEventListener("DOMContentLoaded", () => {
     const memoTextarea = document.getElementById("easyMemoTextarea");
     const memoContainer = document.getElementById("easyMemoContainer");
@@ -7,9 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearButton = document.querySelector(".easy-memo-clear");
     const copyButton = document.querySelector(".easy-memo-copy");
     const charCountElement = document.querySelector(".memo-char-count");
-    const alertBox = document.getElementById("memoAlert"); // ✅ 通知用のバー
+    const alertBox = document.getElementById("memoAlert"); 
     const MAX_MEMO_LENGTH = 500;
 
+        // ✅ アイコンをボタンに適用（getIcon() を使用）
+        if (saveButton) {
+            saveButton.prepend(getIcon("save", { size: "1.2rem", color: "#fff" }));
+        }
+        if (clearButton) {
+            clearButton.prepend(getIcon("trash", { size: "1.2rem", color: "red" }));
+        }
+        if (copyButton) {
+            copyButton.prepend(getIcon("clipboard", { size: "1.2rem", color: "#007bff" }));
+        }
 
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
