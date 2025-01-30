@@ -1,0 +1,108 @@
+/* ===================================== */
+/* 🖊️ フロートボタン（右下固定） */
+/* ===================================== */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    z-index: 1050; /* 最前面に表示 */
+    
+    /* Bootstrap のボタンスタイルを適用 */
+    box-shadow: var(--bs-box-shadow); /* Bootstrap の影 */
+    background-color: var(--bs-primary);
+    color: var(--bs-light);
+    border: none;
+}
+
+.floating-button:hover {
+    background-color: var(--bs-primary-dark);
+}
+
+/* ===================================== */
+/* 📜 スライドメモ（横スライド） */
+/* ===================================== */
+#easyMemoContainer {
+    transition: max-width 0.4s ease-in-out;
+    max-width: 100%; /* 必要以上に横幅を広げない */
+}
+
+/* スライドするメモの中身 */
+#easyMemoContainer .card {
+    width: 350px; /* メモエリアの固定幅 */
+    max-width: 90vw; /* 画面幅の90%を超えない */
+    border-radius: var(--bs-border-radius);
+}
+
+/* ===================================== */
+/* 📝 メモの入力エリア */
+/* ===================================== */
+#easyMemoTextarea {
+    resize: none;
+    font-size: var(--bs-body-font-size);
+    line-height: var(--bs-body-line-height);
+}
+
+/* ===================================== */
+/* 🔍 プレビューエリア（背景 & 枠線） */
+/* ===================================== */
+.previewarea {
+    background: var(--bs-light);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    padding: var(--bs-spacer);
+}
+
+.preview-title {
+    font-weight: var(--bs-font-weight-bold);
+    font-size: var(--bs-body-font-size);
+    margin-bottom: var(--bs-spacer);
+}
+
+.preview-content {
+    min-height: 50px;
+    font-size: var(--bs-body-font-size);
+    white-space: pre-wrap; /* 改行を保持 */
+}
+
+/* ===================================== */
+/* 🎨 ボタンの調整（Bootstrap スタイル適用） */
+/* ===================================== */
+.easy-memo-clear {
+    background: var(--bs-danger);
+    color: var(--bs-light);
+    border: none;
+}
+
+.easy-memo-copy {
+    background: var(--bs-primary);
+    color: var(--bs-light);
+    border: none;
+}
+
+.easy-memo-save {
+    background: var(--bs-success);
+    color: var(--bs-light);
+    border: none;
+}
+
+/* ===================================== */
+/* 🎯 ボタンのホバーエフェクト */
+/* ===================================== */
+.easy-memo-clear:hover {
+    background: var(--bs-danger-dark);
+}
+
+.easy-memo-copy:hover {
+    background: var(--bs-primary-dark);
+}
+
+.easy-memo-save:hover {
+    background: var(--bs-success-dark);
+}

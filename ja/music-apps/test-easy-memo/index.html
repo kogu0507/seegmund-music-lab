@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-
 </head>
 
 <body class="bg-light">
@@ -22,17 +21,26 @@
     </header>
 
     <main class="container mt-4">
-        <div id="preview-area" class="container my-4 p-3 border bg-white">
-            <h2>トップページのメモプレビューエリアのテスト</h2>
-            <h5>あなたのメモ</h5>
-
-            <div id="preview-content"></div>
+        <div class="preview-area container my-4 p-3 border bg-white">
+            <h2>簡易メモ帳</h2>
+            <div class="preview-content"></div>
             <div class="text-end mt-2">
-                <small class="memo-char-count text-muted">0 / 50,000 文字</small>
+                <small class="memo-char-count text-muted"></small>
             </div>
             <button class="btn btn-sm btn-primary mt-2 open-memo-modal">メモを編集</button>
             <button class="btn btn-sm btn-primary mt-2 easy-memo-copy">メモをコピー</button>
+        </div>
 
+
+        
+        <div class="preview-area container my-4 p-3 border bg-white">
+            <h2>簡易メモ帳</h2>
+            <div class="preview-content"></div>
+            <div class="text-end mt-2">
+                <small class="memo-char-count text-muted"></small>
+            </div>
+            <button class="btn btn-sm btn-primary mt-2 open-memo-modal">メモを編集</button>
+            <button class="btn btn-sm btn-primary mt-2 easy-memo-copy">メモをコピー</button>
         </div>
 
         <div class="container my-3 text-center">
@@ -115,7 +123,7 @@
 
                         <!-- プレビュータブ -->
                         <div class="tab-pane fade" id="preview" role="tabpanel">
-                            <div id="easy-memo-modal-preview" class="border p-3 bg-light text-start"></div>
+                            <div class="easy-memo-modal-preview border p-3 bg-light text-start"></div>
                             <div class="text-end mt-2">
                                 <small class="memo-char-count text-muted">0 / 50,000 文字</small>
                             </div>
@@ -153,15 +161,13 @@
         document.addEventListener("DOMContentLoaded", () => {
             const memoModal = document.getElementById("easy-memo-modal");
             const modalTextarea = document.getElementById("easy-memo-modal-input");
-            const previewArea = document.getElementById("easy-memo-modal-preview");
-            const topPreview = document.getElementById("preview-content");
+            const previewAreas = document.querySelectorAll(".easy-memo-modal-preview");
+            const topPreviews = document.querySelectorAll(".preview-content");
+            const charCountElements = document.querySelectorAll(".memo-char-count");
 
 
             // ✅ 【定数化】メモの最大文字数（テスト用に10文字）
             const MAX_MEMO_LENGTH = 50;  // ⚠️ テスト後に 50000 に変更予定
-
-            // ✅ すべての文字数カウンター要素を取得
-            const charCountElements = document.querySelectorAll(".memo-char-count");
 
             // ✅ 初回ロード時にカウンターの最大値を更新
             charCountElements.forEach(element => {
@@ -222,8 +228,12 @@
             // ✅ プレビュー更新関数
             function updatePreview(content) {
                 const sanitizedContent = DOMPurify.sanitize(content);
-                previewArea.innerHTML = sanitizedContent;
-                topPreview.innerHTML = sanitizedContent;
+                previewAreas.forEach(elem => {
+                    elem.innerHTML = sanitizedContent;
+                });
+                topPreviews.forEach(elem => {
+                    elem.innerHTML = sanitizedContent;
+                });
             }
 
             // ✅ メモの読み込み
@@ -322,7 +332,6 @@
         });
 
     </script>
-
 </body>
 
 </html>
