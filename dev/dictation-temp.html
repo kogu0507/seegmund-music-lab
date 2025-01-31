@@ -21,25 +21,16 @@
 <body class="bg-light">
 
     <main class="container mt-4">
-        <section id="doc">
-            <h2>開発ドキュメント</h2>
-            <h3>概要</h3>
-            <p>
-                Tone.jsの開発をしています。
+        <pre>
+            player.setTempo(90);  // BPM変更
+            player.setVolume(-20);  // 音量変更
+            player.setTranspose(2);  // 移調（2半音上）
+            player.enableLoop(true);  // ループON      ピアノサンプララーの取得失敗
 
-            </p>
-            <pre>
-                この開発用HTMLをを読み、コードを出力してください。
-                コードはわかりやすいブロックで出力してください。こちらでコピペします。
-                ・サンプラーの選択をプルダウンにする
-            </pre>
+            これらのUIをつくる
 
-            <h3>目標</h3>
-            <ul>
-                <li>音色を切り替えられる（今のところデフォルトのシンセとピアノのサンプラー）</li>
-                <li>楽譜データに基づいて音を鳴らす</li>
-            </ul>
-        </section>
+      
+        </pre>
 
         <button id="startBtn" class="btn btn-primary">スタート</button>
         <button id="stopBtn" class="btn btn-danger">ストップ</button>
@@ -52,6 +43,33 @@
             </select>
         </div>
 
+        <!-- 🎛 BPM変更 -->
+        <div class="mt-3">
+            <label for="bpmControl" class="form-label">BPM（テンポ）:</label>
+            <input type="range" id="bpmControl" class="form-range" min="40" max="240" value="120">
+            <input type="number" id="bpmValue" class="form-control mt-2" min="40" max="240" value="120">
+        </div>
+
+        <!-- 🔊 音量変更 -->
+        <div class="mt-3">
+            <label for="volumeControl" class="form-label">音量（dB）:</label>
+            <input type="range" id="volumeControl" class="form-range" min="-60" max="6" value="0">
+            <input type="number" id="volumeValue" class="form-control mt-2" min="-60" max="6" value="0">
+        </div>
+
+        <!-- 🎼 移調（キー変更） -->
+        <div class="mt-3">
+            <label for="transposeControl" class="form-label">移調（半音）:</label>
+            <input type="number" id="transposeControl" class="form-control" min="-12" max="12" value="0">
+        </div>
+
+        <!-- 🔄 ループON/OFF -->
+        <div class="form-check mt-3">
+            <input type="checkbox" class="form-check-input" id="loopControl">
+            <label class="form-check-label" for="loopControl">ループ再生</label>
+        </div>
+
+
 
     </main>
 
@@ -60,75 +78,209 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.3/Tone.js"></script>
     <script>
-        class Player {
+        // 🎛 UI要素の取得
+        const bpmControl = document.getElementById("bpmControl");
+        const bpmValue = document.getElementById("bpmValue");
+        const volumeControl = document.getElementById("volumeControl");
+        const volumeValue = document.getElementById("volumeValue");
+        const transposeControl = document.getElementById("transposeControl");
+        const loopControl = document.getElementById("loopControl");
+
+        // 🎵 BPM変更（スライダー & 数値入力を同期）
+        bpmControl.addEventListener("input", () => {
+            bpmValue.value = bpmControl.value;
+            player.setTempo(parseInt(bpmControl.value, 10));
+        });
+        bpmValue.addEventListener("input", () => {
+            bpmControl.value = bpmValue.value;
+            player.setTempo(parseInt(bpmValue.value, 10));
+        });
+
+        // 🔊 音量変更（スライダー & 数値入力を同期）
+        volumeControl.addEventListener("input", () => {
+            volumeValue.value = volumeControl.value;
+            player.setVolume(parseInt(volumeControl.value, 10));
+        });
+        volumeValue.addEventListener("input", () => {
+            volumeControl.value = volumeValue.value;
+            player.setVolume(parseInt(volumeValue.value, 10));
+        });
+
+        // 🎼 移調（半音変更）
+        transposeControl.addEventListener("input", () => {
+            player.setTranspose(parseInt(transposeControl.value, 10));
+        });
+
+        // 🔄 ループON/OFF
+        loopControl.addEventListener("change", () => {
+            player.enableLoop(loopControl.checked);
+        });
+
+
+
+        class Player extends EventTarget {
             constructor() {
-                this.instrument = null;
+                super();
+                this.instruments = {}; // 🎵 楽器を管理
+                this.currentInstrumentKey = 'synth';
                 this.score = null;
                 this.isPlaying = false;
                 this.sequence = null;
-                this.currentInstrument = 'synth'; // デフォルトはシンセ
+                this.loop = false;
+                this.volume = new Tone.Volume(0).toDestination();
+                this.tempo = 120; // BPMのデフォルト値
+                this.transpose = 0; // 移調の半音数（デフォルトは0）
 
-                // 🔹 ページ読み込み時にシンセを初期化
                 this.initializeSynth();
             }
 
+            /** 🎵 シンセを初期化 */
             async initializeSynth() {
-                this.instrument = new Tone.Synth().toDestination();
-                this.currentInstrument = 'synth';
-                console.log("🔹 デフォルトのシンセがセットされました");
+                if (!this.instruments.synth) {
+                    this.instruments.synth = new Tone.Synth().connect(this.volume);
+                    console.log("🔹 デフォルトのシンセがセットされました");
+                }
+                this.setInstrument("synth");
             }
 
-            async initializeSampler(urls, baseUrl) {
+            /** 🎹 サンプラーを初期化 */
+            async initializeSampler(key, urls, baseUrl) {
+                if (this.instruments[key]) {
+                    console.log(`🎹 ${key} はすでにロード済みです`);
+                    this.setInstrument(key);
+                    return;
+                }
+
                 return new Promise((resolve, reject) => {
                     const sampler = new Tone.Sampler({
                         urls: urls,
                         baseUrl: baseUrl,
                         onload: () => {
-                            this.instrument = sampler; // インストゥルメントを設定
-                            this.currentInstrument = 'sampler';
-                            console.log("🎹 サンプラーが正常にロードされました");
+                            this.instruments[key] = sampler;
+                            console.log(`🎹 サンプラー (${key}) が正常にロードされました`);
+                            this.setInstrument(key);
                             resolve();
                         },
                         onerror: (error) => {
-                            console.error("⚠️ サンプラーのロードに失敗しました:", error);
-                            reject(error);
+                            console.error(`⚠️ サンプラー (${key}) のロードに失敗しました:`, error);
+                            console.warn("🔄 代替としてシンセを使用します...");
+                            this.initializeSynth().then(resolve).catch(reject);
                         }
                     }).toDestination();
                 });
             }
 
-            setInstrument(instrument) {
-                if (this.instrument) {
-                    this.instrument.dispose(); // 以前の楽器を破棄
+            /** 🎸 楽器をセットする */
+            setInstrument(key) {
+                if (!this.instruments[key]) {
+                    console.error(`⚠️ 楽器 (${key}) はロードされていません`);
+                    return;
                 }
-                this.instrument = instrument;
+
+                if (this.instrument && this.instrument !== this.instruments[key]) {
+                    this.instrument.dispose();
+                }
+
+                this.instrument = this.instruments[key];
+                this.currentInstrumentKey = key;
+                this.dispatchEvent(new Event("instrumentChange"));
             }
 
+            /** 🎼 楽譜をセットする */
             setScore(score) {
+                if (!Array.isArray(score) || score.length === 0) {
+                    console.error("⚠️ 無効なスコアデータ");
+                    return;
+                }
                 this.score = score;
             }
 
-            start() {
-                if (!this.instrument || !this.score || this.isPlaying) return;
-
-                this.sequence = new Tone.Sequence((time, event) => {
-                    this.instrument.triggerAttackRelease(event.note, event.duration, time);
-                }, this.score).start(0);
-
-                Tone.Transport.start();
-                this.isPlaying = true;
+            /** ⏳ テンポを設定する */
+            setTempo(bpm) {
+                if (typeof bpm === "number" && bpm > 0) {
+                    this.tempo = bpm;
+                    Tone.Transport.bpm.value = bpm;
+                    console.log(`🎵 テンポを ${bpm} BPM に設定しました`);
+                } else {
+                    console.error("⚠️ 無効な BPM の値");
+                }
             }
 
+            /** 🔊 音量を設定する */
+            setVolume(value) {
+                if (typeof value === "number" && value >= -60 && value <= 6) {
+                    this.volume.volume.value = value;
+                    console.log(`🔊 音量を ${value} dB に設定しました`);
+                } else {
+                    console.error("⚠️ 無効な音量値（範囲: -60dB ～ 6dB）");
+                }
+            }
+
+            /** 🎵 ループ再生のオンオフ */
+            enableLoop(loop) {
+                this.loop = !!loop;
+                console.log(`🔄 ループ再生: ${this.loop ? "ON" : "OFF"}`);
+            }
+
+            /** 🎼 移調（半音単位で変更） */
+            setTranspose(semitones) {
+                if (typeof semitones === "number") {
+                    this.transpose = semitones;
+                    console.log(`🎼 移調: ${semitones} 半音`);
+                } else {
+                    console.error("⚠️ 無効な移調値");
+                }
+            }
+
+            /** ▶️ 演奏開始 */
+            start() {
+                if (!this.instrument) {
+                    throw new Error("❌ 楽器が設定されていません");
+                }
+                if (!this.score) {
+                    throw new Error("❌ 楽譜が設定されていません");
+                }
+                if (this.isPlaying) {
+                    return;
+                }
+
+                this.prepareSequence();
+                Tone.Transport.start();
+                this.isPlaying = true;
+                this.dispatchEvent(new Event("play"));
+            }
+
+            /** ⏹️ 演奏停止 */
             stop() {
                 if (!this.isPlaying) return;
 
-                this.sequence.stop();
-                this.sequence.dispose();  // 確実に止める
-                this.sequence = null;     // 参照を削除
+                if (this.sequence) {
+                    this.sequence.stop();
+                    this.sequence.dispose();
+                    this.sequence = null;
+                }
+
                 Tone.Transport.stop();
                 this.isPlaying = false;
+                this.dispatchEvent(new Event("stop"));
+            }
+
+            /** 🎼 シーケンスの準備 */
+            prepareSequence() {
+                this.sequence = new Tone.Sequence((time, event) => {
+                    const transposedNote = Tone.Frequency(event.note).transpose(this.transpose).toNote();
+                    this.instrument.triggerAttackRelease(transposedNote, event.duration, time);
+                }, this.score).start(0);
+
+                if (this.loop) {
+                    Tone.Transport.loop = true;
+                    Tone.Transport.loopEnd = this.score[this.score.length - 1].time + this.score[this.score.length - 1].duration;
+                } else {
+                    Tone.Transport.loop = false;
+                }
             }
         }
+
 
 
 
@@ -151,53 +303,82 @@
             }
         }
 
-        // 🎵 プレイヤーを作成（最初はシンセがセットされる）
+
+        // 🎵 プレイヤーを作成
+
         let player = new Player();
 
-        // 🎛 楽器選択プルダウンの要素を取得
-        const instrumentSelect = document.getElementById('instrumentSelect');
+        // 🎛 UI要素の取得
+        const startBtn = document.getElementById("startBtn");
+        const stopBtn = document.getElementById("stopBtn");
+        const instrumentSelect = document.getElementById("instrumentSelect");
+
+        // 🎛 ページ読み込み時にボタンの状態を設定
+        stopBtn.classList.add("disabled"); // 最初は停止ボタンを無効化
+
+        // 🎧 イベントリスナーを追加
+        player.addEventListener("play", () => {
+            console.log("▶️ 再生開始イベントを受け取りました");
+            startBtn.classList.add("disabled");  // スタートボタン無効化
+            stopBtn.classList.remove("disabled");  // ストップボタン有効化
+        });
+
+        player.addEventListener("stop", () => {
+            console.log("⏹️ 停止イベントを受け取りました");
+            startBtn.classList.remove("disabled");  // スタートボタン有効化
+            stopBtn.classList.add("disabled");  // ストップボタン無効化
+        });
+
+        player.addEventListener("instrumentChange", () => {
+            console.log("🎹 楽器が変更されました:", player.currentInstrumentKey);
+        });
 
         // 🎚 楽器変更時の処理
-        instrumentSelect.addEventListener('change', async (event) => {
+        instrumentSelect.addEventListener("change", async (event) => {
             const selectedInstrument = event.target.value;
 
-            if (selectedInstrument === 'synth') {
+            if (selectedInstrument === "synth") {
                 await player.initializeSynth();
                 console.log("🎛 シンセに切り替えました");
-            } else if (selectedInstrument === 'sampler') {
-                await player.initializeSampler(
-                    {
-                        A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3",
-                        A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
-                        A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
-                        A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
-                        A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
-                        A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3",
-                        A6: "A6.mp3", C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3",
-                        A7: "A7.mp3", C8: "C8.mp3"
-                    },
-                    "https://tonejs.github.io/audio/salamander/"
-                );
+            } else if (selectedInstrument === "sampler") {
+                // 🎹 サンプラーのロードがまだなら初期化
+                if (!player.instruments.sampler) {
+                    await player.initializeSampler(
+                        "sampler",
+                        {
+                            A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3",
+                            A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
+                            A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
+                            A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
+                            A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
+                            A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3",
+                            A6: "A6.mp3", C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3",
+                            A7: "A7.mp3", C8: "C8.mp3"
+                        },
+                        "https://tonejs.github.io/audio/salamander/"
+                    );
+                }
+                player.setInstrument("sampler");
                 console.log("🎹 サンプラーに切り替えました");
             }
         });
 
         // 🎵 楽譜データ
         const scoreData = [
-            { time: '0:0', note: 'C4', duration: '4n' },
-            { time: '0:1', note: 'D4', duration: '4n' },
-            { time: '0:2', note: 'E4', duration: '4n' },
-            { time: '0:3', note: 'F4', duration: '4n' },
+            { time: "0:0", note: "C4", duration: "4n" },
+            { time: "0:1", note: "D4", duration: "4n" },
+            { time: "0:2", note: "E4", duration: "4n" },
+            { time: "0:3", note: "F4", duration: "4n" }
         ];
 
         // ▶ スタートボタンの処理
-        document.getElementById('startBtn').addEventListener('click', () => {
+        startBtn.addEventListener("click", () => {
             player.setScore(scoreData);
             player.start();
         });
 
         // ⏹ ストップボタンの処理
-        document.getElementById('stopBtn').addEventListener('click', () => {
+        stopBtn.addEventListener("click", () => {
             player.stop();
         });
 
