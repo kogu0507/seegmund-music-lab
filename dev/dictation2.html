@@ -21,7 +21,9 @@
 <body class="bg-light">
 
     <main class="container mt-4">
+        <h2>現状のコード</h2>
         <pre>
+            
             ありがとうございます！🎵  
             では、今回の設計を整理し、**前回の改善点の反映** と **今回の方針** を明確にします。  
             
@@ -82,10 +84,23 @@
             
             ---
             
-            ### **📌 次のステップ**
-            この設計を元に、**改善したコードを書きます！**  
-            コードの準備ができたらお知らせしますね！💻✨
         </pre>
+
+        <h2>今後の課題</h2>
+        <pre>
+            ◆2台や3台のシンセで同時にアンサンブルしたい
+            ・聴音の課題再生用なので、声部の考え方
+            ・単旋律（シンセ1台で）
+            ・副旋律（シンセ複数台でアンサンブル）
+            ・3声の和声聴音（シンセ3台でアンサンブル）
+            ・Playerのインスタンスを分けることで、音量や音色を変更可能。聴音のサポートが可能。
+            ・マルチプレイヤークラスとか？謎。要相談。
+            
+            ◆scoreDataの相談
+            ・ティックを使用する場合の関数を検討
+            ・他の拍子はどうする？
+        </pre>
+
 
         <button id="startBtn" class="btn btn-primary">スタート</button>
         <button id="stopBtn" class="btn btn-danger">ストップ</button>
@@ -205,6 +220,24 @@
         // class DataStore 
         // class DictationScoreDataStore extends DataStore 
         // class InstrumentsDataStore extends DataStore 
+
+        // TODO class Validator
+        // 役割: データの検証を行う
+        // 責務:
+        // ScoreStore、InstrumentsStore で利用する Validation ルールの定義・実行
+        // 連携:
+        // ScoreStore、InstrumentsStore から呼び出される
+        // TODO:class MultiPlayer
+        // 役割: 複数の Player インスタンスを管理し、全体的な再生制御や個々の Player への指示を行う
+        // 責務:
+        // Player インスタンスの生成・管理
+        // 全体再生・停止・ループ
+        // Player に対する一括操作 (音量一括変更など)
+        // Player に対する個別操作 (特定 Player の音量変更など)
+        // 各 Player の同期管理
+        // 連携:
+        // Player クラスと連携し、各 Player の操作を行う
+
         // ==================================================
 
         class Player extends EventTarget {
@@ -611,12 +644,42 @@
         });
 
         // 🎵 楽譜データ
-        const scoreData = [
-            { time: "0:0", note: "C4", duration: "4n" },
-            { time: "0:1", note: "D4", duration: "4n" },
-            { time: "0:2", note: "E4", duration: "4n" },
-            { time: "0:3", note: "F4", duration: "4n" }
-        ];
+        const scoreData = {
+            "meta": {
+                "id": 1,
+                "title": "聴音課題サンプル",
+                "composer": "H. K. ",
+                "bpm": 80,
+                "timeSignature": [4, 4],
+                "baseKey": "C",
+                "hearingType": "複旋律",
+                "level": 1,
+                "tags": ["聴音", "複旋律", "ソプラノ", "バス"]
+            },
+            "parts": [
+                {
+                    "part": 1,
+                    "partName": "ソプラノ",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "C4", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "E4", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.333, "barNumber": 1, "pitch": "E4", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.667, "barNumber": 1, "pitch": "E4", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 2.000, "barNumber": 1, "pitch": "C4", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 3.000, "barNumber": 1, "pitch": "C4", "duration": 320, "velocity": 0.80 },
+                        { "absoluteBeat": 3.667, "barNumber": 1, "pitch": "C4", "duration": 160, "velocity": 0.80 }
+                    ]
+                },
+                {
+                    "part": 2,
+                    "partName": "バス",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "E3", "duration": 1920, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "C3", "duration": 1920, "velocity": 0.80 }
+                    ]
+                }
+            ]
+        };
 
         // ▶ スタートボタンの処理
         startBtn.addEventListener("click", () => {

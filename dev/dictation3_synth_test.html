@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Meta情報、SEO、レスポンシブ対応 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seegmund Music Lab - 音楽理論、音楽アプリ、技術ノートなどのリソースを提供します。">
+    <meta name="keywords" content="音楽アプリ, 音楽理論, 技術ノート, Seegmund Music Lab">
+    <meta name="robots" content="index, follow">
+
+    <title>Seegmund Music Lab - 日本語版</title>
+    <link rel="icon" href="/static/images/favicon.ico">
+    <link rel="alternate" href="https://seegmund-music-lab.com/en/" hreflang="en" />
+    <link rel="alternate" href="https://seegmund-music-lab.com/ja/" hreflang="ja" />
+
+    <!-- Bootstrap CSS と Bootstrap Icons の読み込み -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+</head>
+
+<body class="bg-light">
+
+    <!-- メインコンテナ開始 -->
+    <main class="container mt-4">
+        <!-- 楽譜選択セクション -->
+        <div class="mt-3">
+            <label for="scoreSelect" class="form-label">楽譜を選択:</label>
+            <select id="scoreSelect" class="form-select">
+                <option value="sample1">通奏：1-8小節</option>
+                <option value="sample2">前半：1-4小節</option>
+                <option value="exam">試験</option>
+            </select>
+        </div>
+
+        <!-- ソプラノの楽器選択セクション -->
+        <div class="mt-3">
+            <label for="sopranoInstrument" class="form-label">ソプラノの楽器:</label>
+            <select id="sopranoInstrument" class="form-select">
+                <option value="piano">ピアノ</option>
+                <option value="synth" disabled>シンセサイザー [comming soon]</option>
+            </select>
+        </div>
+
+        <!-- バスの楽器選択セクション -->
+        <div class="mt-3">
+            <label for="bassInstrument" class="form-label">バスの楽器:</label>
+            <select id="bassInstrument" class="form-select">
+                <option value="piano">ピアノ</option>
+                <option value="synth" disabled>シンセサイザー [comming soon]</option>
+            </select>
+        </div>
+
+        <!-- BPM（テンポ）変更セクション -->
+        <div class="mt-3">
+            <label for="bpmControl" class="form-label">BPM（テンポ）:</label>
+            <input type="range" id="bpmControl" class="form-range" min="40" max="240" value="80">
+            <input type="number" id="bpmValue" class="form-control mt-2" min="40" max="240" value="80">
+        </div>
+
+        <!-- 音量変更セクション -->
+        <div class="mt-3">
+            <label for="volumeControl" class="form-label">音量（dB）:</label>
+            <input type="range" id="volumeControl" class="form-range" min="-60" max="6" value="0">
+            <input type="number" id="volumeValue" class="form-control mt-2" min="-60" max="6" value="0">
+        </div>
+
+        <!-- 移調（キー変更）セクション -->
+        <div class="mt-3">
+            <label for="transposeControl" class="form-label">移調（半音単位）:</label>
+            <select id="transposeControl" class="form-select">
+                <option value="-12">-12 半音（1オクターブ下）</option>
+                <option value="-11">-11 半音</option>
+                <option value="-10">-10 半音</option>
+                <option value="-9">-9 半音</option>
+                <option value="-8">-8 半音</option>
+                <option value="-7">-7 半音</option>
+                <option value="-6">-6 半音</option>
+                <option value="-5">-5 半音</option>
+                <option value="-4">-4 半音</option>
+                <option value="-3">-3 半音</option>
+                <option value="-2">-2 半音</option>
+                <option value="-1">-1 半音</option>
+                <option value="0" selected>±0（元のキー）</option>
+                <option value="1">+1 半音</option>
+                <option value="2">+2 半音</option>
+                <option value="3">+3 半音</option>
+                <option value="4">+4 半音</option>
+                <option value="5">+5 半音</option>
+                <option value="6">+6 半音</option>
+                <option value="7">+7 半音</option>
+                <option value="8">+8 半音</option>
+                <option value="9">+9 半音</option>
+                <option value="10">+10 半音</option>
+                <option value="11">+11 半音</option>
+                <option value="12">+12 半音（1オクターブ上）</option>
+            </select>
+        </div>
+
+        <!-- ループ再生ON/OFFセクション -->
+        <div class="form-check mt-3">
+            <input type="checkbox" class="form-check-input" id="loopControl" disabled>
+            <label class="form-check-label" for="loopControl">ループ再生</label>
+            <span class="text-secondary">comming soon</span>
+        </div>
+        
+
+        <!-- 再生と停止ボタン -->
+        <div class="mt-3">
+            <button type="button" id="startBtn" class="btn btn-primary disabled">スタート</button>
+            <button type="button" id="stopBtn" class="btn btn-danger disabled">ストップ</button>
+        </div>
+
+        <!-- ステータスバー -->
+        <div class="fixed-bottom bg-light p-2 border-top">
+            <div class="container">
+                <span id="statusText">準備を開始します...</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- BootstrapのJavaScriptライブラリ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- メインのJavaScriptファイル（defer属性により後で実行） -->
+    <script type="module" src="/static/js/base.js" defer></script>
+
+    <!-- Tone.jsライブラリの読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.1.3/Tone.js"></script>
+
+
+
+    <!-- アプリケーションの主要なロジック -->
+    <script type="module">
+        // ==================================================
+        // 初期設定とTODOリスト
+        // ==================================================
+        /*
+         TODO: ステータスバーが途中。HTML要素、const、function updateStatus(message, message2 = "")は作った。あとはメッセージを表示するタイミングを探してコードを追加。
+         
+         */
+
+        // ==================================================
+        // 1. 外部モジュールのインポート
+        // ==================================================
+        import { validateSchema } from "/static/js/validation.js";
+
+        // ==================================================
+        // 2. 定数とUI要素の取得
+        // ==================================================
+        // 各種UIエレメントを取得
+        const startBtn = document.getElementById("startBtn");
+        const stopBtn = document.getElementById("stopBtn");
+        const sopranoInstrument = document.getElementById("sopranoInstrument");
+        const bassInstrument = document.getElementById("bassInstrument");
+        const bpmControl = document.getElementById("bpmControl");
+        const bpmValue = document.getElementById("bpmValue");
+        const volumeControl = document.getElementById("volumeControl");
+        const volumeValue = document.getElementById("volumeValue");
+        const transposeControl = document.getElementById("transposeControl");
+        const loopControl = document.getElementById("loopControl");
+        const scoreSelect = document.getElementById("scoreSelect");
+        const statusText = document.getElementById("statusText")
+        // イベント
+        const EVENT_PLAY = "play";
+        const EVENT_STOP = "stop";
+        const EVENT_INSTRUMENT_CHANGE = "instrumentChange";
+
+        // ステータスバーメッセージ
+        const STATUS_MSG_ERROR = "エラーが発生しました";
+        const STATUS_MSG_PREPARING = "準備中...";
+        const STATUS_MSG_READY = "準備完了";
+        const STATUS_MSG_PLAYING = "再生中...";
+        const STATUS_MSG_STOPPED = "停止中";
+
+        /*
+                const STATUS_MSG_LOADING = "ロード中...";
+                const STATUS_MSG_LOADED = "ロードが完了しました。";
+                
+                const STATUS_MSG_SCORE_LOADING = "楽譜をロード中...";
+                const STATUS_MSG_SAMPLER = "サンプラー：";
+                const STATUS_MSG_INSTRUMENT_CHANGING = "楽器を変更しています...";
+                const STATUS_MSG_BPM_CHANGING = "BPM（Tempo）変更："; // ○○の部分は後で動的に追加
+                const STATUS_MSG_VOLUME_CHANGING = "音量変更："; // ○○の部分は後で動的に追加
+                const STATUS_MSG_TRANSPOSE_CHANGING = "移調："; // ○○の部分は後で動的に追加
+                const STATUS_MSG_SOUND_PLAYING = "音源を再生します";
+                const STATUS_MSG_STOPPED = "音源を停止します";
+        */
+        // ==================================================
+        // 3. UIイベントリスナーの設定
+        // ==================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            // TODO: スタートボタンとストップボタンを不活性化
+            // TODO: サンプラーのロードが終わったらスタートボタンを活性化
+
+            // BPM変更: スライダーと数値入力を同期し、テンポ更新を反映
+            bpmControl.addEventListener("input", () => {
+                bpmValue.value = bpmControl.value;
+                multiPlayer.setTempo(parseInt(bpmControl.value, 10));
+            });
+            bpmValue.addEventListener("input", () => {
+                bpmControl.value = bpmValue.value;
+                multiPlayer.setTempo(parseInt(bpmValue.value, 10));
+            });
+
+            // 音量変更: スライダーと数値入力を同期し、音量更新を反映
+            volumeControl.addEventListener("input", () => {
+                volumeValue.value = volumeControl.value;
+                multiPlayer.setVolume(parseInt(volumeControl.value, 10));
+            });
+            volumeValue.addEventListener("input", () => {
+                volumeControl.value = volumeValue.value;
+                multiPlayer.setVolume(parseInt(volumeValue.value, 10));
+            });
+
+            // 移調変更: プルダウンで選択された半音数を設定
+            transposeControl.addEventListener("change", () => {
+                multiPlayer.setTranspose(parseInt(transposeControl.value, 10));
+            });
+
+            // ループ再生ON/OFF: チェックボックスの状態を反映
+            loopControl.addEventListener("change", () => {
+                multiPlayer.setLoop(loopControl.checked);
+            });
+
+            // 再生ボタンのイベントリスナー
+            startBtn.addEventListener("click", async () => {
+                startBtn.classList.remove("active");
+                // Tone.js の AudioContext をユーザー操作で再開
+                await Tone.start();
+                console.log("AudioContext has been resumed");
+
+                // 各プレイヤーのサンプラーと楽譜がセットされているか確認
+                for (let i = 0; i < multiPlayer.players.length; i++) {
+                    const player = multiPlayer.players[i];
+
+                    // 1. サンプラーの確認
+                    if (!player.instrument) {
+                        console.error(`❌ プレイヤー ${i + 1} のサンプラーがセットされていません`);
+                        updateStatus(`プレイヤー ${i + 1} のサンプラーがセットされていません`);
+                        return; // サンプラーがセットされていない場合、処理を中止
+                    }
+
+                    // 2. 楽譜の確認
+                    if (!player.score) {
+                        console.error(`❌ プレイヤー ${i + 1} の楽譜がセットされていません`);
+                        updateStatus(`プレイヤー ${i + 1} の楽譜がセットされていません`);
+                        return; // 楽譜がセットされていない場合、処理を中止
+                    }
+                }
+                // 選択された楽譜データを取得し、各プレイヤーに設定
+                /*    
+                const selectedScore = scoreStore.getScore(scoreSelect.value);
+                if (!selectedScore || selectedScore.parts.length < 2) {
+                    console.error("❌ 再生エラー: 適切なスコアが選択されていません");
+                    return;
+                }
+                multiPlayer.setScore(selectedScore);  // ここで一括でスコアを設定
+                */
+                console.log("▶️ 再生開始: ", scoreSelect.value);
+                multiPlayer.start();
+
+
+            });
+
+            // 停止ボタンのイベントリスナー
+            stopBtn.addEventListener("click", () => {
+                multiPlayer.stop();
+                console.log("⏹️ 停止しました");
+                togglePlayButtons(true);
+            });
+        });
+
+        // ==================================================
+        // 4. PlayerクラスとMultiPlayerクラスの定義
+        // ==================================================
+
+        /**
+         * Playerクラス
+         * 単一の音楽プレイヤーとして楽器、スコア、再生・停止などを管理
+         */
+        class Player extends EventTarget {
+            constructor() {
+                super();
+                // 利用可能な楽器のコレクションや各種設定
+                this.instruments = {};
+                this.currentInstrumentKey = 'piano';
+                this.score = null;      // Tone.js 用に変換済みのスコア
+                this.rawScore = null;   // 生のスコアデータ（再計算用）
+                this.isPlaying = false; // 再生状態
+                this.sequence = null;   // Tone.Part の保持
+                this.loop = false;      // ループ再生フラグ
+                this.volume = new Tone.Volume(0).toDestination();
+                this.tempo = 120;       // BPM
+                this.transpose = 0;     // 移調（半音）
+                //this.id = id;
+                this.samplerInitialized = false; // 初期値は未初期化
+                this.scoreSet = false; // 初期値は楽譜未セット
+
+                // 初期化（例：サンプラーの初期化）
+                this.initializeSampler("piano");
+            }
+
+            /**
+             * シンセの初期化
+             * デフォルトのシンセを作成し、楽器として設定する
+             */
+            async initializeSynth() {
+                // InstrumentDataStore から "synth" の楽器データを取得
+                const instrumentData = instrumentStore.getInstrument("synth");
+                if (!instrumentData) {
+                    console.error("🔴 Synth の楽器データが instrumentStore に存在しません", " ( class: Player )");
+                    return;
+                }
+                // instrumentStore 経由でシンセをロード（キャッシュされていれば再利用される）
+                const synth = await instrumentStore.loadInstrument("synth");
+                // Player の instruments にシンセを登録し、楽器をセット
+                this.instruments.synth = synth;
+                this.setInstrument("synth");
+                console.log("🔹 デフォルトのシンセが instrumentStore からロードされ、セットされました", " ( class: Player )");
+            }
+
+
+            /**
+             * サンプラーの初期化
+             * 指定されたサンプラー音源を非同期にロードし、楽器として設定する
+             * @param {string} key - 楽器キー
+             * @param {object} urls - サンプル音源のURLマッピング
+             * @param {string} baseUrl - サンプル音源の基本URL
+             */
+            async initializeSampler(key) { //, urls, baseUrl) {
+                if (this.instruments[key]) {
+                    console.log(`🎹 ${key} はすでにロード済みです`, " ( class: Player )");
+                    this.setInstrument(key);
+                    return;
+                }
+
+                const instrumentData = instrumentStore.getInstrument(key); // instrumentStoreから楽器データを取得
+                if (!instrumentData) {
+                    console.error(`🔴 ${key} の楽器データが instrumentStore に存在しません`, " ( class: Player )");
+                    return;
+                }
+
+                return new Promise((resolve, reject) => {
+                    const sampler = new Tone.Sampler({
+                        urls: instrumentData.samples,
+                        baseUrl: instrumentData.baseUrl,
+                        onload: () => {
+                            this.instruments[key] = sampler;
+                            console.log(`🎹 サンプラー (${key}) が正常にロードされました`, " ( class: Player )");
+                            this.samplerInitialized = true;
+                            this.setInstrument(key);
+                            togglePlayButtons(true);
+                            resolve();
+                        },
+                        onerror: (error) => {
+                            console.error(`⚠️ サンプラー (${key}) のロードに失敗しました:`, error, " ( class: Player )");
+                            console.warn("🔄 代替としてシンセを使用します...", " ( class: Player )");
+                            this.initializeSynth().then(resolve).catch(reject);
+                        }
+                    }).toDestination();
+                });
+
+            }
+
+            /**
+             * 楽器の切り替え
+             * 指定した楽器キーに基づいて現在の楽器を更新する
+             * @param {string} instrumentKey 
+             */
+            setInstrument(instrumentKey) {
+                if (!this.instruments[instrumentKey]) {
+                    console.error(`⚠️ 楽器 (${instrumentKey}) はロードされていません`, " ( class: Player )");
+                    return;
+                }
+                this.currentInstrumentKey = instrumentKey;
+                this.instrument = this.instruments[instrumentKey]; // 現在使用する楽器を設定
+                console.log(`🎵 楽器を ${instrumentKey} に設定しました`, " ( class: Player )");
+                // 楽器変更イベントを発行
+                this.dispatchEvent(new Event(EVENT_INSTRUMENT_CHANGE));
+            }
+
+            /**
+             * 楽譜データの設定
+             * 指定されたパートの楽譜データを Tone.js 用形式に変換して保存する
+             * @param {object} scoreData - 楽譜データオブジェクト
+             * @param {number} partIndex - 対象パートのインデックス
+             */
+            setScore(scoreData, partIndex = 0) {
+                if (!scoreData || !scoreData.parts || !Array.isArray(scoreData.parts)) {
+                    console.error("⚠️ 無効なスコアデータ: `parts` が見つかりません", " ( class: Player )");
+                    return;
+                }
+
+                const part = scoreData.parts[partIndex];
+                if (!part || !Array.isArray(part.notes)) {
+                    console.error(`⚠️ 無効なスコアデータ: partIndex=${partIndex} の notes が存在しません`, " ( class: Player )");
+                    return;
+                }
+
+                // 生データとして保存（再計算用に保持）
+                this.rawScore = part.notes;
+
+                // 楽譜データを Tone.js 用に変換（このとき this.tempo を利用）
+                this.score = this.rawScore.map(note => ({
+                    time: note.absoluteBeat / (this.tempo / 60),
+                    note: note.pitch,
+                    duration: (note.duration / 480) * (60 / this.tempo)
+                }));
+                this.scoreSet = true;
+
+                //console.log("変換後のスコア:", this.score);
+                console.log(`🎼 Player ${partIndex + 1} にスコアを設定しました`, " ( class: Player )");
+            }
+
+            isSamplerInitialized() {
+                return this.samplerInitialized;
+            }
+
+            isScoreSet() {
+                return this.scoreSet;
+            }
+
+
+            /**
+             * テンポの設定
+             * Tone.Transport の BPM 値を更新し、必要に応じてスコアの再計算を行う
+             * @param {number} bpm 
+             */
+            setTempo(bpm) {
+                if (typeof bpm === "number" && bpm > 0) {
+                    this.tempo = bpm;
+                    Tone.Transport.bpm.value = bpm;
+                    console.log(`🎵 テンポを ${bpm} BPM に設定しました`, " ( class: Player )");
+
+                    // もし生データ (this.rawScore) が存在すれば、再計算する
+                    if (this.rawScore) {
+                        this.score = this.rawScore.map(note => ({
+                            time: note.absoluteBeat / (this.tempo / 60),
+                            note: note.pitch,
+                            duration: (note.duration / 480) * (60 / this.tempo)
+                        }));
+                        console.log("再計算後のスコア:", this.score, " ( class: Player )");
+                    }
+                } else {
+                    console.error("⚠️ 無効な BPM の値", " ( class: Player )");
+                }
+            }
+
+            /**
+             * 音量の設定
+             * Tone.js の Volume ノードの値を更新する
+             * @param {number} value - dB 単位の音量
+             */
+            setVolume(value) {
+                if (typeof value === "number" && value >= -60 && value <= 6) {
+                    this.volume.volume.value = value;
+                    console.log(`🔊 音量を ${value} dB に設定しました`, " ( class: Player )");
+                } else {
+                    console.error("⚠️ 無効な音量値（範囲: -60dB ～ 6dB）", " ( class: Player )");
+                }
+            }
+
+            /**
+             * ループ再生の有効化
+             * @param {boolean} loop - ループ再生を有効にするか
+             */
+            enableLoop(loop) {
+                this.loop = !!loop;
+                console.log(`🔄 ループ再生: ${this.loop ? "ON" : "OFF"}`, " ( class: Player )");
+            }
+
+            /**
+             * 移調の設定
+             * 演奏時に各音符を指定した半音数だけシフトする
+             * @param {number} semitones 
+             */
+            setTranspose(semitones) {
+                if (typeof semitones === "number") {
+                    this.transpose = semitones;
+                    console.log(`🎼 移調: ${semitones} 半音`, " ( class: Player )");
+                } else {
+                    console.error("⚠️ 無効な移調値", " ( class: Player )");
+                }
+            }
+
+            /**
+             * 演奏の開始
+             * ※ Tone.Transport の開始は行わず、Tone.Part の準備だけを行う
+             */
+            start() {
+                if (!this.instrument) {
+                    if (this.instruments[this.currentInstrumentKey]) {
+                        this.instrument = this.instruments[this.currentInstrumentKey];
+                    } else {
+                        throw new Error("❌ 楽器が設定されていません", " ( class: Player )");
+                    }
+                }
+
+                if (!this.score) {
+                    throw new Error("❌ 楽譜が設定されていません", " ( class: Player )");
+                }
+                if (this.isPlaying) return;
+                // シーケンスの準備（Tone.Part の生成）
+                this.prepareSequence();
+                this.isPlaying = true;
+            }
+
+            /**
+             * 演奏の停止
+             * ※ Tone.Transport の停止は行わず、Tone.Part の停止・破棄のみを行う
+             */
+            stop() {
+                if (!this.isPlaying) return;
+
+                if (this.sequence) {
+                    // シーケンス（Tone.Part）の停止と破棄
+                    this.sequence.stop();
+                    this.sequence.dispose();
+                    this.sequence = null;
+                }
+
+                Tone.Transport.stop();
+                this.isPlaying = false;
+            }
+
+            /**
+             * シーケンスの準備
+             * スコアデータから Tone.Part を作成し、各音符の発音タイミングを登録する
+             * ※停止タイマーの設定は行わない
+             */
+            prepareSequence() {
+                if (!this.score) {
+                    console.error("⚠️ スコアが設定されていません", " ( class: Player )");
+                    return;
+                }
+
+                // Tone.Part 用のイベントリストを作成
+                const events = this.score.map(note => [note.time, note]);
+                console.log("Tone.Part に渡すイベントリスト:", events, " ( class: Player )");
+                // Tone.Part を作成し、0時点から開始
+                this.sequence = new Tone.Part((time, event) => {
+                    // 移調を適用した音程に変換して発音
+                    const transposedNote = Tone.Frequency(event.note).transpose(this.transpose).toNote();
+                    this.instrument.triggerAttackRelease(transposedNote, event.duration, time);
+                }, events).start(0);
+
+                // ループ再生設定は Player 内で行うが、Tone.Transport.loop の設定は MultiPlayer に任せる
+                // ※ここでは、ループフラグの状態に応じて Tone.Part 自体のループ設定は必要に応じて追加できます
+
+
+            }
+            /**
+            * 自分の楽譜の演奏時間を計算
+            * 最後のノートの終了時刻（absoluteBeat + duration）を求めます
+            * @returns {number} - 演奏時間（秒）
+            */
+            getPerformanceTime() {
+                if (!this.score || this.score.length === 0) {
+                    console.warn("⚠️ 楽譜がセットされていません", " ( class: Player )");
+                    return 0;
+                }
+
+                const lastNote = this.score[this.score.length - 1];
+                const endTimeInBeats = lastNote.absoluteBeat + lastNote.duration; // 拍単位での終了時刻
+
+                // BPMを取得
+                const bpm = this.score.meta.bpm;
+
+                // 秒単位に変換
+                const endTimeInSeconds = endTimeInBeats / (bpm / 60);
+
+                return endTimeInSeconds;
+            }
+
+        }
+
+        /**
+         * [修正後] MultiPlayerクラス
+         * 複数の Player を管理し、Tone.Transport の開始／停止や停止タイマーの設定を一元管理する
+         */
+        class MultiPlayer extends EventTarget {
+            constructor() {
+                super();
+                this.players = []; // 複数の Player インスタンスを保持
+            }
+
+            /**
+             * Player の追加
+             */
+            addPlayer(player) {
+                if (!(player instanceof Player)) {
+                    console.error("⚠️ `Player` インスタンスのみ追加可能です", " ( class: MultiPlayer )");
+                    return;
+                }
+                this.players.push(player);
+                console.log(`🎵 Player を追加しました (現在のプレイヤー数: ${this.players.length})`, " ( class: MultiPlayer )");
+            }
+
+            /**
+             * Player の削除
+             * @param {Player} player - 削除する Player インスタンス
+             */
+            removePlayer(player) {
+                this.players = this.players.filter(p => p !== player);
+                console.log(`🗑 Player を削除しました (現在のプレイヤー数: ${this.players.length})`, " ( class: MultiPlayer )");
+            }
+
+            /**
+             * 現在の Player 一覧とステータスの取得
+             * @returns {Array<Object>} - Player インスタンスとステータス情報のオブジェクトの配列
+             */
+            getPlayersWithStatus() {
+                return this.players.map(player => ({
+                    player: player, // Player インスタンス
+                    status: {
+                        samplerInitialized: player.isSamplerInitialized(),
+                        scoreSet: player.isScoreSet(),
+                        // 他のステータス情報もここに追加可能
+                    }
+                }));
+            }
+            getPlayerStatusAll() {
+                return this.players.map(player => this.getPlayerStatus(player));
+                // または、オブジェクト形式で返す場合
+                // const allStatus = {};
+                // this.players.forEach((player, index) => {
+                //   allStatus[`player${index + 1}`] = this.getPlayerStatus(player);
+                // });
+                // return allStatus;
+            }
+
+            isReady() {
+                return this.players.every(player => player.isSamplerInitialized() && player.isScoreSet());
+            }
+
+            /**
+             * すべての Player の音量設定
+             * @param {number} volume - 設定する音量（dB）
+             */
+            setVolume(volume) {
+                this.players.forEach(player => player.setVolume(volume));
+                console.log(`🔊 すべての Player の音量を ${volume} dB に設定しました,  " ( class: MultiPlayer )"`);
+            }
+
+            /**
+             * すべての Player のテンポ設定
+             * @param {number} bpm - 設定する BPM
+             */
+            setTempo(bpm) {
+                this.players.forEach(player => player.setTempo(bpm));
+                console.log(`🎵 すべての Player のテンポを ${bpm} BPM に設定しました`, " ( class: MultiPlayer )");
+            }
+
+            /**
+             * すべての Player に移調を適用
+             * @param {number} semitones - 移調する半音数
+             */
+            setTranspose(semitones) {
+                this.players.forEach(player => player.setTranspose(semitones));
+                console.log(`🎼 すべての Player に移調を ${semitones} 半音適用しました`, " ( class: MultiPlayer )");
+            }
+
+            /**
+             * すべての Player にループ設定を適用
+             * @param {boolean} isLoop - ループ再生を有効にするか
+             */
+            setLoop(isLoop) {
+                this.players.forEach(player => player.enableLoop(isLoop));
+                console.log(`🔄 すべての Player のループを ${isLoop ? "ON" : "OFF"} にしました`, " ( class: MultiPlayer )");
+            }
+
+            /**
+             * すべての Player にスコアを適用
+             * @param {object} scoreData - 楽譜データ
+             */
+            setScore(scoreData) {
+                if (!scoreData || !Array.isArray(scoreData.parts)) {
+                    console.error("⚠️ 無効なスコアデータ: `parts` が見つかりません", " ( class: MultiPlayer )");
+                    return;
+                }
+
+                this.players.forEach((player, index) => {
+                    if (index < scoreData.parts.length) {
+                        player.setScore(scoreData, index);
+                        console.log(`🎼 Player ${index + 1} にスコアを設定させました`, " ( class: MultiPlayer )");
+                    } else {
+                        console.warn(`⚠️ Player ${index + 1} に割り当てるスコアがありません`, " ( class: MultiPlayer )");
+                    }
+                });
+
+                if (this.players.length > scoreData.parts.length) {
+                    console.warn("⚠️ 一部の Player にスコアが設定されませんでした", " ( class: MultiPlayer )");
+                }
+            }
+
+            /**
+                 * 登録されているプレイヤーの中で、最も長い演奏時間を取得する。
+                  * ※各 Player のスコアの終了時刻（time + duration）を参考に計算する
+                 * @returns {number} 最長演奏時間（秒）。プレイヤーが登録されていない場合は0を返す。
+                 */
+            getMaxPerformanceTime() {
+                if (this.players.length === 0) {
+                    return 0;
+                }
+
+                let maxTime = 0;
+                this.players.forEach(player => {
+                    if (player.score && player.score.length > 0) {
+                        const lastNote = player.score[player.score.length - 1];
+                        const playerEndTime = lastNote.time + lastNote.duration;
+                        maxTime = Math.max(maxTime, playerEndTime);
+                    }
+                });
+                return maxTime;
+            }
+
+            /**
+             * すべての Player の再生開始
+             * ※ここで Tone.Transport の開始や停止タイマーの設定を一元管理する
+             */
+            start() {
+                if (this.players.length === 0) {
+                    console.warn("⚠️ 再生する Player がありません", " ( class: MultiPlayer )");
+                    return;
+                }
+
+                // 各 Player の start() を呼ぶ（Player 内は Tone.Part の生成のみ）
+                this.players.forEach(player => player.start());
+
+                // 全体の停止タイマーを MultiPlayer 側で設定する
+                const maxPerformanceTime = this.getMaxPerformanceTime();
+                console.log("最長演奏時間:", maxPerformanceTime);
+                Tone.Transport.scheduleOnce(() => {
+                    this.stop();
+                    console.log("⏹️ 演奏が終了しました", " ( class: MultiPlayer )");
+                }, maxPerformanceTime);
+
+                // Tone.Transport はここで１度だけ開始
+                Tone.Transport.start();
+
+                console.log(`▶️ すべての Player の再生を開始しました`, " ( class: MultiPlayer )");
+                this.dispatchEvent(new Event(EVENT_PLAY));
+            }
+
+            /**
+             * すべての Player の再生停止
+             * ※各 Player の停止と Tone.Transport の停止、再生位置のリセットを行う
+             */
+            stop() {
+                this.players.forEach(player => player.stop());
+                Tone.Transport.stop();
+                Tone.Transport.position = 0;
+                console.log("⏹️ すべての Player の再生を停止しました", " ( class: MultiPlayer )");
+                this.dispatchEvent(new Event(EVENT_STOP));
+            }
+
+        }
+
+        // ==================================================
+        // 5. データストアクラスの定義
+        // ==================================================
+
+        /**
+         * DataStore クラス
+         * 汎用のデータ保存用基底クラス
+         */
+        class DataStore {
+            constructor() {
+                this.data = new Map(); // データを格納する Map
+            }
+
+            /**
+             * データの登録
+             * @param {string} id - 一意の識別子
+             * @param {any} data - 登録するデータ
+             */
+            add(id, data) {
+                if (!this.validate(data)) {
+                    console.error(`❌ データ登録失敗: 無効なデータ (${id})`, " ( class: DataStore )");
+                    return;
+                }
+                if (this.data.has(id)) {
+                    console.error(`❌ 登録失敗: ID '${id}' は既に存在します`, " ( class: DataStore )");
+                    return;
+                }
+                this.data.set(id, data);
+                console.log(`✅ データ登録: ${id}`, " ( class: DataStore )");
+            }
+
+            /**
+             * データの削除
+             * @param {string} id - 削除するデータのID
+             */
+            remove(id) {
+                if (this.data.has(id)) {
+                    this.data.delete(id);
+                    console.log(`🗑️ データ削除: ${id}`, " ( class: DataStore )");
+                } else {
+                    console.warn(`⚠️ 削除失敗: データが存在しません (${id})`, " ( class: DataStore )");
+                }
+            }
+
+            /**
+             * データの取得
+             * @param {string} id - 取得するデータのID
+             * @returns {any|null} - 存在すればデータ、なければ null
+             */
+            get(id) {
+                if (!this.data.has(id)) {
+                    console.warn(`⚠️ データが見つかりません: ${id}`, " ( class: DataStore )");
+                    return null;
+                }
+                return this.data.get(id);
+            }
+
+            /**
+             * バリデーション（サブクラスでオーバーライドすること）
+             */
+            validate(data) {
+                throw new Error("❌ `validate()` はサブクラスで必ずオーバーライドしてください", " ( class: DataStore )");
+            }
+        }
+
+        /**
+         * DictationScoreDataStore クラス
+         * 楽譜データ専用のデータストア
+         */
+        class DictationScoreDataStore extends DataStore {
+            constructor() {
+                super();
+            }
+            /**
+             * 楽譜データの追加
+             * @param {string} id - スコアの一意識別子
+             * @param {object} scoreData - 楽譜データ
+             */
+            addScore(id, scoreData) {
+                this.add(id, scoreData);
+            }
+
+            /**
+             * 楽譜データの削除
+             * @param {string} id - スコアの一意識別子
+             */
+            removeScore(id) {
+                this.remove(id);
+            }
+
+            /**
+             * 楽譜データの取得
+             * @param {string} id - スコアの一意識別子
+             * @returns {object|null} - 楽譜データ
+             */
+            getScore(id) {
+                return this.get(id);
+            }
+
+            /**
+             * 特定の小節を抽出
+             * @param {string} id - スコアの一意識別子
+             * @param {number} startBar - 開始小節
+             * @param {number} endBar - 終了小節
+             */
+            trimSection(id, startBar, endBar) {
+                const score = this.get(id);
+                if (!score || !Array.isArray(score.parts)) {
+                    console.error("⚠️ 無効なスコアデータ: `parts` が見つかりません", " ( class: DictationScoreDataStore )");
+                    return;
+                }
+
+                score.parts.forEach(part => {
+                    if (Array.isArray(part.notes)) {
+                        part.notes = part.notes.filter(note =>
+                            note.barNumber >= startBar && note.barNumber <= endBar
+                        );
+                    }
+                });
+
+                console.log(`✂️ スコア '${id}' の小節 ${startBar}-${endBar} をトリミングしました`, " ( class: DictationScoreDataStore )");
+            }
+
+            /**
+             * 無音時間を追加
+             * @param {string} id - スコアの一意識別子
+             * @param {number} durationSeconds - 追加する無音の秒数
+             */
+            generateSilence(id, durationSeconds) {
+                const score = this.get(id);
+                if (!score || !Array.isArray(score.parts)) {
+                    console.error("⚠️ 無効なスコアデータ: `parts` が見つかりません", " ( class: DictationScoreDataStore )");
+                    return;
+                }
+
+                score.parts.forEach(part => {
+                    if (!Array.isArray(part.notes) || part.notes.length === 0) {
+                        console.warn("⚠️ パートに `notes` が存在しないため、無音追加をスキップしました", " ( class: DictationScoreDataStore )");
+                        return;
+                    }
+
+                    const lastBeat = Math.max(
+                        ...part.notes.map(note => note.absoluteBeat + note.duration),
+                        0
+                    );
+
+                    part.notes.push({
+                        absoluteBeat: lastBeat,
+                        barNumber: Math.ceil(lastBeat / (score.meta.timeSignature[0] * 480)),
+                        pitch: null,
+                        duration: durationSeconds * 480,
+                        velocity: 0
+                    });
+                });
+
+                console.log(`🔇 スコア '${id}' に ${durationSeconds} 秒の無音を追加しました`, " ( class: DictationScoreDataStore )");
+            }
+
+            /**
+             * 複数のスコアを結合
+             * @param {string} id - 結合後のスコアID
+             * @param {...string} scoreIds - 結合するスコアのIDリスト
+             */
+            mergeScores(id, ...scoreIds) {
+                const mergedScore = {
+                    meta: { ...this.get(scoreIds[0]).meta },
+                    parts: []
+                };
+
+                scoreIds.forEach(scoreId => {
+                    const score = this.get(scoreId);
+                    if (!score) return;
+
+                    score.parts.forEach((part, index) => {
+                        if (!mergedScore.parts[index]) {
+                            mergedScore.parts[index] = { part: index + 1, partName: part.partName, notes: [] };
+                        }
+                        mergedScore.parts[index].notes.push(...part.notes);
+                    });
+                });
+
+                this.addScore(id, mergedScore);
+                console.log(`🔀 スコア '${scoreIds.join(", ")}' を結合して '${id}' に保存しました`, " ( class: DictationScoreDataStore )");
+            }
+
+            /**
+             * 楽譜データのバリデーション
+             * @param {object} scoreData - 楽譜データ
+             * @returns {boolean} - バリデーション結果
+             */
+            validate(scoreData) {
+                /*  
+                const schema = {
+                    meta: { required: true, isOfType: "object" },
+                    parts: { required: true, isArray: true },
+                    "meta.title": { required: true, isOfType: "string" },
+                    "meta.bpm": { required: true, isOfType: "number", min: 40, max: 240 },
+                    "meta.timeSignature": { required: true, isArray: true },
+                    "meta.baseKey": { required: true, isOfType: "string" },
+                    "parts[].notes": { required: true, isArray: true }
+                };
+                */
+                const schema = {
+                    meta: { required: false, isOfType: "object" }, // meta自体はオプション
+                    parts: { required: true, isArray: true },
+                    "meta.title": { required: false, isOfType: "string" }, // meta.title はスコアが参照するため任意
+                    "meta.bpm": { required: false, isOfType: "number", min: 40, max: 240 }, // bpmも参照元で設定するため、任意
+                    "meta.timeSignature": { required: false, isArray: true }, // timeSignatureも参照
+                    "meta.baseKey": { required: false, isOfType: "string" }, // baseKeyも参照
+                    "parts[].notes": { required: true, isArray: true }
+                };
+
+
+                const { isValid, errors } = validateSchema(scoreData, schema);
+
+                if (!isValid) {
+                    console.error("❌ バリデーションエラー:", " ( class: DictationScoreDataStore )");
+                    errors.forEach(error => {
+                        console.error(`- ${error.key}: ${error.message}`, " ( class: DictationScoreDataStore )");
+                    });
+                    console.log(" チェックしたスコアデータ: ", JSON.stringify(scoreData, null, 2), " ( class: DictationScoreDataStore )");
+                }
+
+                return isValid;
+            }
+        }
+
+        // スコアデータを管理するインスタンスの生成と初期データの追加
+        //const scoreStore = new DictationScoreDataStore();
+        //scoreStore.addScore("sample1", scoreData1);
+
+        /**
+         * InstrumentDataStore クラス
+         * 楽器データの管理および Tone.js 楽器のロード、キャッシュを行う
+         */
+        class InstrumentDataStore extends DataStore {
+            constructor() {
+                super();
+                this.instrumentCache = new Map(); // ロード済み楽器のキャッシュ
+            }
+
+            /**
+             * 楽器データの追加
+             * @param {string} id - 楽器の一意識別子
+             * @param {object} instrumentData - 楽器データ
+             */
+            addInstrument(id, instrumentData) {
+                this.add(id, instrumentData);
+            }
+
+            /**
+             * 楽器データの削除
+             * @param {string} id - 楽器の一意識別子
+             */
+            removeInstrument(id) {
+                this.remove(id);
+                this.instrumentCache.delete(id);
+            }
+
+            /**
+             * 楽器データの取得
+             * @param {string} id - 楽器の一意識別子
+             * @returns {object|null} - 楽器データ
+             */
+            getInstrument(id) {
+                return this.get(id);
+            }
+
+            /**
+             * Tone.js 楽器のロード
+             * @param {string} id - 楽器の一意識別子
+             * @returns {Promise<Tone.Sampler | Tone.Synth>}
+             */
+            async loadInstrument(id) {
+                const instrumentData = this.getInstrument(id);
+                if (!instrumentData) {
+                    console.error(`❌ 楽器 '${id}' が見つかりません`, " ( class: InstrumentDataStore )");
+                    return null;
+                }
+
+                // シンセの場合はキャッシュを使わず毎回新しいインスタンスを作成
+                if (instrumentData.type === "synth") {
+                    console.log(`🎹 新しいシンセインスタンスを作成します (${id})`, " ( class: InstrumentDataStore )");
+                    const synth = new Tone.Synth(instrumentData.config).toDestination();
+                    return synth;
+                }
+
+                // sampler（例：ピアノ）の場合はキャッシュを利用
+                if (this.instrumentCache.has(id)) {
+                    console.log(`🎹 楽器 '${id}' はキャッシュ済みです`, " ( class: InstrumentDataStore )");
+                    return this.instrumentCache.get(id);
+                }
+
+                if (instrumentData.type === "sampler") {
+                    const sampler = new Tone.Sampler({
+                        urls: instrumentData.samples,
+                        baseUrl: instrumentData.baseUrl
+                    }).toDestination();
+                    this.instrumentCache.set(id, sampler);
+                    return sampler;
+                }
+
+                console.error(`❌ 未知の楽器タイプ '${instrumentData.type}'`, " ( class: InstrumentDataStore )");
+                return null;
+            }
+
+
+            /**
+             * 楽器データのキャッシュ管理
+             * @param {string} id - 楽器の一意識別子
+             */
+            cacheInstrument(id) {
+                if (this.instrumentCache.has(id)) {
+                    console.log(`🎛️ 楽器 '${id}' はすでにキャッシュ済み`, " ( class: InstrumentDataStore )");
+                    return;
+                }
+
+                this.loadInstrument(id).then((instrument) => {
+                    if (instrument) {
+                        this.instrumentCache.set(id, instrument);
+                        console.log(`✅ 楽器 '${id}' をキャッシュしました`, " ( class: InstrumentDataStore )");
+                    }
+                }).catch((error) => {
+                    console.error(`❌ キャッシュに失敗:`, error, " ( class: InstrumentDataStore )");
+                });
+            }
+
+            /**
+             * 楽器データのバリデーション
+             * @param {object} instrumentData - 楽器データ
+             * @returns {boolean} - バリデーション結果
+             */
+            validate(instrumentData) {
+                const schema = {
+                    name: { required: true, isOfType: "string" },
+                    type: { required: true, isOfType: "string" },
+                    samples: { required: false, isOfType: "object" },
+                    baseUrl: { required: false, isOfType: "string" },
+                    config: { required: false, isOfType: "object" }
+                };
+
+                const { isValid, errors } = validateSchema(instrumentData, schema);
+
+                if (!isValid) {
+                    console.error("❌ バリデーションエラー:", errors, " ( class: InstrumentDataStore )");
+                }
+
+                return isValid;
+            }
+        }
+
+        // ==================================================
+        // 6. プレイヤーの生成とイベント設定
+        // ==================================================
+        // InstrumentDataStore のインスタンス作成と楽器データの登録
+        // InstrumentDataStore のインスタンス作成と楽器データの登録（変更後）
+        const instrumentStore = new InstrumentDataStore();
+
+        // シンセサイザーは1回のみ登録（詳細な設定を含む）
+        instrumentStore.addInstrument("synth", {
+            name: "シンセサイザー",
+            type: "synth",
+            config: {
+                oscillator: {
+                    type: "sine"  // サイン波で柔らかな音色を作成
+                },
+                envelope: {
+                    attack: 0.005,   // 非常に短いアタック
+                    decay: 0.3,      // 適度なディケイ
+                    sustain: 0.5,    // 持続レベル
+                    release: 1.2     // ゆっくりとフェードアウト
+                },
+                filter: {
+                    Q: 1,            // フィルターの共鳴
+                    type: "lowpass",
+                    rolloff: -12     // 12dB/oct のロールオフ
+                }
+            }
+        }); // TODO: instrumentDataはモジュール化なのでは？
+
+        instrumentStore.addInstrument("piano", {
+            name: "ピアノ",
+            type: "sampler",
+            samples: {
+                A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3",
+                A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
+                A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
+                A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
+                A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
+                A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3",
+                A6: "A6.mp3", C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3",
+                A7: "A7.mp3", C8: "C8.mp3"
+            },
+            baseUrl: "https://tonejs.github.io/audio/salamander/"
+        }); // TODO: instrumentDataはモジュール化なのでは？
+
+        // DictationScoreDataStore のインスタンス作成と初期スコアの登録
+        const scoreMeta = {
+            id: 1,
+            title: "聴音課題サンプル",
+            composer: "H. K.",
+            bpm: 80,
+            timeSignature: [4, 4],
+            baseKey: "C",
+            hearingType: "複旋律",
+            level: 1,
+            tags: ["聴音", "複旋律", "ソプラノ", "バス"]
+        };
+
+        const scoreStore = new DictationScoreDataStore();
+        scoreStore.addScore("sample1", {
+            "meta": scoreMeta,
+            "parts": [
+                {
+                    "part": 1,
+                    "partName": "ソプラノ",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "C4", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "D4", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.333, "barNumber": 1, "pitch": "E4", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.667, "barNumber": 1, "pitch": "F4", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 2.000, "barNumber": 1, "pitch": "G4", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 3.000, "barNumber": 1, "pitch": "A4", "duration": 320, "velocity": 0.80 },
+                        { "absoluteBeat": 3.667, "barNumber": 1, "pitch": "B4", "duration": 160, "velocity": 0.80 }
+                    ]
+                },
+                {
+                    "part": 2,
+                    "partName": "バス",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "E3", "duration": 1920, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "C3", "duration": 1920, "velocity": 0.80 }
+                    ]
+                }
+            ]
+        });
+        scoreStore.addScore("sample2", {
+            "meta": scoreMeta,
+            "parts": [
+                {
+                    "part": 1,
+                    "partName": "ソプラノ",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "C5", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "D5", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.333, "barNumber": 1, "pitch": "E5", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.667, "barNumber": 1, "pitch": "F5", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 2.000, "barNumber": 1, "pitch": "G5", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 3.000, "barNumber": 1, "pitch": "A5", "duration": 320, "velocity": 0.80 },
+                        { "absoluteBeat": 3.667, "barNumber": 1, "pitch": "B5", "duration": 160, "velocity": 0.80 }
+                    ]
+                },
+                {
+                    "part": 2,
+                    "partName": "バス",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "E3", "duration": 1920, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "C3", "duration": 1920, "velocity": 0.80 }
+                    ]
+                }
+            ]
+        });
+        scoreStore.addScore("exam", {
+            "meta": scoreMeta,
+            "parts": [
+                {
+                    "part": 1,
+                    "partName": "ソプラノ",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "C6", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "D6", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.333, "barNumber": 1, "pitch": "E6", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 1.667, "barNumber": 1, "pitch": "F6", "duration": 160, "velocity": 0.80 },
+                        { "absoluteBeat": 2.000, "barNumber": 1, "pitch": "G6", "duration": 480, "velocity": 0.80 },
+                        { "absoluteBeat": 3.000, "barNumber": 1, "pitch": "A6", "duration": 320, "velocity": 0.80 },
+                        { "absoluteBeat": 3.667, "barNumber": 1, "pitch": "B6", "duration": 160, "velocity": 0.80 }
+                    ]
+                },
+                {
+                    "part": 2,
+                    "partName": "バス",
+                    "notes": [
+                        { "absoluteBeat": 0.000, "barNumber": 1, "pitch": "E3", "duration": 1920, "velocity": 0.80 },
+                        { "absoluteBeat": 1.000, "barNumber": 1, "pitch": "C3", "duration": 1920, "velocity": 0.80 }
+                    ]
+                }
+            ]
+        });
+        // memo:楽譜データはファイル固有の情報なので、モジュール化しない
+        // 
+
+        // 複数プレイヤーを管理する MultiPlayer インスタンスの生成
+        let multiPlayer = new MultiPlayer();
+        const sopranoPlayer = new Player();  // ソプラノ用プレイヤー（デフォルトのサンプラー）
+        const bassPlayer = new Player();    // バス用プレイヤー（デフォルトのサンプラー）
+
+        // 各プレイヤーを MultiPlayer に追加
+        multiPlayer.addPlayer(sopranoPlayer);
+        multiPlayer.addPlayer(bassPlayer);
+
+        // 楽譜を設定
+        const selectedScore = scoreStore.getScore(scoreSelect.value);
+        if (selectedScore && selectedScore.parts.length >= 2) {
+            multiPlayer.setScore(selectedScore);
+            console.log(" スコアを更新しました:", scoreSelect.value);
+        } else {
+            console.error("⚠️ スコアデータが不完全です:", selectedScore);
+        }
+
+        // 準備完了したか確認
+        function checkMultiPlayerReady() {
+            if (multiPlayer.isReady()) {
+                console.log("checkMultiPlayerReady true");
+                updateStatus(STATUS_MSG_READY);
+                // 再生開始処理など
+            } else {
+                console.log("checkMultiPlayerReady false");
+                updateStatus(STATUS_MSG_PREPARING);
+                // 1秒後に再度チェック
+                setTimeout(checkMultiPlayerReady, 1000);
+            }
+        }
+        checkMultiPlayerReady();
+
+        // テンポ、音量、移調、ループ再生の初期化
+        multiPlayer.setTempo(scoreMeta.bpm);
+        bpmControl.value = scoreMeta.bpm;
+        bpmValue.value = scoreMeta.bpm;
+        multiPlayer.setVolume(0);
+        volumeControl.value = 0;
+        volumeValue.value = 0;
+        multiPlayer.setTranspose(0);
+        transposeControl.value = 0;
+        //multiPlayer.setLoop();
+
+
+        // ==================================================
+        // 7. イベント処理と初期UI設定
+        // ==================================================
+        // MultiPlayer の再生イベント: ボタンの状態更新
+        multiPlayer.addEventListener("play", () => {
+            console.log("▶️ 再生開始イベントを受け取りました");
+            togglePlayButtons(false);
+            //startBtn.classList.add("disabled");
+            //stopBtn.classList.remove("disabled");
+            updateStatus(STATUS_MSG_PLAYING);
+        });
+
+        // MultiPlayer の停止イベント: ボタンの状態更新
+        // TODO: これうごかない eventがないから？EVENT_STOPでは？ dispatchはどちらへ？
+        multiPlayer.addEventListener("stop", () => {
+            console.log("⏹️ 停止イベントを受け取りました");
+            togglePlayButtons(true);
+            updateStatus(STATUS_MSG_STOPPED);
+        });
+
+        // ソプラノの楽器変更イベント: 楽器が変更された際にコンソール出力
+        sopranoPlayer.addEventListener("instrumentChange", () => {
+            console.log("🎹 ソプラノの楽器が変更されました:", sopranoPlayer.currentInstrumentKey);
+        });
+
+        // バスの楽器変更イベント: 楽器が変更された際にコンソール出力
+        bassPlayer.addEventListener("instrumentChange", () => {
+            console.log("🎹 バスの楽器が変更されました:", bassPlayer.currentInstrumentKey);
+        });
+
+        // 楽器変更の共通処理を行う非同期関数
+        async function handleInstrumentChange(player, event) {
+            const selectedInstrument = event.target.value;
+
+            // instrumentStore から楽器をロードして設定
+            const instrument = await instrumentStore.loadInstrument(selectedInstrument);
+
+            // MultiPlayer経由で楽器を設定
+            multiPlayer.players.forEach((player) => {
+                player.instruments[selectedInstrument] = instrument;
+                player.setInstrument(selectedInstrument);
+            });
+
+            console.log(`楽器を${selectedInstrument}に変更しました`);
+
+            //player.instruments[selectedInstrument] = instrument; // player.instrumentsに楽器オブジェクトを格納
+            //player.setInstrument(selectedInstrument); // 楽器を設定
+            //console.log(` ${player === sopranoPlayer ? "ソプラノ" : "バス"}の楽器を${selectedInstrument === 'synth' ? 'シンセ' : 'ピアノ'}に変更しました`);
+        }
+
+        // ソプラノの楽器変更リスナー
+        sopranoInstrument.addEventListener("change", async (event) => {
+            await handleInstrumentChange(sopranoPlayer, event);
+        });
+
+        // バスの楽器変更リスナー
+        bassInstrument.addEventListener("change", async (event) => {
+            await handleInstrumentChange(bassPlayer, event);
+        });
+
+        // 楽譜変更時の処理
+        scoreSelect.addEventListener("change", () => {
+            const selectedScore = scoreStore.getScore(scoreSelect.value);
+            if (selectedScore && selectedScore.parts.length >= 2) {
+                togglePlayButtons(false);
+                multiPlayer.setScore(selectedScore);
+                console.log(" スコアを更新しました:", scoreSelect.value);
+                togglePlayButtons(true);
+                updateStatus(STATUS_MSG_SCORE, scoreSelect.value);
+
+            } else {
+                console.error("⚠️ スコアデータが不完全です:", selectedScore);
+            }
+        });
+
+
+        // ==================================================
+        // ユーティリティ関数
+        // ==================================================
+        // ステータスバーのテキストを更新する
+        function updateStatus(message, message2 = "") { // message2は省略可能
+            statusText.textContent = message + message2;
+        }
+        // 例：テンポを変更した場合
+        // const currentBpm = 120;
+        // updateStatus(STATUS_MSG_BPM_CHANGING, currentBpm);
+        // 例：楽器を変更した場合（追加情報なし）
+        // updateStatus(STATUS_MSG_INSTRUMENT_CHANGING);
+
+
+        function togglePlayButtons(isStartButton) {
+            if (isStartButton) {
+                // スタートボタンを活性化し、ストップボタンを不活性化
+                startBtn.classList.remove("disabled");
+                stopBtn.classList.add("disabled");
+            } else {
+                // ストップボタンを活性化し、スタートボタンを不活性化
+                startBtn.classList.add("disabled");
+                stopBtn.classList.remove("disabled");
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
