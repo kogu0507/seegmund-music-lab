@@ -136,13 +136,8 @@
         // 初期設定とTODOリスト
         // ==================================================
         /*
-        楽譜データを2つに分けるので、スキーマを２つ？
-        ・メタデータ
-        ・楽譜データ
-
          
-         */
-
+        */
         // ==================================================
         // 1. 外部モジュールのインポート
         // ==================================================
@@ -259,18 +254,20 @@
             });
 
             startBtn.addEventListener("click", async () => {
-                await Tone.start();              // ユーザー操作でAudioContextを再開
-                await Tone.context.resume();     // 明示的にAudioContextを再開（念のため）
+                // ユーザー操作で AudioContext を再開
+                await Tone.start();
+                // 念のため、AudioContext を明示的に再開
+                await Tone.context.resume();
                 console.log("AudioContext is running:", Tone.context.state);
-                
+
                 if (!multiPlayer.checkPlayers()) {
                     return; // プレイヤーの準備ができていなければ中止
                 }
-                
+
                 console.log("▶️ 再生開始: ", scoreSelect.value);
                 multiPlayer.start();
             });
-            
+
 
             // 停止ボタンのイベントリスナー
             stopBtn.addEventListener("click", () => {
@@ -788,6 +785,9 @@
                     return;
                 }
 
+                // ★ Transport の開始前に位置をリセットしておく ★
+                Tone.Transport.position = 0;
+
                 // 各 Player の start() を呼ぶ（Player 内は Tone.Part の生成のみ）
                 this.players.forEach(player => player.start());
 
@@ -799,7 +799,7 @@
                     console.log("⏹️ 演奏が終了しました", " ( class: MultiPlayer )");
                 }, maxPerformanceTime);
 
-                // Tone.Transport はここで１度だけ開始
+                // ★ Transport を開始する前に、AudioContext の状態が running であることを確認 ★
                 Tone.Transport.start();
 
                 console.log(`▶️ すべての Player の再生を開始しました`, " ( class: MultiPlayer )");
