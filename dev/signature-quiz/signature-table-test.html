@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 15列グリッド</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        #horizontal-table table {
+            width: 100%;
+            /* テーブル全体をコンテナいっぱいに広げる */
+            border-collapse: collapse;
+            /* セル間の隙間をなくす */
+        }
+
+        #horizontal-table th,
+        #horizontal-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            /*  height: 100px;  */
+        }
+    </style>
+
+</head>
+
+<body>
+    <main>
+        <section id="settings" class="container">
+            <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="コンテンツ選択">
+                <input type="radio" class="btn-check" name="content-options" id="chart-radio" autocomplete="off"
+                    checked>
+                <label class="btn btn-outline-primary" for="chart-radio">調号一覧</label>
+
+                <input type="radio" class="btn-check" name="content-options" id="quiz-radio" autocomplete="off">
+                <label class="btn btn-outline-primary" for="quiz-radio">調号クイズ</label>
+            </div>
+            <p>セッティングだよね</p>
+
+        </section>
+
+        <section id="main-contents">
+            <section id="signature-chart-section" class="container toggle-element">
+                <h2>調号一覧表</h2>
+                <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="表示言語">
+                    <input type="radio" class="btn-check" name="language-options" id="japanese-radio" autocomplete="off"
+                        checked>
+                    <label class="btn btn-outline-primary" for="japanese-radio">日本語</label>
+
+                    <input type="radio" class="btn-check" name="language-options" id="english-radio" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="english-radio">英語</label>
+
+                    <input type="radio" class="btn-check" name="language-options" id="german-radio" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="german-radio">ドイツ語</label>
+                </div>
+
+                <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="表示する表">
+                    <input type="radio" class="btn-check" name="table-options" id="vertical-table-radio"
+                        autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="vertical-table-radio">縦長の表</label>
+
+                    <input type="radio" class="btn-check" name="table-options" id="horizontal-table-radio"
+                        autocomplete="off">
+                    <label class="btn btn-outline-primary" for="horizontal-table-radio">横長の表</label>
+                </div>
+
+                <section id="japanese-signature-chart-section" class="toggle-element">
+
+
+                    <div id="japanese-vertical-table" class="table-responsive mt-3 toggle-element">
+                        <p>japanese-vertical-table</p>
+                    </div>
+                    <div id="japanese-horizontal-table" class="table-responsive mt-3 toggle-element">
+                        <p>japanese-horizontal-table</p>
+                    </div>
+                </section>
+
+                <section id="english-signature-chart-section" class="toggle-element" style="display: none;">
+                    <div id="english-vertical-table" class="table-responsive mt-3 toggle-element">
+                        <p>english-vertical-table</p>
+                    </div>
+                    <div id="english-horizontal-table" class="table-responsive mt-3 toggle-element">
+                        <p>english-horizontal-table</p>
+                    </div>
+                </section>
+
+                <section id="german-signature-chart-section" class="toggle-element" style="display: none;">
+                    <div id="german-vertical-table" class="table-responsive mt-3 toggle-element">
+                        <p>german-vertical-table</p>
+                    </div>
+                    <div id="german-horizontal-table" class="table-responsive mt-3 toggle-element">
+                        <p>german-horizontal-table</p>
+                    </div>
+                </section>
+
+            </section>
+
+            <section id="signature-quiz-section" class="container toggle-element" style="display: none;">
+                <h2>調号クイズ</h2>
+                <p>signature-chart-section</p>
+            </section>
+
+        </section>
+    </main>
+
+    <script type="module">
+        import DomUtils from '/dev/modules/DomUtils.js';
+        document.addEventListener('DOMContentLoaded', function () {
+            const LANGUAGE_JAPAN = "LANGUAGE_JAPAN";
+            const LANGUAGE_ENGLISH = "LANGUAGE_ENGLISH";
+            const LANGUAGE_GERMAN = "LANGUAGE_GERMAN";
+
+            let currentLanguage = LANGUAGE_JAPAN;
+            let isVerticalTable = true; // 最初は
+
+
+            // getElementsByCamelCaseを使ってキャメルケースのIDで要素を取得
+            const elements = DomUtils.getElementsByCamelCase([
+                //"",
+
+                "settings",
+
+                "main-contents",
+
+                "chart-radio",
+                "quiz-radio",
+
+                "signature-chart-section",
+                "japanese-radio",
+                "english-radio",
+                "german-radio",
+                "horizontal-table-radio",
+                "vertical-table-radio",
+                'japanese-signature-chart-section',
+                "japanese-vertical-table",
+                "japanese-horizontal-table",
+                'english-signature-chart-section',
+                "english-vertical-table",
+                "english-horizontal-table",
+                'german-signature-chart-section',
+                "german-vertical-table",
+                "german-horizontal-table",
+                "signature-quiz-section"
+            ]);
+
+
+            console.log(elements);
+
+            function toggleElements(parentElement, elementsToShow) {
+                const targetElements = parentElement.querySelectorAll('.toggle-element'); // 例: class="toggle-element" の要素を対象とする
+
+                targetElements.forEach(element => {
+                    if (elementsToShow.includes(element)) {
+                        element.style.display = 'block'; // または visibility: 'visible', opacity: 1 など
+                    } else {
+                        element.style.display = 'none'; // または visibility: 'hidden', opacity: 0 など
+                    }
+                });
+            }
+
+            function changeLanguage(currentLanguage) {
+                switch (currentLanguage) {
+                    case LANGUAGE_JAPAN:
+                        toggleElements(
+                            elements.signatureChartSection,
+                            [elements.japaneseSignatureChartSection]
+                        );
+
+                        break;
+                    case LANGUAGE_ENGLISH:
+                        toggleElements(
+                            elements.signatureChartSection,
+                            [elements.englishSignatureChartSection]
+                        );
+                        break;
+                    case LANGUAGE_GERMAN:
+                        toggleElements(
+                            elements.signatureChartSection,
+                            [elements.germanSignatureChartSection]
+                        );
+                        break;
+                    default:
+                        console.log("言語が不明です。");
+                }
+            }
+
+            function toggleTable(isVerticalTable) {
+                if (isVerticalTable) {
+                    toggleElements(elements.japaneseSignatureChartSection, [elements.japaneseVerticalTable]);
+                    toggleElements(elements.englishSignatureChartSection, [elements.englishVerticalTable]);
+                    toggleElements(elements.germanSignatureChartSection, [elements.germanVerticalTable]);
+                } else {
+                    toggleElements(elements.japaneseSignatureChartSection, [elements.japaneseHorizontalTable]);
+                    toggleElements(elements.englishSignatureChartSection, [elements.englishHorizontalTable]);
+                    toggleElements(elements.germanSignatureChartSection, [elements.germanHorizontalTable]);
+                }
+            }
+
+            // イベントリスナーの設定
+            //調号一覧ボタンを押したら、
+            elements.chartRadio.addEventListener('change', function () {
+                function chartContentToChart(currentLanguage, isVerticalTable) {
+                    // 調号一覧を開く
+                    toggleElements(
+                        elements.mainContents,
+                        [elements.signatureChartSection]
+                    );
+                    changeLanguage(currentLanguage);
+                    toggleTable(isVerticalTable);
+                }
+                chartContentToChart(currentLanguage, isVerticalTable);
+            });
+
+            elements.quizRadio.addEventListener('change', function () {
+                function chartContentToQuiz(currentLanguage, isVerticalTable) {
+                    toggleElements(
+                        elements.mainContents,
+                        [elements.signatureQuizSection]
+                    );
+                }
+                chartContentToQuiz(currentLanguage, isVerticalTable);
+            });
+
+            // 日本語ラジオボタン
+            elements.japaneseRadio.addEventListener('change', function () {
+                // 日本語ラジオボタン
+                currentLanguage = LANGUAGE_JAPAN;
+                changeLanguage(currentLanguage);
+                toggleTable(isVerticalTable);
+            });
+
+            // 英語ラジオボタン
+            elements.englishRadio.addEventListener('change', function () {
+                currentLanguage = LANGUAGE_ENGLISH;
+                changeLanguage(currentLanguage);
+                toggleTable(isVerticalTable);
+            });
+
+            // ドイツ語ラジオボタン
+            elements.germanRadio.addEventListener('change', function () {
+                currentLanguage = LANGUAGE_GERMAN;
+                changeLanguage(currentLanguage);
+                toggleTable(isVerticalTable);
+            });
+
+            elements.verticalTableRadio.addEventListener('change', function () {
+                isVerticalTable = true;
+                toggleTable(isVerticalTable);
+            });
+
+            elements.horizontalTableRadio.addEventListener('change', function () {
+                isVerticalTable = false;
+                toggleTable(isVerticalTable);
+            });
+/*  
+            TODO:初期化の方法を指針版に。初期化関数？不要か。
+            // 初期表示の設定 (日本語の縦長テーブル)
+            elements.chartRadio.checked = true; // 初期状態で「調号一覧」ラジオボタンを選択
+            elements.japaneseRadio.checked = true; // 初期状態で「日本語」ラジオボタンを選択
+            elements.verticalTableRadio.checked = true; // 初期状態で「縦長の表」ラジオボタンを選択
+            toggleElements(elements.signatureChartSection, [elements.japaneseSignatureChartSection]);
+            toggleElements(elements.japaneseSignatureChartSection, [elements.japaneseVerticalTable]);
+  */
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

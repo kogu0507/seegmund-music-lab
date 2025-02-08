@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seegmund Music Lab - 音楽理論、音楽アプリ、技術ノートなどのリソースを提供します。">
+    <meta name="keywords" content="音楽アプリ, 音楽理論, 技術ノート, Seegmund Music Lab">
+    <meta name="robots" content="index, follow">
+
+    <title>Seegmund Music Lab - 日本語版</title>
+    <link rel="icon" href="/static/images/favicon.ico">
+    <link rel="alternate" href="https://seegmund-music-lab.com/en/" hreflang="en" />
+    <link rel="alternate" href="https://seegmund-music-lab.com/ja/" hreflang="ja" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.js"></script>
+    <style>
+        /* カスタムCSSは最小限に */
+        #chord-chart-section,
+        #chord-type-quiz-section {
+            display: none;
+            /* 初期状態では両方非表示 */
+        }
+
+        #chord-chart-section.active,
+        #chord-type-quiz-section.active {
+            display: block;
+            /* activeクラスを持つセクションを表示 */
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <main class="container mt-4">
+        <section id="settings">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="sectionToggle" id="view-chord-chart-button"
+                    autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="view-chord-chart-button">コード一覧を見る</label>
+
+                <input type="radio" class="btn-check" name="sectionToggle" id="view-chord-type-quiz-button"
+                    autocomplete="off">
+                <label class="btn btn-outline-primary" for="view-chord-type-quiz-button">コードタイプクイズ</label>
+            </div>
+        </section>
+
+        <section id="chord-chart-section" class="active">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card" aria-label="C Major Triad Information">
+                        <div class="card-header">
+                            <h3>C Major Triad</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="path/to/c-major-triad.png" alt="C Major Triad Image" class="img-fluid mb-3">
+                            <ul class="list-unstyled">
+                                <li><strong>コードタイプ：</strong>長三和音</li>
+                                <li><strong>構成音：</strong>C, E, G</li>
+                            </ul>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" aria-label="Play C Major Triad Sound"
+                                    data-root-note="C4" data-chord-type="major-triad">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card" aria-label="C Minor Triad Information">
+                        <div class="card-header">
+                            <h3>C Minor Triad</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="path/to/c-minor-triad.png" alt="C Minor Triad Image" class="img-fluid mb-3">
+                            <ul class="list-unstyled">
+                                <li><strong>コードタイプ：</strong>短三和音</li>
+                                <li><strong>構成音：</strong>C, Eb, G</li>
+                            </ul>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" aria-label="Play C Minor Triad Sound"
+                                    data-root-note="C4" data-chord-type="minor-triad">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="card" aria-label="C Augmented Triad Information">
+                        <div class="card-header">
+                            <h3>C Augmented Triad</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="path/to/c-augmented-triad.png" alt="C Augmented Triad Image"
+                                class="img-fluid mb-3">
+                            <ul class="list-unstyled">
+                                <li><strong>コードタイプ：</strong>増三和音</li>
+                                <li><strong>構成音：</strong>C, E, G#</li>
+                            </ul>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" aria-label="Play C Augmented Triad Sound"
+                                    data-root-note="C4" data-chord-type="augmented-triad">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card" aria-label="C Diminished Triad Information">
+                        <div class="card-header">
+                            <h3>C Diminished Triad</h3>
+                        </div>
+                        <div class="card-body">
+                            <img src="path/to/c-diminished-triad.png" alt="C Diminished Triad Image"
+                                class="img-fluid mb-3">
+                            <ul class="list-unstyled">
+                                <li><strong>コードタイプ：</strong>減三和音</li>
+                                <li><strong>構成音：</strong>C, Eb, Gb</li>
+                            </ul>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" aria-label="Play C Diminished Triad Sound"
+                                    data-root-note="C4" data-chord-type="diminished-triad">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="chord-type-quiz-section">
+            chord-type-quiz
+        </section>
+    </main>
+    <script type="module">
+        import DomUtils from '/dev/modules/DomUtils.js';
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const elements = DomUtils.getElementsByCamelCase([
+                'view-chord-chart-button', 'view-chord-type-quiz-button',
+                'chord-chart-section', 'chord-type-quiz-section'
+            ]);
+
+            // 初期表示
+            elements.chordChartSection.classList.add('active');
+
+            function toggleViewSection(isQuiz) {
+                const activeSection = isQuiz ? elements.chordTypeQuizSection : elements.chordChartSection;
+                const inactiveSection = isQuiz ? elements.chordChartSection : elements.chordTypeQuizSection;
+
+                activeSection.classList.add('active');
+                inactiveSection.classList.remove('active');
+            }
+
+            // コード生成関数
+            function generateChordNotes(rootNote, chordType) {
+                const root = Tone.Frequency(rootNote).toMidi();
+                let notes = [];
+
+                switch (chordType) {
+                    case 'major-triad':
+                        notes = [root, root + 4, root + 7];
+                        break;
+                    case 'minor-triad':
+                        notes = [root, root + 3, root + 7];
+                        break;
+                    case 'augmented-triad':
+                        notes = [root, root + 4, root + 8];
+                        break;
+                    case 'diminished-triad':
+                        notes = [root, root + 3, root + 6];
+                        break;
+                    // 他のコードタイプもここに追加
+                    default:
+                        console.error('Unknown chord type:', chordType);
+                        return [];
+                }
+
+                return notes.map(midi => Tone.Midi(midi).toFrequency());
+            }
+
+
+            elements.viewChordChartButton.addEventListener("change", function () {
+                toggleViewSection(false);
+            });
+            elements.viewChordTypeQuizButton.addEventListener("change", function () {
+                toggleViewSection(true);
+            });
+
+            // Playボタンのクリックイベント処理
+            const playButtons = document.querySelectorAll('.card-body .btn');
+            playButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const rootNote = button.dataset.rootNote;
+                    const chordType = button.dataset.chordType;
+                    const notes = generateChordNotes(rootNote, chordType);
+
+                    if (notes.length > 0) {
+                        const synth = new Tone.PolySynth(Tone.Synth).toDestination(); //PolySynthで同時発音
+                        synth.triggerAttackRelease(notes, '1n');
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/static/js/base.js" defer></script>
+    <script type="module">
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 15列グリッド</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        #horizontal-table table {
+            width: 100%;
+            /* テーブル全体をコンテナいっぱいに広げる */
+            border-collapse: collapse;
+            /* セル間の隙間をなくす */
+        }
+
+        #horizontal-table th,
+        #horizontal-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            /*  height: 100px;  */
+        }
+    </style>
+
+</head>
+
+<body>
+    <main>
+
+
+
+        <div class="container">
+            
+
+            <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="表示する表">
+                <input type="radio" class="btn-check" name="table-options" id="vertical-table-radio" autocomplete="off"
+                    checked>
+                <label class="btn btn-outline-primary" for="vertical-table-radio">縦長の表</label>
+
+                <input type="radio" class="btn-check" name="table-options" id="horizontal-table-radio"
+                    autocomplete="off">
+                <label class="btn btn-outline-primary" for="horizontal-table-radio">横長の表</label>
+            </div>
+
+            <div id="vertical-table" class="table-responsive mt-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center align-middle">key<br>signature</th>
+                            <th class="text-center align-middle">major</th>
+                            <th class="text-center align-middle">minor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center align-middle">♯7</td>
+                            <td class="text-center align-middle"><span class="fs-1">C♯</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">A♯</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♯6</td>
+                            <td class="text-center align-middle"><span class="fs-1">F♯</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">D♯</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♯5</td>
+                            <td class="text-center align-middle"><span class="fs-1">B</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">G♯</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♯4</td>
+                            <td class="text-center align-middle"><span class="fs-1">E</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">C♯</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♯3</td>
+                            <td class="text-center align-middle"><span class="fs-1">A</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">F♯</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♯2</td>
+                            <td class="text-center align-middle"><span class="fs-1">D</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">B</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♯1</td>
+                            <td class="text-center align-middle"><span class="fs-1">G</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">E</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">なし</td>
+                            <td class="text-center align-middle"><span class="fs-1">C</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">A</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♭1</td>
+                            <td class="text-center align-middle"><span class="fs-1">F</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">D</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♭2</td>
+                            <td class="text-center align-middle"><span class="fs-1">B♭</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">G</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♭3</td>
+                            <td class="text-center align-middle"><span class="fs-1">E♭</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">C</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♭4</td>
+                            <td class="text-center align-middle"><span class="fs-1">A♭</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">F</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♭5</td>
+                            <td class="text-center align-middle"><span class="fs-1">D♭</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">B♭</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♭6</td>
+                            <td class="text-center align-middle"><span class="fs-1">G♭</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">E♭</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">♭7</td>
+                            <td class="text-center align-middle"><span class="fs-1">C♭</span><br><span class="fs-6">major key</span></td>
+                            <td class="text-center align-middle"><span class="fs-1">A♭</span><br><span class="fs-6">minor key</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="vertical-table" class="table-responsive mt-3">
+                <table id="horizontal-table">
+                    <tr>
+                        <th class="text-center">♭7</th>
+                        <th class="text-center">♭6</th>
+                        <th class="text-center">♭5</th>
+                        <th class="text-center">♭4</th>
+                        <th class="text-center">♭3</th>
+                        <th class="text-center">♭2</th>
+                        <th class="text-center">♭1</th>
+                        <th class="text-center">なし</th>
+                        <th class="text-center">♯1</th>
+                        <th class="text-center">♯2</th>
+                        <th class="text-center">♯3</th>
+                        <th class="text-center">♯4</th>
+                        <th class="text-center">♯5</th>
+                        <th class="text-center">♯6</th>
+                        <th class="text-center">♯7</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center"><span>C♭</span><br><span>major key</span></td>
+                        <td class="text-center"><span>G♭</span><br><span>major key</span></td>
+                        <td class="text-center"><span>D♭</span><br><span>major key</span></td>
+                        <td class="text-center"><span>A♭</span><br><span>major key</span></td>
+                        <td class="text-center"><span>E♭</span><br><span>major key</span></td>
+                        <td class="text-center"><span>B♭</span><br><span>major key</span></td>
+                        <td class="text-center"><span>F</span><br><span>major key</span></td>
+                        <td class="text-center"><span>C</span><br><span>major key</span></td>
+                        <td class="text-center"><span>G</span><br><span>major key</span></td>
+                        <td class="text-center"><span>D</span><br><span>major key</span></td>
+                        <td class="text-center"><span>A</span><br><span>major key</span></td>
+                        <td class="text-center"><span>E</span><br><span>major key</span></td>
+                        <td class="text-center"><span>B</span><br><span>major key</span></td>
+                        <td class="text-center"><span>F♯</span><br><span>major key</span></td>
+                        <td class="text-center"><span>C♯</span><br><span>major key</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"><span>A♭</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>E♭</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>B♭</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>F</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>C</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>G</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>D</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>A</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>E</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>B</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>F♯</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>C♯</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>G♯</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>D♯</span><br><span>minor key</span></td>
+                        <td class="text-center"><span>A♯</span><br><span>minor key</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+        <script>
+            import DomUtils from '/dev/modules/DomUtils.js';
+            // getElementsByCamelCaseを使ってキャメルケースのIDで要素を取得
+            const elements = DomUtils.getElementsByCamelCase(['score-select', 'start-btn', 'stop-btn']);
+
+
+
+            const verticalTable = document.getElementById('vertical-table');
+            const horizontalTable = document.getElementById('horizontal-table');
+            const verticalTableRadio = document.getElementById('vertical-table-radio');
+            const horizontalTableRadio = document.getElementById('horizontal-table-radio');
+
+            function showTable(tableToShow, tableToHide) {
+                tableToShow.style.display = 'block';
+                tableToHide.style.display = 'none';
+            }
+
+            showTable(verticalTable, horizontalTable); // 初期表示
+
+            verticalTableRadio.addEventListener('change', () => {
+                showTable(verticalTable, horizontalTable);
+            });
+
+            horizontalTableRadio.addEventListener('change', () => {
+                showTable(horizontalTable, verticalTable);
+            });
+        </script>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
