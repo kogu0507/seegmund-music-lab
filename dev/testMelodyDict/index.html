@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testMelodyDict2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<script src="https://unpkg.com/tone@15.0.4/build/Tone.js"></script>-->
+    <style>
+        /*  カスタムCSSは極力使用しない。ブートストラップをつかう。  */
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Melody Dictation Test</h1>
+
+        <div id="start-dictation-div" class="card card-body my-3">
+            <p>聴音を開始するには、ボタンを押してください</p>
+            <button id="start-dictation-button" class="btn btn-primary btn-lg">聴音を始める</button>
+        </div>
+        
+        <section id="dictation-content" class="d-none">
+            <p>再生するボタンを選択してください</p>
+
+            <section id="trial-section" class="card card-body my-3">
+                <h2>試験再生</h2>
+                <p>試験を想定したインターバル付きの演奏です。</p>
+                <div class="my-3">
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="play-radio btn-check" name="section" id="trial" autocomplete="off"
+                            value="trial">
+                        <label class="btn btn-outline-success" for="trial">試験再生</label>
+                    </div>
+                </div>
+                <button class="stop-button btn btn-danger">ストップ</button>
+            </section>
+
+            <section id="partial-playback-section" class="card card-body my-3">
+                <h2>部分再生</h2>
+                <p>指定の小節範囲を1回だけ演奏します</p>
+                <div class="my-3">
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="play-radio btn-check" name="section" id="1-8" autocomplete="off"
+                            value="1-8" data-start-bar="1" data-end-bar="8">
+                        <label class="btn btn-outline-primary" for="1-8">1-8小節</label>
+                    </div>
+                </div>
+
+                <div class="my-3">
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="play-radio btn-check" name="section" id="1-4" autocomplete="off"
+                            value="1-4" data-start-bar="1" data-end-bar="4">
+                        <label class="btn btn-outline-primary" for="1-4">1-4小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="5-8" autocomplete="off"
+                            value="5-8" data-start-bar="5" data-end-bar="8">
+                        <label class="btn btn-outline-primary" for="5-8">5-8小節</label>
+                    </div>
+                </div>
+
+                <div class="my-3">
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="play-radio btn-check" name="section" id="1-2" autocomplete="off"
+                            value="1-2" data-start-bar="1" data-end-bar="2">
+                        <label class="btn btn-outline-primary" for="1-2">1-2小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="3-4" autocomplete="off"
+                            value="3-4" data-start-bar="3" data-end-bar="4">
+                        <label class="btn btn-outline-primary" for="3-4">3-4小節</label>
+                    </div>
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="play-radio btn-check" name="section" id="5-6" autocomplete="off"
+                            value="5-6" data-start-bar="5" data-end-bar="6">
+                        <label class="btn btn-outline-primary" for="5-6">5-6小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="7-8" autocomplete="off"
+                            value="7-8" data-start-bar="7" data-end-bar="8">
+                        <label class="btn btn-outline-primary" for="7-8">7-8小節</label>
+                    </div>
+                </div>
+
+                <div class="my-3">
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="play-radio btn-check" name="section" id="1" autocomplete="off"
+                            value="1" data-start-bar="1" data-end-bar="1">
+                        <label class="btn btn-outline-primary" for="1">1小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="2" autocomplete="off"
+                            value="2" data-start-bar="2" data-end-bar="2">
+                        <label class="btn btn-outline-primary" for="2">2小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="3" autocomplete="off"
+                            value="3" data-start-bar="3" data-end-bar="3">
+                        <label class="btn btn-outline-primary" for="3">3小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="4" autocomplete="off"
+                            value="4" data-start-bar="4" data-end-bar="4">
+                        <label class="btn btn-outline-primary" for="4">4小節</label>
+                    </div>
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="play-radio btn-check" name="section" id="5" autocomplete="off"
+                            value="5" data-start-bar="5" data-end-bar="5">
+                        <label class="btn btn-outline-primary" for="5">5小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="6" autocomplete="off"
+                            value="6" data-start-bar="6" data-end-bar="6">
+                        <label class="btn btn-outline-primary" for="6">6小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="7" autocomplete="off"
+                            value="7" data-start-bar="7" data-end-bar="7">
+                        <label class="btn btn-outline-primary" for="7">7小節</label>
+                        <input type="radio" class="play-radio btn-check" name="section" id="8" autocomplete="off"
+                            value="8" data-start-bar="8" data-end-bar="8">
+                        <label class="btn btn-outline-primary" for="8">8小節</label>
+                    </div>
+                </div>
+                <button class="stop-button btn btn-danger">ストップ</button>
+            </section>
+
+
+            <!-- TODO: あとでscript.jsにインポート＆プレイリストのテストで使う
+        <div class="col-md-4">
+            <button class="btn btn-primary" onclick="bell()">test ベルを鳴らす2</button>
+            <button class="btn btn-primary" onclick="playChord('C4', 'major', '4')">C Major triad</button>
+            <button class="btn btn-primary" id="test-play">testPlay</button>
+        </div>
+        -->
+            <!-- TODO: 解答表示やヒントなど。音再生が完成したら -->
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>

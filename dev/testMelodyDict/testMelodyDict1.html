@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap ボタン グループ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1></h1>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="trial" autocomplete="off" value="trial">
+                <label class="btn btn-outline-success" for="trial">試験再生</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1-8" autocomplete="off" value="1-8">
+                <label class="btn btn-outline-primary" for="1-8">1-8小節</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1-4" autocomplete="off" value="1-4">
+                <label class="btn btn-outline-primary" for="1-4">1-4小節</label>
+                <input type="radio" class="btn-check" name="section" id="5-8" autocomplete="off" value="5-8">
+                <label class="btn btn-outline-primary" for="5-8">5-8小節</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1-2" autocomplete="off" value="1-2">
+                <label class="btn btn-outline-primary" for="1-2">1-2小節</label>
+                <input type="radio" class="btn-check" name="section" id="3-4" autocomplete="off" value="3-4">
+                <label class="btn btn-outline-primary" for="3-4">3-4小節</label>
+            </div>
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="5-6" autocomplete="off" value="5-6">
+                <label class="btn btn-outline-primary" for="5-6">5-6小節</label>
+                <input type="radio" class="btn-check" name="section" id="7-8" autocomplete="off" value="7-8">
+                <label class="btn btn-outline-primary" for="7-8">7-8小節</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1" autocomplete="off" value="1">
+                <label class="btn btn-outline-primary" for="1">1小節</label>
+                <input type="radio" class="btn-check" name="section" id="2" autocomplete="off" value="2">
+                <label class="btn btn-outline-primary" for="2">2小節</label>
+                <input type="radio" class="btn-check" name="section" id="3" autocomplete="off" value="3">
+                <label class="btn btn-outline-primary" for="3">3小節</label>
+                <input type="radio" class="btn-check" name="section" id="4" autocomplete="off" value="4">
+                <label class="btn btn-outline-primary" for="4">4小節</label>
+            </div>
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="5" autocomplete="off" value="5">
+                <label class="btn btn-outline-primary" for="5">5小節</label>
+                <input type="radio" class="btn-check" name="section" id="6" autocomplete="off" value="6">
+                <label class="btn btn-outline-primary" for="6">6小節</label>
+                <input type="radio" class="btn-check" name="section" id="7" autocomplete="off" value="7">
+                <label class="btn btn-outline-primary" for="7">7小節</label>
+                <input type="radio" class="btn-check" name="section" id="8" autocomplete="off" value="8">
+                <label class="btn btn-outline-primary" for="8">8小節</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <button class="btn btn-primary" onclick="bell()">test ベルを鳴らす2</button>
+        <button class="btn btn-primary" onclick="playChord('C4', 'major', '4')">C Major triad</button>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Tone.jsを追加 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+
+    <script>
+        // サンプラーの定義
+        const PIANO_SAMPLER = {
+            name: "ピアノ",
+            type: "sampler",
+            samples: {
+                A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3",
+                A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
+                A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
+                A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
+                A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
+                A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3",
+                A6: "A6.mp3", C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3",
+                A7: "A7.mp3", C8: "C8.mp3"
+            },
+            baseUrl: "https://tonejs.github.io/audio/salamander/"
+        };
+
+        // サンプラーの初期化
+        let pianoSampler = new Tone.Sampler(PIANO_SAMPLER.samples, {
+            baseUrl: PIANO_SAMPLER.baseUrl
+        }).toDestination();
+
+        function bell() {
+            // AudioContextの起動
+            Tone.start();
+
+            // サイン波のシンセを作成（ベルっぽい音）
+            const synth = new Tone.Synth({
+                oscillator: {
+                    type: 'sine' // サイン波（ベルのような音）
+                },
+                envelope: {
+                    attack: 0.01,  // 立ち上がり
+                    decay: 2,      // 余韻
+                    sustain: 0,    // 持続なし
+                    release: 2     // フェードアウト
+                }
+            }).toDestination();
+
+            // 音のパターンを作成（4回で終了）
+            const sequence = new Tone.Sequence(
+                (time, note) => {
+                    synth.triggerAttackRelease(note, "16n", time); // 16分音符の長さで鳴らす
+                },
+                ["A5", "A5", "A5", "A6"], // 4回鳴らす
+                "2n" // 2分音符ごとに鳴らす
+            );
+
+            // 4回でループしないように設定
+            sequence.loop = false;
+
+            // シーケンスの開始
+            sequence.start(0);
+
+            // Tone.Transport を開始
+            Tone.Transport.start();
+
+            // 4回の再生が終わったら Transport を停止（音のズレを考慮し 2秒後に停止）
+            setTimeout(() => {
+                Tone.Transport.stop();
+                sequence.dispose(); // メモリ解放
+            }, 5000);
+        }
+
+
+        function playChord(rootNote, chordType, duration) {
+            const triads = {
+                "major": [0, 4, 7],
+                "minor": [0, 3, 7]
+            };
+
+            const root = Tone.Frequency(rootNote);
+            const notes = triads[chordType].map(interval => root.transpose(interval));
+            // サンプラーを使って和音を鳴らす
+            pianoSampler.triggerAttackRelease(notes, duration);
+        }
+
+        const TICKS = {
+            "/1": 1920,   // 全音符
+            "/2": 960,    // 二分音符
+            "/4": 480,    // 四分音符
+            "/8": 240,    // 八分音符
+            "/16": 120,   // 十六分音符
+            "/2.": 1440,  // 付点二分音符 (960 * 1.5)
+            "/4.": 720,   // 付点四分音符 (480 * 1.5)
+            "/8.": 360,   // 付点八分音符 (240 * 1.5)
+            "/4/3": 320,  // 四分音符の三連符 (480 * 2 / 3)
+            "/4/3*2": 640,// 四分音符の三連符2つ分 (320 * 2)
+            "/8/3": 160,  // 八分音符の三連符 (240 * 2 / 3)
+            "/16/3": 80,  // 十六分音符の三連符 (120 * 2 / 3)
+            "/16*0": 0,  // 十六分音符が4回続く時に便利
+            "/16*1": 120,  // 十六分音符が4回続く時に便利
+            "/16*2": 240,  // 十六分音符が4回続く時に便利
+            "/16*3": 360,  // 十六分音符が4回続く時に便利
+            "/0": 0       // ゼロ
+        };
+
+        // TODO: 
+
+        // サンプルデータ (8小節)
+/*          const PART1_NOTES = {
+            // 通奏8小節
+            // Template　{ note: "X4", duration: TICKS["/4"], time: "0:0:" + TICKS["/0"].toString(), velocity: 1 },
+            bar: 0, beat: 0, mult: "/1*1" //1小節目1拍目の最初
+            bar: 0, beat: 0, mult: "/2*1" //1小節目1拍目の1拍を2分割したタイミング（4/4なら八分休符が入る）
+            bar: 0, beat: 0, mult: "/3*1" //1小節目1拍目の1拍を3分割したタイミング（4/4なら三連符の八分休符が入る）
+            bar: 0, beat: 0, mult: "/3*2" //1小節目1拍目の1拍を3分割したタイミング（4/4なら三連符の八分休符が２つが入る）
+            bar: 0, beat: 0, mult: "/4*1" //1小節目1拍目の1拍を4分割したタイミング（4/4なら什六分休符が1つが入る）
+
+            bar1to8: [
+
+                // 1小節目
+                { note: "C4", duration: TICKS["/4"], time: "0:0:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "D4", duration: TICKS["/4"], time: "0:1:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "E4", duration: TICKS["/4"], time: "0:2:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "F4", duration: TICKS["/4"], time: "0:3:" + TICKS["/0"].toString(), velocity: 1 },
+                // 2小節目
+                { note: "G4", duration: TICKS["/4"], time: "1:0:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "F4", duration: TICKS["/8"], time: "1:1:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "E4", duration: TICKS["/8"], time: "1:1:" + TICKS["/8"].toString(), velocity: 1 },
+                { note: "D4", duration: TICKS["/4"], time: "1:2:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: null, duration: TICKS["/4"], time: "1:3:" + TICKS["/0"].toString(), velocity: 1 },
+                // 3小節目
+                { note: "E4", duration: TICKS["/8"], time: "2:0:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "F4", duration: TICKS["/8"], time: "2:0:" + TICKS["/8"].toString(), velocity: 1 },
+                { note: "G4", duration: TICKS["/8"], time: "2:1:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "A4", duration: TICKS["/8"], time: "2:1:" + TICKS["/8"].toString(), velocity: 1 },
+                { note: "G4", duration: TICKS["/4."], time: "2:2:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "C5", duration: TICKS["/8"], time: "2:3:" + TICKS["/8"].toString(), velocity: 1 },
+                // 4小節目
+                { note: "D5", duration: TICKS["/8"], time: "3:0:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "C5", duration: TICKS["/8"], time: "3:0:" + TICKS["/8"].toString(), velocity: 1 },
+                { note: "B4", duration: TICKS["/8"], time: "3:1:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "A4", duration: TICKS["/8"], time: "3:1:" + TICKS["/8"].toString(), velocity: 1 },
+                { note: "G4", duration: TICKS["/4"], time: "3:2:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: null, duration: TICKS["/4"], time: "3:3:" + TICKS["/0"].toString(), velocity: 1 },
+                // 5小節目
+                { note: "C4", duration: TICKS["/4"], time: "4:0:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "D4", duration: TICKS["/4/3"], time: "4:1:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "E4", duration: TICKS["/4/3"], time: "4:1:" + TICKS["/4/3"].toString(), velocity: 1 },
+                { note: "F4", duration: TICKS["/4/3"], time: "4:1:" + TICKS["/4/3*2"].toString(), velocity: 1 },
+                { note: "G4", duration: TICKS["/4"], time: "4:2:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "A4", duration: TICKS["/4/3*2"], time: "4:3:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "A4", duration: TICKS["/4/3"], time: "4:3:" + TICKS["/4/3*2"].toString(), velocity: 1 },
+                // 6小節目
+                { note: "C4", duration: TICKS["/16"], time: "5:0:" + TICKS["/16*0"].toString(), velocity: 1 },
+                { note: "C4", duration: TICKS["/16"], time: "5:0:" + TICKS["/16*1"].toString(), velocity: 1 },
+                { note: "C4", duration: TICKS["/16"], time: "5:0:" + TICKS["/16*2"].toString(), velocity: 1 },
+                { note: "C4", duration: TICKS["/16"], time: "5:0:" + TICKS["/16*3"].toString(), velocity: 1 },
+                { note: null, duration: TICKS["/4"], time: "5:1:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "C4", duration: TICKS["/8."], time: "5:2:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "C4", duration: TICKS["/16"], time: "5:2:" + TICKS["/8."].toString(), velocity: 1 },
+                { note: null, duration: TICKS["/4"], time: "5:3:" + TICKS["/0"].toString(), velocity: 1 },
+                // 7小節目
+                { note: "C4", duration: TICKS["/2"], time: "6:0:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "C4", duration: TICKS["/2"], time: "6:2:" + TICKS["/0"].toString(), velocity: 1 },
+                // 8小節目
+                { note: "E5", duration: TICKS["/4."], time: "7:0:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: "D5", duration: TICKS["/8"], time: "7:1:" + TICKS["/8"].toString(), velocity: 1 },
+                { note: "C5", duration: TICKS["/4"], time: "7:2:" + TICKS["/0"].toString(), velocity: 1 },
+                { note: null, duration: TICKS["/4"], time: "7:3:" + TICKS["/0"].toString(), velocity: 1 },
+            ],
+            bar1to4: [], // 1～4小節
+            bar5to8: [], // 5～8小節
+            bar1to2: [], // 1～2小節
+            bar3to4: [], // 3～4小節
+            bar5to6: [], // 5～6小節
+            bar7to8: [], // 7～8小節
+            bar1to1: [], // 1小節目
+            bar2to2: [], // 2小節目
+            bar3to3: [], // 3小節目
+            bar4to4: [], // 4小節目
+            bar5to5: [], // 5小節目
+            bar6to6: [], // 6小節目
+            bar7to7: [], // 7小節目
+            bar8to8: []  // 8小節目
+        };
+  */
+        function createBarRange(notes, startBar, endBar) {
+            const startIndex = (startBar - 1) * 4 * 4; // 小節数 * 拍数/小節 * 要素数/拍
+            const endIndex = endBar * 4 * 4;
+            return notes.slice(startIndex, endIndex);
+        }
+
+        function createAllBarRanges(notes) {
+            const barRanges = {};
+
+            // 4小節ごと
+            barRanges.bar1to4 = createBarRange(notes, 1, 4);
+            barRanges.bar5to8 = createBarRange(notes, 5, 8);
+
+            // 2小節ごと
+            barRanges.bar1to2 = createBarRange(notes, 1, 2);
+            barRanges.bar3to4 = createBarRange(notes, 3, 4);
+            barRanges.bar5to6 = createBarRange(notes, 5, 6);
+            barRanges.bar7to8 = createBarRange(notes, 7, 8);
+
+            // 1小節ごと
+            for (let i = 1; i <= 8; i++) {
+                barRanges[`bar${i}to${i}`] = createBarRange(notes, i, i);
+            }
+
+            return barRanges;
+        }
+
+        // すべての小節範囲を作成
+        const part1BarRanges = createAllBarRanges(PART1_NOTES.bar1to8);
+
+        // PART1_NOTESに作成した小節範囲を格納
+        Object.assign(PART1_NOTES, part1BarRanges);
+
+        // 確認
+        console.log(PART1_NOTES.bar1to4);
+        console.log(PART1_NOTES.bar3to3);
+
+
+
+        const buttons = document.querySelectorAll('.btn-check');
+
+        /**
+        * 指定した小節範囲のノートを抽出し、即時再生する関数（null のノートはスキップ）
+        * @param {Array} notes - 全ノートの配列（例：PART1_NOTES.bar1to8）
+        * @param {number} startBar - 再生開始小節（1から始まる）
+        * @param {number} endBar - 再生終了小節（1から始まる）
+        */
+        function playBarRangeFixed(notes, startBar, endBar) {
+            // 1. ノートオブジェクトの time プロパティから小節番号を抽出してフィルタ
+            const filteredNotes = notes.filter(noteObj => {
+                // noteObj.time が未定義なら除外
+                if (!noteObj.time) return false;
+                // time は "bar:beat:subdivision" 形式なので最初の部分を取得
+                const barIndex = parseInt(noteObj.time.split(':')[0], 10);
+                // Tone.js では最初の小節は "0" になっているので、人間的には (barIndex + 1)
+                const barNumber = barIndex + 1;
+                return barNumber >= startBar && barNumber <= endBar;
+            });
+
+            if (filteredNotes.length === 0) {
+                console.log("指定された小節範囲にノートがありません。");
+                return;
+            }
+
+            // 2. 再生開始時刻の調整
+            // フィルタされたノートの先頭の時刻を基準に、すべてのノートの再生時刻を相対時間に変換する
+            const firstNoteTime = Tone.Time(filteredNotes[0].time).toSeconds();
+
+            // 3. Tone.Transport が起動していない場合は起動する
+            if (Tone.Transport.state !== "started") {
+                Tone.Transport.start();
+            }
+
+            // 4. フィルタしたノートをそれぞれスケジュールする
+            filteredNotes.forEach(noteObj => {
+                // ノートが null ならスキップ（休符の扱いの場合は再生しない）
+                if (!noteObj.note) return;
+
+                // 絶対時刻を秒に変換し、先頭のノートの時刻分オフセットを引くことで相対時刻に調整
+                const relativeTime = Tone.Time(noteObj.time).toSeconds() - firstNoteTime;
+                // 現在の時刻（Tone.now()）からのオフセットとしてノートを再生
+                pianoSampler.triggerAttackRelease(
+                    noteObj.note,              // 再生するノート
+                    noteObj.duration,          // ノートの長さ
+                    Tone.now() + relativeTime, // 再生開始時刻（現在時刻からのオフセット）
+                    noteObj.velocity           // ベロシティ（音量）
+                );
+            });
+        }
+
+        async function interval(duration) {
+            return new Promise(resolve => setTimeout(resolve, duration));
+        }
+
+
+
+
+        const playList = [
+            { action: playChord, args: ['C4', 'major', '2'] }, // 主和音を鳴らす
+            { action: interval, args: [4000] }, // 4秒のインターバル
+            { action: playBarRangeFixed, args: [PART1_NOTES.bar1to8, 1, 8] },
+            { action: interval, args: [20000] },
+            { action: playBarRangeFixed, args: [PART1_NOTES.bar1to4, 1, 4] },
+            { action: interval, args: [20000] },
+            { action: playBarRangeFixed, args: [PART1_NOTES.bar1to4, 1, 4] },
+            { action: interval, args: [20000] },
+            { action: playBarRangeFixed, args: [PART1_NOTES.bar1to8, 1, 8] },
+            { action: interval, args: [20000] },
+            { action: playBarRangeFixed, args: [PART1_NOTES.bar5to8, 5, 8] },
+            { action: interval, args: [20000] },
+            { action: playBarRangeFixed, args: [PART1_NOTES.bar5to8, 5, 8] },
+            { action: interval, args: [20000] },
+            { action: playBarRangeFixed, args: [PART1_NOTES.bar1to8, 1, 8] },
+            { action: interval, args: [120000] },
+            { action: bell, args: [] }
+        ];
+
+        let currentPlayListIndex = 0;
+
+        async function executePlayList() {
+            if (currentPlayListIndex < playList.length) {
+                const item = playList[currentPlayListIndex];
+                const { action, args } = item; // 分割代入でactionとargsを取り出す
+
+                await action(...args); // actionを実行。intervalはPromiseなのでawaitで待つ
+
+                currentPlayListIndex++;
+                executePlayList(); // 次の要素を実行
+            }
+        }
+
+        // 範囲指定用プレイリスト
+        const rangePlayList = {
+            "1-8": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar1to8, 1, 8] }
+            ],
+            "1-4": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar1to4, 1, 4] }
+            ],
+            "5-8": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar5to8, 5, 8] }
+            ],
+            "1-2": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar1to2, 1, 2] }
+            ],
+            "3-4": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar3to4, 3, 4] }
+            ],
+            "5-6": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar5to6, 5, 6] }
+            ],
+            "7-8": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar7to8, 7, 8] }
+            ],
+            "1": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar1to1, 1, 1] }
+            ],
+            "2": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar2to2, 2, 2] }
+            ],
+            "3": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar3to3, 3, 3] }
+            ],
+            "4": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar4to4, 4, 4] }
+            ],
+            "5": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar5to5, 5, 5] }
+            ],
+            "6": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar6to6, 6, 6] }
+            ],
+            "7": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar7to7, 7, 7] }
+            ],
+            "8": [
+                { action: interval, args: [4000] },
+                { action: playBarRangeFixed, args: [PART1_NOTES.bar8to8, 8, 8] }
+            ]
+        };
+
+        async function executeRangePlayList(range) {
+            const playList = rangePlayList[range];
+            if (playList) {
+                for (const item of playList) {
+                    const { action, args } = item;
+                    await action(...args);
+                }
+            }
+        }
+
+        buttons.forEach(button => {
+            button.addEventListener('change', function () {
+                const selectedValue = this.value;
+                console.log('選択された値:', this.value);
+
+                // ここに選択された値に応じた処理を記述
+                switch (selectedValue) {
+                    case 'trial':
+                        // 試験再生の処理（例：音声ファイルを再生）
+                        console.log("試験再生を開始します。");
+                        currentPlayListIndex = 0; // 再生開始時にインデックスをリセット
+                        executePlayList();
+                        break;
+                    case '1-8':
+                        console.log("1-8小節を再生します。");
+                        // PART1_NOTES.bar1to8 は全ノートの配列（8小節分のデータ）
+                        playBarRangeFixed(PART1_NOTES.bar1to8, 1, 8);
+                        break;
+
+                    case '1-4':
+                        console.log("1-4小節を再生します。");
+                        break;
+                    case '5-8':
+                        console.log("5-8小節を再生します。");
+                        // highlightSection(5, 8);
+                        break;
+                    case '1-2':
+                        console.log("1-2小節を再生します。");
+                        // highlightSection(1, 2);
+                        break;
+                    case '3-4':
+                        console.log("3-4小節を再生します。");
+                        // highlightSection(3, 4);
+                        break;
+                    case '5-6':
+                        console.log("5-6小節を再生します。");
+                        // highlightSection(5, 6);
+                        break;
+                    case '7-8':
+                        console.log("7-8小節を再生します。");
+                        // highlightSection(7, 8);
+                        break;
+                    case '1':
+                        console.log("1小節目を再生します。");
+                        // highlightSection(1, 1);
+                        break;
+                    case '2':
+                        console.log("2小節目を再生します。");
+                        // highlightSection(2, 2);
+                        break;
+                    case '3':
+                        console.log("3小節目を再生します。");
+                        // highlightSection(3, 3);
+                        break;
+                    case '4':
+                        console.log("4小節目を再生します。");
+                        // highlightSection(4, 4);
+                        break;
+                    case '5':
+                        console.log("5小節目を再生します。");
+                        // highlightSection(5, 5);
+                        break;
+                    case '6':
+                        console.log("6小節目を再生します。");
+                        // highlightSection(6, 6);
+                        break;
+                    case '7':
+                        console.log("7小節目を再生します。");
+                        // highlightSection(7, 7);
+                        break;
+                    case '8':
+                        console.log("8小節目を再生します。");
+                        // highlightSection(8, 8);
+                        break;
+                    default:
+                        break;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

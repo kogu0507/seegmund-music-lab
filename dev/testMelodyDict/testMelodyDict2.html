@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testMelodyDict2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1></h1>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="trial" autocomplete="off" value="trial">
+                <label class="btn btn-outline-success" for="trial">試験再生</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1-8" autocomplete="off" value="1-8">
+                <label class="btn btn-outline-primary" for="1-8">1-8小節</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1-4" autocomplete="off" value="1-4">
+                <label class="btn btn-outline-primary" for="1-4">1-4小節</label>
+                <input type="radio" class="btn-check" name="section" id="5-8" autocomplete="off" value="5-8">
+                <label class="btn btn-outline-primary" for="5-8">5-8小節</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1-2" autocomplete="off" value="1-2">
+                <label class="btn btn-outline-primary" for="1-2">1-2小節</label>
+                <input type="radio" class="btn-check" name="section" id="3-4" autocomplete="off" value="3-4">
+                <label class="btn btn-outline-primary" for="3-4">3-4小節</label>
+            </div>
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="5-6" autocomplete="off" value="5-6">
+                <label class="btn btn-outline-primary" for="5-6">5-6小節</label>
+                <input type="radio" class="btn-check" name="section" id="7-8" autocomplete="off" value="7-8">
+                <label class="btn btn-outline-primary" for="7-8">7-8小節</label>
+            </div>
+        </div>
+
+        <div class="btn-group-container">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="1" autocomplete="off" value="1">
+                <label class="btn btn-outline-primary" for="1">1小節</label>
+                <input type="radio" class="btn-check" name="section" id="2" autocomplete="off" value="2">
+                <label class="btn btn-outline-primary" for="2">2小節</label>
+                <input type="radio" class="btn-check" name="section" id="3" autocomplete="off" value="3">
+                <label class="btn btn-outline-primary" for="3">3小節</label>
+                <input type="radio" class="btn-check" name="section" id="4" autocomplete="off" value="4">
+                <label class="btn btn-outline-primary" for="4">4小節</label>
+            </div>
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="section" id="5" autocomplete="off" value="5">
+                <label class="btn btn-outline-primary" for="5">5小節</label>
+                <input type="radio" class="btn-check" name="section" id="6" autocomplete="off" value="6">
+                <label class="btn btn-outline-primary" for="6">6小節</label>
+                <input type="radio" class="btn-check" name="section" id="7" autocomplete="off" value="7">
+                <label class="btn btn-outline-primary" for="7">7小節</label>
+                <input type="radio" class="btn-check" name="section" id="8" autocomplete="off" value="8">
+                <label class="btn btn-outline-primary" for="8">8小節</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <button class="btn btn-primary" onclick="bell()">test ベルを鳴らす2</button>
+        <button class="btn btn-primary" onclick="playChord('C4', 'major', '4')">C Major triad</button>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Tone.jsを追加 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+
+
+    <script>
+        function bell() {
+            // AudioContextの起動
+            Tone.start();
+
+            // サイン波のシンセを作成（ベルっぽい音）
+            const synth = new Tone.Synth({
+                oscillator: {
+                    type: 'sine' // サイン波（ベルのような音）
+                },
+                envelope: {
+                    attack: 0.01,  // 立ち上がり
+                    decay: 2,      // 余韻
+                    sustain: 0,    // 持続なし
+                    release: 2     // フェードアウト
+                }
+            }).toDestination();
+
+            // 音のパターンを作成（4回で終了）
+            const sequence = new Tone.Sequence(
+                (time, note) => {
+                    synth.triggerAttackRelease(note, "16n", time); // 16分音符の長さで鳴らす
+                },
+                ["A5", "A5", "A5", "A6"], // 4回鳴らす
+                "2n" // 2分音符ごとに鳴らす
+            );
+
+            // 4回でループしないように設定
+            sequence.loop = false;
+
+            // シーケンスの開始
+            sequence.start(0);
+
+            // Tone.Transport を開始
+            Tone.Transport.start();
+
+            // 4回の再生が終わったら Transport を停止（音のズレを考慮し 2秒後に停止）
+            setTimeout(() => {
+                Tone.Transport.stop();
+                sequence.dispose(); // メモリ解放
+            }, 5000);
+        }
+
+
+        function playChord(rootNote, chordType, duration) {
+            const triads = {
+                "major": [0, 4, 7],
+                "minor": [0, 3, 7]
+            };
+
+            const root = Tone.Frequency(rootNote);
+            const notes = triads[chordType].map(interval => root.transpose(interval));
+            // サンプラーを使って和音を鳴らす
+            pianoSampler.triggerAttackRelease(notes, duration);
+        }
+    </script>
+
+    <script>
+        // instruments.jsにエクスポート予定
+        const PIANO_SAMPLER = {
+            name: "ピアノ",
+            type: "sampler",
+            samples: {
+                A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3",
+                A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
+                A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
+                A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
+                A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
+                A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3",
+                A6: "A6.mp3", C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3",
+                A7: "A7.mp3", C8: "C8.mp3"
+            },
+            baseUrl: "https://tonejs.github.io/audio/salamander/"
+        };
+
+        // サンプラーの初期化
+        let pianoSampler = new Tone.Sampler(PIANO_SAMPLER.samples, {
+            baseUrl: PIANO_SAMPLER.baseUrl
+        }).toDestination();
+
+        function createDuration(oneBeat, ratioArr) {
+            if (!Array.isArray(ratioArr) || ratioArr.length === 0) {
+                throw new Error("Invalid ratioArr: ratioArr must be a non-empty array");
+            }
+
+            let totalDuration = 0;
+            for (const ratio of ratioArr) {
+                if (typeof ratio !== 'number') {
+                    throw new Error(`Invalid ratio: ${ratio}`);
+                }
+                totalDuration += oneBeat * ratio;
+            }
+            return totalDuration;
+        }
+
+        function createTie(...notes) {
+            if (notes.length < 2) {
+                throw new Error("createTie requires at least two notes");
+            }
+
+            const firstNote = notes[0];
+            const tiedDuration = notes.reduce((sum, note) => {
+                if (note.note !== firstNote.note) {
+                    throw new Error("Cannot tie notes with different pitches");
+                }
+                return sum + note.duration;
+            }, 0);
+
+            return createNote(firstNote.note, tiedDuration);
+        }
+
+        // 音符を作成する関数（音符、長さ、タイ、速度）
+        function createNote(note, duration, velocity = 0.8) {
+            return { note, duration: duration, velocity };
+        }
+
+
+        // BPMを設定 (例: 120 BPM)
+        Tone.Transport.bpm.value = 60;
+
+        // 拍子を設定 (例: 4/4拍子)
+        Tone.Transport.timeSignature = [4, 4];
+
+        // 基準の拍を定義 (曲に合わせて変更可能)
+        const ONE_BEAT = Tone.Time("4n"); // 4/4拍子の場合
+        // const ONE_BEAT = Tone.Time("8n"); // 6/8拍子
+
+        // メロディの作成（4/4拍子の例）
+        const melody = [
+            // 1小節目 四分音符テスト
+            createNote("C4", createDuration(ONE_BEAT, [1.00])),      // 四分音符（基準音符）
+            createNote("C4", createDuration(ONE_BEAT, [1.00])),      // 四分音符（基準音符）
+            createNote("C4", createDuration(ONE_BEAT, [2.00])),      // 二分音符（四分音符の2倍）
+
+            // 2小節目 八分音符テスト　ラーメンパクチー
+            createNote("C4", createDuration(ONE_BEAT, [1.00])),      // 四分音符（基準音符）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [1.00])),      // 四分音符（基準音符）
+            // 3小節目 付点、シンコペーションテスト　たーんとクリーム
+            createNote("C4", createDuration(ONE_BEAT, [1.50])),      // 付点四分音符（四分音符の1.5倍）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [1.00])),      // 四分音符（基準音符）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            // 4小節目 休符テスト
+            createNote(null, createDuration(ONE_BEAT, [0.50])),      // 8分休符（四分休符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote(null, createDuration(ONE_BEAT, [0.50])),      // 8分休符（四分休符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [1.00])),      // 四分音符（基準音符）
+            createNote(null, createDuration(ONE_BEAT, [1.00])),      // 四分休符（基準休符）
+            // 5小節目 テスト: 三連符
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [1 / 3])),      // 三連符 1
+            createNote("C4", createDuration(ONE_BEAT, [1 / 3])),      // 三連符 1
+            createNote("C4", createDuration(ONE_BEAT, [1 / 3])),      // 三連符 1
+            createNote("C4", createDuration(ONE_BEAT, [2 / 3])),      // 三連符 2
+            createNote("C4", createDuration(ONE_BEAT, [1 / 3])),      // 三連符 1
+            createNote("C4", createDuration(ONE_BEAT, [1 / 3])),      // 三連符 1
+            createNote(null, createDuration(ONE_BEAT, [1 / 3])),      // 三連符 1休符
+            createNote("C4", createDuration(ONE_BEAT, [1 / 3])),      // 三連符 1
+            // 6小節目 テスト: 十六分音符
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote(null, createDuration(ONE_BEAT, [0.25])),      // 16分休符（四分休符を4等分）
+
+            createNote(null, createDuration(ONE_BEAT, [0.25])),      // 16分休符（四分休符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote(null, createDuration(ONE_BEAT, [0.25])),      // 16分休符（四分休符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+
+            createNote(null, createDuration(ONE_BEAT, [0.25])),      // 16分休符（四分休符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.50])),
+            // 7小節目 テスト: タイ            
+            createTie(
+                createNote("C4", createDuration(ONE_BEAT, [1.00])), // タイで繋がれた四分音符と16分音符
+                createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            ),
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [0.25])),      // 16分音符（四分音符を4等分）
+            createNote("C4", createDuration(ONE_BEAT, [1.00])),      // 四分音符（基準音符）
+            createNote("C4", createDuration(ONE_BEAT, [1.00])), // タイで繋がれた2つの8分音符
+            // 8小節目 テスト: タイ
+            createNote("C4", createDuration(ONE_BEAT, [1 / 2])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [1 / 2])),      // 8分音符（四分音符を2等分）
+            createNote("C4", createDuration(ONE_BEAT, [1 / 2])),      // 8分音符（四分音符を2等分）
+        ];
+
+
+        // Partの作成
+        const melodyPart = new Tone.Part((time, note) => {
+            if (note.note !== null) { // 休符でない場合
+                pianoSampler.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+            }
+        }, melody); // melodyは楽譜データ
+
+
+
+        // ユーザー操作（例：ボタンのクリック）で再生を開始
+        document.querySelector('.btn-check').addEventListener('click', async function () {
+            // ユーザーのジェスチャーにより AudioContext を開始（Promiseを返すのでawaitで待ちます）
+            await Tone.start();
+            console.log('AudioContext has been started');
+
+            // ここで実際の再生処理を行う
+            const selectedValue = this.value;
+            console.log('選択された値:', selectedValue);
+
+            switch (selectedValue) {
+                case 'trial':
+                    console.log("試験再生を開始します。");
+                    console.log("melody: ",melody);
+
+                    break;
+                case '1-8':
+                    console.log("1-8小節を再生します。");
+                    // Partの開始
+                    melodyPart.start(0); // 0は開始時間（Transportの開始時間からの相対時間）
+                    // Transportの開始
+                    Tone.Transport.start();
+                    break;
+                // 他のケース...
+                default:
+                    console.log("そのうちアップデート");
+                    break;
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

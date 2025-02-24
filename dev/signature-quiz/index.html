@@ -30,13 +30,21 @@
     #japanese-horizontal-table td {
       writing-mode: vertical-lr;
     }
+
+    .display-block {
+      display: block;
+    }
+
+    .display-none {
+      display: none;
+    }
   </style>
 
 </head>
 
 <body>
   <main>
-    <section id="settings" class="container">
+    <section id="settings" class="container border-bottom mb-3">
       <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="コンテンツ選択">
         <input type="radio" class="btn-check" name="content-options" id="chart-radio" autocomplete="off" checked>
         <label class="btn btn-outline-primary" for="chart-radio">調号一覧</label>
@@ -47,8 +55,10 @@
     </section>
 
     <section id="main-contents">
+
       <section id="signature-chart-section" class="container toggle-element">
-        <h2>調号一覧表</h2>
+        <h2 class="display-2 text-center">調号一覧表</h2>
+
         <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="表示言語">
           <input type="radio" class="btn-check" name="language-options" id="japanese-radio" autocomplete="off" checked>
           <label class="btn btn-outline-primary" for="japanese-radio">日本語</label>
@@ -78,7 +88,7 @@
           <label class="btn btn-outline-primary" for="hide-points-radio">ポイントを非表示</label>
         </div>
 
-        <div class="point-element" style="display:block;">
+        <div class="point-element  d-block">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="color-code-checkbox" disabled>
             <label class="form-check-label" for="color-code-checkbox">主音を色分けする<span class="text-muted"> (comming
@@ -93,9 +103,9 @@
 
 
         <!-- 日本語 -->
-        <section id="japanese-signature-chart-section" class="toggle-element" style="display: block;">
+        <section id="japanese-signature-chart-section" class="toggle-element  d-block">
           <!-- 日本語 縦長の表 -->
-          <div id="japanese-vertical-table" class="table-responsive mt-3 toggle-element" style="display: block;">
+          <div id="japanese-vertical-table" class="table-responsive mt-3 toggle-element  d-block">
             <table class="vertical-table table table-bordered">
               <thead>
                 <tr>
@@ -107,86 +117,85 @@
               <tbody>
                 <tr>
                   <td>♯7</td>
-                  <td> <span class="fs-4">嬰ハ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">嬰イ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">嬰ハ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">嬰イ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♯6</td>
-                  <td> <span class="fs-4">嬰へ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">嬰ニ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">嬰へ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">嬰ニ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♯5</td>
-                  <td> <span class="fs-4">ロ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">嬰ト</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">ロ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">嬰ト</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♯4</td>
-                  <td> <span class="fs-4">ホ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">嬰ハ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">ホ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">嬰ハ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♯3</td>
-                  <td> <span class="fs-4">イ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">嬰へ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">イ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">嬰へ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♯2</td>
-                  <td> <span class="fs-4">ニ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">ロ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">ニ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">ロ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♯1</td>
-                  <td> <span class="fs-4">ト</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">ホ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">ト</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">ホ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>なし</td>
-                  <td> <span class="fs-4">ハ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">イ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">ハ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">イ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♭1</td>
-                  <td> <span class="fs-4">ヘ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">ニ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">ヘ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">ニ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♭2</td>
-                  <td> <span class="fs-4">変ロ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">ト</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">変ロ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">ト</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♭3</td>
-                  <td> <span class="fs-4">変ホ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">ハ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">変ホ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">ハ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♭4</td>
-                  <td> <span class="fs-4">変イ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">ヘ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">変イ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">ヘ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♭5</td>
-                  <td> <span class="fs-4">変ニ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">変ロ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">変ニ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">変ロ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♭6</td>
-                  <td> <span class="fs-4">変ト</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">変ホ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">変ト</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">変ホ</span> <span class="fs-6">短調</span> </td>
                 </tr>
                 <tr>
                   <td>♭7</td>
-                  <td> <span class="fs-4">変ハ</span><span class="fs-6">長調</span> </td>
-                  <td> <span class="fs-4">変イ</span><span class="fs-6">短調</span> </td>
+                  <td> <span class="fs-4">変ハ</span> <span class="fs-6">長調</span> </td>
+                  <td> <span class="fs-4">変イ</span> <span class="fs-6">短調</span> </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <!-- 日本語 横長の表 -->
-          <div id="japanese-horizontal-table" class="table-responsive mt-3 toggle-element overflow-x-auto"
-            style="display: none;">
+          <div id="japanese-horizontal-table" class="table-responsive mt-3 toggle-element overflow-x-auto d-none">
             <table class="horizontal-table table table-bordered">
               <tr>
                 <th>♭7</th>
@@ -206,152 +215,47 @@
                 <th>♯7</th>
               </tr>
               <tr>
-                <td>
-                  <span class="quiz-detabase japan b7 変ハ長調" data-key-signature="b7">
-                    <span class="fs-4">変ハ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b6 変ト長調" data-key-signature="b6">
-                    <span class="fs-4">変ト</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b5 変ニ長調" data-key-signature="b5">
-                    <span class="fs-4">変ニ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b4 変イ長調" data-key-signature="b4">
-                    <span class="fs-4">変イ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b3 変ホ長調" data-key-signature="b3">
-                    <span class="fs-4">変ホ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b2 変ロ長調" data-key-signature="b2">
-                    <span class="fs-4">変ロ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b1 ヘ長調" data-key-signature="b1">
-                    <span class="fs-4">ヘ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b0 ハ長調" data-key-signature="n0">
-                    <span class="fs-4">ハ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s1 ト長調" data-key-signature="s1">
-                    <span class="fs-4">ト</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s2 ニ長調" data-key-signature="s2">
-                    <span class="fs-4">ニ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s3 イ長調" data-key-signature="s3">
-                    <span class="fs-4">イ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s4 ホ長調" data-key-signature="s4">
-                    <span class="fs-4">ホ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s5 ロ長調" data-key-signature="s5">
-                    <span class="fs-4">ロ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s6 嬰ヘ長調" data-key-signature="s6">
-                    <span class="fs-4">嬰ヘ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s7 嬰ハ長調" data-key-signature="s7">
-                    <span class="fs-4">嬰ハ</span><span class="fs-6">長調</span>
-                  </span>
-                </td>
+                <td> <span class="fs-4">変ハ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">変ト</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">変ニ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">変イ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">変ホ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">変ロ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">ヘ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">ハ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">ト</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">ニ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">イ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">ホ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">ロ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">嬰ヘ</span> <span class="fs-6">長調</span> </td>
+                <td> <span class="fs-4">嬰ハ</span> <span class="fs-6">長調</span> </td>
               </tr>
               <tr>
-                <td>
-                  <span class="quiz-detabase japan b7 変イ短調" data-key-signature="b7">
-                    <span class="fs-4">変イ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b6 変ホ短調" data-key-signature="b6">
-                    <span class="fs-4">変ホ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b5 変ロ短調" data-key-signature="b5">
-                    <span class="fs-4">変ロ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b4 ヘ短調" data-key-signature="b4">
-                    <span class="fs-4">ヘ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b3 ハ短調" data-key-signature="b3">
-                    <span class="fs-4">ハ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b2 ト短調" data-key-signature="b2">
-                    <span class="fs-4">ト</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan b1 ニ短調" data-key-signature="b1">
-                    <span class="fs-4">ニ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan n0 イ短調" data-key-signature="n0">
-                    <span class="fs-4">イ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s1 ホ短調" data-key-signature="s1">
-                    <span class="fs-4">ホ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s2 ロ短調" data-key-signature="s2">
-                    <span class="fs-4">ロ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s3 嬰ヘ短調" data-key-signature="s3">
-                    <span class="fs-4">嬰ヘ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s4 嬰ハ短調" data-key-signature="s4">
-                    <span class="fs-4">嬰ハ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s5 嬰ト短調" data-key-signature="s5">
-                    <span class="fs-4">嬰ト</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s6 嬰ニ短調" data-key-signature="s6">
-                    <span class="fs-4">嬰ニ</span><span class="fs-6">短調</span>
-                </td>
-                <td>
-                  <span class="quiz-detabase japan s7 嬰イ短調" data-key-signature="s7">
-                    <span class="fs-4">嬰イ</span><span class="fs-6">短調</span>
-                </td>
+                <td> <span class="fs-4">変イ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">変ホ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">変ロ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">ヘ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">ハ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">ト</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">ニ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">イ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">ホ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">ロ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">嬰ヘ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">嬰ハ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">嬰ト</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">嬰ニ</span> <span class="fs-6">短調</span> </td>
+                <td> <span class="fs-4">嬰イ</span> <span class="fs-6">短調</span> </td>
               </tr>
             </table>
           </div>
         </section>
 
         <!-- 英語 -->
-        <section id="english-signature-chart-section" class="toggle-element" style="display: none;">
+        <section id="english-signature-chart-section" class="toggle-element d-none">
           <!-- 英語語 縦長の表 -->
-          <div id="english-vertical-table" class="table-responsive mt-3 toggle-element" style="display: none;">
+          <div id="english-vertical-table" class="table-responsive mt-3 toggle-element d-none">
             <table class="vertical-table table table-bordered">
               <thead>
                 <tr>
@@ -363,86 +267,85 @@
               <tbody>
                 <tr>
                   <td>♯7</td>
-                  <td> <span class="fs-1">C♯</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">A♯</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">C♯</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">A♯</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♯6</td>
-                  <td> <span class="fs-1">F♯</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">D♯</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">F♯</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">D♯</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♯5</td>
-                  <td> <span class="fs-1">B</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">G♯</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">B</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">G♯</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♯4</td>
-                  <td> <span class="fs-1">E</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">C♯</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">E</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">C♯</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♯3</td>
-                  <td> <span class="fs-1">A</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">F♯</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">A</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">F♯</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♯2</td>
-                  <td> <span class="fs-1">D</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">B</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">D</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">B</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♯1</td>
-                  <td> <span class="fs-1">G</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">E</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">G</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">E</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>なし</td>
-                  <td> <span class="fs-1">C</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">A</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">C</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">A</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♭1</td>
-                  <td> <span class="fs-1">F</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">D</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">F</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">D</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♭2</td>
-                  <td> <span class="fs-1">B♭</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">G</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">B♭</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">G</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♭3</td>
-                  <td> <span class="fs-1">E♭</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">C</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">E♭</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">C</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♭4</td>
-                  <td> <span class="fs-1">A♭</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">F</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">A♭</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">F</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♭5</td>
-                  <td> <span class="fs-1">D♭</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">B♭</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">D♭</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">B♭</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♭6</td>
-                  <td> <span class="fs-1">G♭</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">E♭</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">G♭</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">E♭</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
                 <tr>
                   <td>♭7</td>
-                  <td> <span class="fs-1">C♭</span><br><span class="fs-6">major key</span> </td>
-                  <td> <span class="fs-1">A♭</span><br><span class="fs-6">minor key</span> </td>
+                  <td> <span class="fs-1">C♭</span> <br> <span class="fs-6">major key</span> </td>
+                  <td> <span class="fs-1">A♭</span> <br> <span class="fs-6">minor key</span> </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <!-- 英語語 横長の表 -->
-          <div id="english-horizontal-table" class="table-responsive mt-3 toggle-element overflow-x-auto"
-            style="display: none;">
+          <div id="english-horizontal-table" class="table-responsive mt-3 toggle-element overflow-x-auto d-none">
             <table class="horizontal-table table table-bordered">
               <tr>
                 <th>♭7</th>
@@ -452,7 +355,7 @@
                 <th>♭3</th>
                 <th>♭2</th>
                 <th>♭1</th>
-                <th>なし</th>
+                <th>no key<br>signature</th>
                 <th>♯1</th>
                 <th>♯2</th>
                 <th>♯3</th>
@@ -461,187 +364,50 @@
                 <th>♯6</th>
                 <th>♯7</th>
               </tr>
-
-              <!-- english major-->
+              <!-- english-horizontal-table major-->
               <tr>
-                <td>
-                  <span class="quiz-detabase english b7 Cb-major" data-key-signature="b7">
-                    <span class="fs-1">C♭</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b6 Gb-major" data-key-signature="b6">
-                    <span class="fs-1">G♭</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b5 Db-major" data-key-signature="b5">
-                    <span class="fs-1">D♭</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b4 Ab-major" data-key-signature="b4">
-                    <span class="fs-1">A♭</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b3 Eb-major" data-key-signature="b3">
-                    <span class="fs-1">E♭</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b2 Bb-major" data-key-signature="b2">
-                    <span class="fs-1">B♭</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b1 F-major" data-key-signature="b1">
-                    <span class="fs-1">F</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english n0 C-major" data-key-signature="n0">
-                    <span class="fs-1">C</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s1 G-major" data-key-signature="s1">
-                    <span class="fs-1">G</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s2 D-major" data-key-signature="s2">
-                    <span class="fs-1">D</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s3 A-major" data-key-signature="s3">
-                    <span class="fs-1">A</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s4 E-major" data-key-signature="s4">
-                    <span class="fs-1">E</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s5 B-major" data-key-signature="s5">
-                    <span class="fs-1">B</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s6 F#-major" data-key-signature="s6">
-                    <span class="fs-1">F♯</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s7 C#-major" data-key-signature="s7">
-                    <span class="fs-1">C♯</span><br>
-                    <span class="fs-6">major<br>key</span>
-                  </span>
-                </td>
+                <td> <span class="fs-1">C♭</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">G♭</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">D♭</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">A♭</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">E♭</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">B♭</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">F</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">C</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">G</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">D</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">A</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">E</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">B</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">F♯</span> <br> <span class="fs-6">major<br>key</span> </td>
+                <td> <span class="fs-1">C♯</span> <br> <span class="fs-6">major<br>key</span> </td>
               </tr>
-
-              <!-- english minor-->
+              <!-- english-horizontal-table minor-->
               <tr>
-                <td>
-                  <span class="quiz-detabase english b7 Ab-major" data-key-signature="b7">
-                    <span class="fs-1">A♭</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b6 Eb-major" data-key-signature="b6">
-                    <span class="fs-1">E♭</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b5 Bb-major" data-key-signature="b5">
-                    <span class="fs-1">B♭</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b4 F-major" data-key-signature="b4">
-                    <span class="fs-1">F</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b3 C-major" data-key-signature="b3">
-                    <span class="fs-1">C</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b2 G-major" data-key-signature="b2">
-                    <span class="fs-1">G</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english b1 D-major" data-key-signature="b1">
-                    <span class="fs-1">D</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english n0 A-major" data-key-signature="n0">
-                    <span class="fs-1">A</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s1 E-major" data-key-signature="s1">
-                    <span class="fs-1">E</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s2 B-major" data-key-signature="s2">
-                    <span class="fs-1">B</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s3 F#-major" data-key-signature="s3">
-                    <span class="fs-1">F♯</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s4 C#-major" data-key-signature="s4">
-                    <span class="fs-1">C♯</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s5 G#-major" data-key-signature="s5">
-                    <span class="fs-1">G♯</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s6 D#-major" data-key-signature="s6">
-                    <span class="fs-1">D♯</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase english s7 A#-major" data-key-signature="s7">
-                    <span class="fs-1">A♯</span><br> <span class="fs-6">minor<br>key</span>
-                  </span>
-                </td>
+                <td> <span class="fs-1">A♭</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">E♭</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">B♭</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">F</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">C</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">G</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">D</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">A</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">E</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">B</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">F♯</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">C♯</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">G♯</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">D♯</span><br> <span class="fs-6">minor<br>key</span> </td>
+                <td> <span class="fs-1">A♯</span><br> <span class="fs-6">minor<br>key</span> </td>
               </tr>
             </table>
           </div>
         </section>
 
         <!-- ドイツ語 -->
-        <section id="german-signature-chart-section" class="toggle-element" style="display: none;">
+        <section id="german-signature-chart-section" class="toggle-element d-none">
           <!-- ドイツ語 縦長の表 -->
-          <div id="german-vertical-table" class="table-responsive mt-3 toggle-element" style="display: none;">
+          <div id="german-vertical-table" class="table-responsive mt-3 toggle-element d-none">
             <table class="vertical-table table table-bordered">
               <thead>
                 <tr>
@@ -653,86 +419,85 @@
               <tbody>
                 <tr>
                   <td>♯7</td>
-                  <td> <span class="fs-1">Cis</span><span class="fs-6"> dur</span><br><small>(Cis-Dur)</small> </td>
-                  <td> <span class="fs-1">ais</span><span class="fs-6"> moll</span><br><small>(ais-Moll)</small> </td>
+                  <td> <span class="fs-1">Cis</span> <span class="fs-6"> dur</span><br><small>(Cis-Dur)</small> </td>
+                  <td> <span class="fs-1">ais</span> <span class="fs-6"> moll</span><br><small>(ais-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♯6</td>
-                  <td> <span class="fs-1">Fis</span><span class="fs-6"> dur</span><br><small>(Fis-Dur)</small> </td>
-                  <td> <span class="fs-1">dis</span><span class="fs-6"> moll</span><br><small>(dis-Moll)</small> </td>
+                  <td> <span class="fs-1">Fis</span> <span class="fs-6"> dur</span><br><small>(Fis-Dur)</small> </td>
+                  <td> <span class="fs-1">dis</span> <span class="fs-6"> moll</span><br><small>(dis-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♯5</td>
-                  <td> <span class="fs-1">H</span><span class="fs-6"> dur</span><br><small>(H-Dur)</small> </td>
-                  <td> <span class="fs-1">gis</span><span class="fs-6"> moll</span><br><small>(gis-Moll)</small> </td>
+                  <td> <span class="fs-1">H</span> <span class="fs-6"> dur</span><br><small>(H-Dur)</small> </td>
+                  <td> <span class="fs-1">gis</span> <span class="fs-6"> moll</span><br><small>(gis-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♯4</td>
-                  <td> <span class="fs-1">E</span><span class="fs-6"> dur</span><br><small>(E-Dur)</small> </td>
-                  <td> <span class="fs-1">cis</span><span class="fs-6"> moll</span><br><small>(cis-Moll)</small> </td>
+                  <td> <span class="fs-1">E</span> <span class="fs-6"> dur</span><br><small>(E-Dur)</small> </td>
+                  <td> <span class="fs-1">cis</span> <span class="fs-6"> moll</span><br><small>(cis-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♯3</td>
-                  <td> <span class="fs-1">A</span><span class="fs-6"> dur</span><br><small>(A-Dur)</small> </td>
-                  <td> <span class="fs-1">fis</span><span class="fs-6"> moll</span><br><small>(fis-Moll)</small> </td>
+                  <td> <span class="fs-1">A</span> <span class="fs-6"> dur</span><br><small>(A-Dur)</small> </td>
+                  <td> <span class="fs-1">fis</span> <span class="fs-6"> moll</span><br><small>(fis-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♯2</td>
-                  <td> <span class="fs-1">D</span><span class="fs-6"> dur</span><br><small>(d-Dur)</small> </td>
-                  <td> <span class="fs-1">h</span><span class="fs-6"> moll</span><br><small>(h-Moll)</small> </td>
+                  <td> <span class="fs-1">D</span> <span class="fs-6"> dur</span><br><small>(d-Dur)</small> </td>
+                  <td> <span class="fs-1">h</span> <span class="fs-6"> moll</span><br><small>(h-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♯1</td>
-                  <td> <span class="fs-1">G</span><span class="fs-6"> dur</span><br><small>(G-Dur)</small> </td>
-                  <td> <span class="fs-1">e</span><span class="fs-6"> moll</span><br><small>(e-Moll)</small> </td>
+                  <td> <span class="fs-1">G</span> <span class="fs-6"> dur</span><br><small>(G-Dur)</small> </td>
+                  <td> <span class="fs-1">e</span> <span class="fs-6"> moll</span><br><small>(e-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>なし</td>
-                  <td> <span class="fs-1">C</span><span class="fs-6"> dur</span><br><small>(C-Dur)</small> </td>
-                  <td> <span class="fs-1">a</span><span class="fs-6"> moll</span><br><small>(a-Moll)</small> </td>
+                  <td> <span class="fs-1">C</span> <span class="fs-6"> dur</span><br><small>(C-Dur)</small> </td>
+                  <td> <span class="fs-1">a</span> <span class="fs-6"> moll</span><br><small>(a-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♭1</td>
-                  <td> <span class="fs-1">F</span><span class="fs-6"> dur</span><br><small>(F-Dur)</small> </td>
-                  <td> <span class="fs-1">d</span><span class="fs-6"> moll</span><br><small>(d-Moll)</small> </td>
+                  <td> <span class="fs-1">F</span> <span class="fs-6"> dur</span><br><small>(F-Dur)</small> </td>
+                  <td> <span class="fs-1">d</span> <span class="fs-6"> moll</span><br><small>(d-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♭2</td>
-                  <td> <span class="fs-1">B</span><span class="fs-6"> dur</span><br><small>(B-Dur)</small> </td>
-                  <td> <span class="fs-1">g</span><span class="fs-6"> moll</span><br><small>(g-Moll)</small> </td>
+                  <td> <span class="fs-1">B</span> <span class="fs-6"> dur</span><br><small>(B-Dur)</small> </td>
+                  <td> <span class="fs-1">g</span> <span class="fs-6"> moll</span><br><small>(g-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♭3</td>
-                  <td> <span class="fs-1">Es</span><span class="fs-6"> dur</span><br><small>(Es-Dur)</small> </td>
-                  <td> <span class="fs-1">c</span><span class="fs-6"> moll</span><br><small>(c-Moll)</small> </td>
+                  <td> <span class="fs-1">Es</span> <span class="fs-6"> dur</span><br><small>(Es-Dur)</small> </td>
+                  <td> <span class="fs-1">c</span> <span class="fs-6"> moll</span><br><small>(c-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♭4</td>
-                  <td> <span class="fs-1">As</span><span class="fs-6"> dur</span><br><small>(As-Dur)</small> </td>
-                  <td> <span class="fs-1">f</span><span class="fs-6"> moll</span><br><small>(f-Moll)</small> </td>
+                  <td> <span class="fs-1">As</span> <span class="fs-6"> dur</span><br><small>(As-Dur)</small> </td>
+                  <td> <span class="fs-1">f</span> <span class="fs-6"> moll</span><br><small>(f-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♭5</td>
-                  <td> <span class="fs-1">Des</span><span class="fs-6"> dur</span><br><small>(Des-Dur)</small> </td>
-                  <td> <span class="fs-1">b</span><span class="fs-6"> moll</span><br><small>(b-Moll)</small> </td>
+                  <td> <span class="fs-1">Des</span> <span class="fs-6"> dur</span><br><small>(Des-Dur)</small> </td>
+                  <td> <span class="fs-1">b</span> <span class="fs-6"> moll</span><br><small>(b-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♭6</td>
-                  <td> <span class="fs-1">Ges</span><span class="fs-6"> dur</span><br><small>(Ges-Dur)</small> </td>
-                  <td> <span class="fs-1">es</span><span class="fs-6"> moll</span><br><small>(es-Moll)</small> </td>
+                  <td> <span class="fs-1">Ges</span> <span class="fs-6"> dur</span><br><small>(Ges-Dur)</small> </td>
+                  <td> <span class="fs-1">es</span> <span class="fs-6"> moll</span><br><small>(es-Moll)</small> </td>
                 </tr>
                 <tr>
                   <td>♭7</td>
-                  <td> <span class="fs-1">Ces</span><span class="fs-6"> dur</span><br><small>(Ces-Dur)</small> </td>
-                  <td> <span class="fs-1">as</span><span class="fs-6"> moll</span><br><small>(as-Moll)</small> </td>
+                  <td> <span class="fs-1">Ces</span> <span class="fs-6"> dur</span><br><small>(Ces-Dur)</small> </td>
+                  <td> <span class="fs-1">as</span> <span class="fs-6"> moll</span><br><small>(as-Moll)</small> </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <!-- ドイツ語語 横長の表 -->
-          <div id="german-horizontal-table" class="table-responsive mt-3 toggle-element overflow-x-auto"
-            style="display: none;">
+          <div id="german-horizontal-table" class="table-responsive mt-3 toggle-element overflow-x-auto d-none">
             <table class="horizontal-table table table-bordered">
               <tr>
                 <th>♭7</th>
@@ -742,7 +507,7 @@
                 <th>♭3</th>
                 <th>♭2</th>
                 <th>♭1</th>
-                <th>なし</th>
+                <th>keine<br>Vorzeichen</th>
                 <th>♯1</th>
                 <th>♯2</th>
                 <th>♯3</th>
@@ -752,452 +517,183 @@
                 <th>♯7</th>
               </tr>
               <tr>
-                <td>
-                  <span class="quiz-detabase german b7 Ces-Dur" data-key-signature="b7"><span
-                      class="fs-1">Ces</span><span class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german b7 Ces-Dur"
-                      data-key-signature="b7"><small>(Ces-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b6 Ges-Dur" data-key-signature="b6"><span
-                      class="fs-1">Ges</span><span class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german b6 Ges-Dur"
-                      data-key-signature="b6"><small>(Ges-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b5 Des-Dur" data-key-signature="b5"><span
-                      class="fs-1">Des</span><span class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german b5 Des-Dur"
-                      data-key-signature="b5"><small>(Des-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b4 As-Dur" data-key-signature="b4"><span class="fs-1">As</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german b4 As-Dur" data-key-signature="b4"><small>(As-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b3 Es-Dur" data-key-signature="b3"><span class="fs-1">Es</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german b3 Es-Dur" data-key-signature="b3"><small>(Es-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b2 B-Dur" data-key-signature="b2"><span class="fs-1">B</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german b2 B-Dur" data-key-signature="b2"><small>(B-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b1 F-Dur" data-key-signature="b1"><span class="fs-1">F</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german b1 F-Dur" data-key-signature="b1"><small>(F-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german n0 C-Dur" data-key-signature="n0"><span class="fs-1">C</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german n0 C-Dur" data-key-signature="n0"><small>(C-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s1 G-Dur" data-key-signature="s1"><span class="fs-1">G</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german s1 G-Dur" data-key-signature="s1"><small>(G-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s2 D-Dur" data-key-signature="s2"><span class="fs-1">D</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german s2 D-Dur" data-key-signature="s2"><small>(D-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s3 A-Dur" data-key-signature="s3"><span class="fs-1">A</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german s3 A-Dur" data-key-signature="s3"><small>(A-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s4 E-Dur" data-key-signature="s4"><span class="fs-1">E</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german s4 E-Dur" data-key-signature="s4"><small>(E-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s5 H-Dur" data-key-signature="s5"><span class="fs-1">H</span><span
-                      class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german s5 H-Dur" data-key-signature="s5"><small>(H-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s6 Fis-Dur" data-key-signature="s6"><span
-                      class="fs-1">Fis</span><span class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german s6 Fis-Dur"
-                      data-key-signature="s6"><small>(Fis-Dur)</small></span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s7 Cis-Dur" data-key-signature="s7"><span
-                      class="fs-1">Cis</span><span class="fs-6"> dur</span><br>
-                    <span class="quiz-detabase german s7 Cis-Dur"
-                      data-key-signature="s7"><small>(Cis-Dur)</small></span>
-                </td>
+                <td> <span class="fs-1">Ces</span> <span class="fs-6"> dur</span><br><small>(Ces-Dur)</small> </td>
+                <td> <span class="fs-1">Ges</span> <span class="fs-6"> dur</span><br><small>(Ges-Dur)</small> </td>
+                <td> <span class="fs-1">Des</span> <span class="fs-6"> dur</span><br><small>(Des-Dur)</small> </td>
+                <td> <span class="fs-1">As</span> <span class="fs-6"> dur</span><br><small>(As-Dur)</small> </td>
+                <td> <span class="fs-1">Es</span> <span class="fs-6"> dur</span><br><small>(Es-Dur)</small> </td>
+                <td> <span class="fs-1">B</span> <span class="fs-6"> dur</span><br><small>(B-Dur)</small> </td>
+                <td> <span class="fs-1">F</span> <span class="fs-6"> dur</span><br><small>(F-Dur)</small> </td>
+                <td> <span class="fs-1">C</span> <span class="fs-6"> dur</span><br><small>(C-Dur)</small> </td>
+                <td> <span class="fs-1">G</span> <span class="fs-6"> dur</span><br><small>(G-Dur)</small> </td>
+                <td> <span class="fs-1">D</span> <span class="fs-6"> dur</span><br><small>(D-Dur)</small> </td>
+                <td> <span class="fs-1">A</span> <span class="fs-6"> dur</span><br><small>(A-Dur)</small> </td>
+                <td> <span class="fs-1">E</span> <span class="fs-6"> dur</span><br><small>(E-Dur)</small> </td>
+                <td> <span class="fs-1">H</span> <span class="fs-6"> dur</span><br><small>(H-Dur)</small> </td>
+                <td> <span class="fs-1">Fis</span> <span class="fs-6"> dur</span><br><small>(Fis-Dur)</small> </td>
+                <td> <span class="fs-1">Cis</span> <span class="fs-6"> dur</span><br><small>(Cis-Dur)</small> </td>
               </tr>
 
               <tr>
-                <td>
-                  <span class="quiz-detabase german b7 as-Moll" data-key-signature="b7"><span
-                      class="fs-1">as</span><span class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german b7 as-Moll" data-key-signature="b7"><small>(as-Moll)</small>
-                    </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b6 es-Moll" data-key-signature="b6"><span
-                      class="fs-1">es</span><span class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german b6 es-Moll" data-key-signature="b6"><small>(es-Moll)</small>
-                    </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b5 b-Moll" data-key-signature="b5"><span class="fs-1">b</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german b5 b-Moll" data-key-signature="b5"><small>(b-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b4 f-Moll" data-key-signature="b4"><span class="fs-1">f</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german b4 f-Moll" data-key-signature="b4"><small>(f-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b3 c-Moll" data-key-signature="b3"><span class="fs-1">c</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german b3 c-Moll" data-key-signature="b3"><small>(c-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b2 g-Moll" data-key-signature="b2"><span class="fs-1">g</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german b2 g-Moll" data-key-signature="b2"><small>(g-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german b1 d-Moll" data-key-signature="b1"><span class="fs-1">d</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german b1 d-Moll" data-key-signature="b1"><small>(d-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german n0 a-Moll" data-key-signature="n0"><span class="fs-1">a</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german n0 a-Moll" data-key-signature="n0"><small>(a-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s1 e-Moll" data-key-signature="s1"><span class="fs-1">e</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german s1 e-Moll" data-key-signature="s1"><small>(e-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s2 h-Moll" data-key-signature="s2"><span class="fs-1">h</span><span
-                      class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german s2 h-Moll" data-key-signature="s2"><small>(h-Moll)</small> </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s3 fis-Moll" data-key-signature="s3"><span
-                      class="fs-1">fis</span><span class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german s3 fis-Moll" data-key-signature="s3"><small>(fis-Moll)</small>
-                    </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s4 cis-Moll" data-key-signature="s4"><span
-                      class="fs-1">cis</span><span class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german s4 cis-Moll" data-key-signature="s4"><small>(cis-Moll)</small>
-                    </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s5 gis-Moll" data-key-signature="s5"><span
-                      class="fs-1">gis</span><span class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german s5 gis-Moll" data-key-signature="s5"><small>(gis-Moll)</small>
-                    </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s6 dis-Moll" data-key-signature="s6"><span
-                      class="fs-1">dis</span><span class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german s6 dis-Moll" data-key-signature="s6"><small>(dis-Moll)</small>
-                    </span>
-                </td>
-                <td>
-                  <span class="quiz-detabase german s7 ais-Moll" data-key-signature="s7"><span
-                      class="fs-1">ais</span><span class="fs-6"> moll</span><br>
-                    <span class="quiz-detabase german s7 ais-Moll" data-key-signature="s7"><small>(ais-Moll)</small>
-                    </span>
-                </td>
+                <td> <span class="fs-1">as</span> <span class="fs-6"> moll</span><br><small>(as-Moll)</small> </td>
+                <td> <span class="fs-1">es</span> <span class="fs-6"> moll</span><br><small>(es-Moll)</small> </td>
+                <td> <span class="fs-1">b</span> <span class="fs-6"> moll</span><br><small>(b-Moll)</small> </td>
+                <td> <span class="fs-1">f</span> <span class="fs-6"> moll</span><br><small>(f-Moll)</small> </td>
+                <td> <span class="fs-1">c</span> <span class="fs-6"> moll</span><br><small>(c-Moll)</small> </td>
+                <td> <span class="fs-1">g</span> <span class="fs-6"> moll</span><br><small>(g-Moll)</small> </td>
+                <td> <span class="fs-1">d</span> <span class="fs-6"> moll</span><br><small>(d-Moll)</small> </td>
+                <td> <span class="fs-1">a</span> <span class="fs-6"> moll</span><br><small>(a-Moll)</small> </td>
+                <td> <span class="fs-1">e</span> <span class="fs-6"> moll</span><br><small>(e-Moll)</small> </td>
+                <td> <span class="fs-1">h</span> <span class="fs-6"> moll</span><br><small>(h-Moll)</small> </td>
+                <td> <span class="fs-1">fis</span> <span class="fs-6"> moll</span><br><small>(fis-Moll)</small> </td>
+                <td> <span class="fs-1">cis</span> <span class="fs-6"> moll</span><br><small>(cis-Moll)</small> </td>
+                <td> <span class="fs-1">gis</span> <span class="fs-6"> moll</span><br><small>(gis-Moll)</small> </td>
+                <td> <span class="fs-1">dis</span> <span class="fs-6"> moll</span><br><small>(dis-Moll)</small> </td>
+                <td> <span class="fs-1">ais</span> <span class="fs-6"> moll</span><br><small>(ais-Moll)</small> </td>
               </tr>
             </table>
           </div>
         </section>
       </section>
 
-      <section id="signature-quiz-section" class="container toggle-element" style="display: none;">
-        <h2>調号クイズ</h2>
-        <p>signature-chart-section</p>
 
-        <section id="quiz-settings">
-          <!-- 出題タイプ選択ボタン（ラジオボタン） -->
+      <!-- クイズセクション -->
+      <section id="signature-quiz-section" class="container toggle-element d-none">
+        <h2 class="display-2 text-center">調号クイズ</h2>
+
+        <section id="quiz-settings" class="border-bottom">
+          <!-- 出題タイプ選択　ラジオボタン -->
+          <h3 class="visually-hidden">出題タイプを選択</h3>
           <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="コンテンツ選択">
             <input type="radio" class="btn-check" name="quiz-type" id="a-quiz-type-select-radio" autocomplete="off"
               value="type-a" checked>
-            <label class="btn btn-outline-primary" for="a-quiz-type-select-radio">調名から調号を出題</label>
+            <label class="btn btn-outline-primary" for="a-quiz-type-select-radio">調号を答えなさい</label>
 
             <input type="radio" class="btn-check" name="quiz-type" id="b-quiz-type-select-radio" autocomplete="off"
               value="type-b">
-            <label class="btn btn-outline-primary" for="b-quiz-type-select-radio">調号から調名を出題</label>
+            <label class="btn btn-outline-primary" for="b-quiz-type-select-radio">調名を答えなさい</label>
           </div>
-          <!--  -->
-          <!--  -->
-          <!--  -->
-          <!--  -->
+
+          <!-- 言語選択 ラジオボタン -->
+          <div class="btn-group d-flex justify-content-center m-3" role="group" aria-label="言語選択">
+            <input type="radio" class="btn-check" name="a-quiz-type-language-radio"
+              id="a-quiz-type-language-japan-radio" autocomplete="off" value="japan" aria-label="日本語で出題" checked>
+            <label class="btn btn-outline-primary" for="a-quiz-type-language-japan-radio">日本語の調名</label>
+            <input type="radio" class="btn-check" name="a-quiz-type-language-radio"
+              id="a-quiz-type-language-english-radio" autocomplete="off" value="english" aria-label="英語で出題">
+            <label class="btn btn-outline-primary" for="a-quiz-type-language-english-radio">英語の調名</label>
+            <!-- TODO: ドイツ語 -->
+          </div>
         </section>
 
-        <section id="a-quiz-type-section" class="container toggle-element" style="display: block;">
-          <p>ここはid="a-quiz-type-section"</p>
+        <!-- a-type -->
+        <section id="a-quiz-type-section" class="container toggle-element  d-block">
+          <h3 class="visually-hidden">調号を答えなさい</h3>
+          <!-- a-type 日本語による出題 -->
+          <section class="a-type-questions question-lang-japan d-none">
+            <h3 class="visually-hidden">調号を答えなさい</h3>
+            <!-- a-type 日本語による出題 データベース -->
+            <section class="a-type-quest-group d-none">
+              <div class="a-type-quest-data" data-quest-type="a-type" data-lang="japan" data-quest-number="1"
+                data-key-name="C-flat-major" data-answer-id="flat-7">変ハ長調の調号は？</div>
+              <div class="a-type-quest-data" data-quest-type="a-type" data-lang="japan" data-quest-number="2"
+                data-key-name="G-flat-major" data-answer-id="flat-6">変ト長調の調号は？</div>
+              <div class="a-type-quest-data" data-quest-type="a-type" data-lang="japan" data-quest-number="3"
+                data-key-name="D-flat-major" data-answer-id="flat-5">変ニ長調の調号は？</div>
+              <div class="a-type-quest-data" data-quest-type="a-type" data-lang="english" data-quest-number="1"
+                data-key-name="C-flat-major" data-answer-id="flat-7">C♭ major keyの調号は？</div>
+              <div class="a-type-quest-data" data-quest-type="a-type" data-lang="english" data-quest-number="2"
+                data-key-name="G-flat-major" data-answer-id="flat-6">G♭ major key♭の調号は？</div>
+              <div class="a-type-quest-data" data-quest-type="a-type" data-lang="english" data-quest-number="3"
+                data-key-name="D-flat-major" data-answer-id="flat-5">D♭ major keyの調号は？</div>
+            </section>
+            <!-- a-type 日本語による出題 テンプレート -->
+            <section class="a-type-user-answer-template card m-3 d-none" data-quest-type="a-type" data-lang="japan"
+              data-quest-number="1" data-key-name="C-flat-major" data-quest-text="変ハ長調の調号は？" data-answer-id="flat-7">
+              <h4 class="quest-text display-6 card-header">これはテンプレ</h4>
+              <div class="overflow-hidden">
+                <img class="key-signature-image img-fluid" src="" alt="Key Signature Image">
+              </div>
+              <div class="card-footer">
+                <div class="user-answer-display">選択された調号：</div>
+                <input type="range" class="key-signature-select-slider w-100" min="-7" max="7" value="0">
+              </div>
+            </section>
+          </section>
         </section>
 
-        <section id="b-quiz-type-section" class="container toggle-element" style="display: none;">
-          <p>ここはid="b-quiz-type-section"</p>
+        <!-- b-type -->
+        <section id="b-quiz-type-section" class="container toggle-element  d-block">
+          <!-- b-type 日本語による出題  -->
+          <section class="b-type-questions question-lang-japan d-none">
+            <h3 class="visually-hidden">調名を答えなさい</h3>
+            <!-- b-type 日本語による出題 データベース -->
+            <section class="b-type-quest-group d-none">
+              <div class="b-type-quest-data" data-quest-type="b-type" data-lang="japan" data-quest-number="1"
+                data-key-name="C-flat-major" data-answer-id="flat-7">調号に♭7つをもつ長調は？</div>
+              <div class="b-type-quest-data" data-quest-type="b-type" data-lang="japan" data-quest-number="2"
+                data-key-name="G-flat-major" data-answer-id="flat-6">調号に♭6つをもつ長調は？</div>
+              <div class="b-type-quest-data" data-quest-type="b-type" data-lang="japan" data-quest-number="3"
+                data-key-name="D-flat-major" data-answer-id="flat-5">調号に♭5つをもつ長調は？</div>
+            </section>
+            <!-- b-type 日本語による出題 テンプレート -->
+            <section class="b-type-user-answer-template card m-3 d-none" data-quest-type="b-type" data-lang="japan"
+              data-quest-number="1" data-key-name="C-flat-major" data-quest-text="調号に♭7つをもつ長調は？"
+              data-answer-id="flat-7">
+              <h4 class="quest-text display-6 card-header">これはテンプレ</h4>
+              <div class="overflow-hidden">
+                <img class="key-signature-image img-fluid" src="" alt="Key Signature Image">
+              </div>
+
+              <div class="card-footer">
+                <div class="user-answer-display"></div>
+                <!--
+                  TODO:
+                  調号:[ラジオボタン] 嬰 / [ラジオボタン] なし / [ラジオボタン] 変
+                  音名:[ラジオボタン]  ハ ニ ホ ヘ ト イ ロ ハ
+                  長調/短調:[ラジオボタン] 長調 / [ラジオボタン] 短調
+                  user-answer-displayに即時反映
+                -->
+              </div>
+            </section>
+
+          </section>
         </section>
 
-        <section id="ending">
+        <!-- データベース×テンプレを出力する場所 -->
+        <section id="clone-section" clsas="clone-section toggle-element">
+          <div id="a-type-quest-clone" class="a-type-quest-clone">
+            <p>a-type-quest-cloneの問題が入ります</p>
+          </div>
+          <div id="b-type-quest-clone" class="b-type-quest-clone">
+            <p>b-type-quest-cloneの問題が入ります</p>
+          </div>
+        </section>
+
+
+        <section id="b-quiz-type-section" class="container toggle-element d-none">
+          <h3 class="visually-hidden">調名を答えなさい</h3>
+        </section>
+
+        <section id="quiz-ending">
           <!-- タイムトライアルの記録表示 -->
           <!-- 全問題一覧（正誤つき） -->
           <!-- もう一回プレイボタン（ローカルストレージをクイズモードにしてリロード） -->
         </section>
 
-      </section>
-    </section>
-
-    </section>
+      </section><!--クイズセクション-->
+    </section><!--メインコンテンツ-->
   </main>
 
-  <script type="module">
-    import DomUtils from '/dev/modules/DomUtils.js';
-    document.addEventListener('DOMContentLoaded', function () {
-      const LANGUAGE_JAPAN = "LANGUAGE_JAPAN";
-      const LANGUAGE_ENGLISH = "LANGUAGE_ENGLISH";
-      const LANGUAGE_GERMAN = "LANGUAGE_GERMAN";
 
-      let currentLanguage = LANGUAGE_JAPAN;
-      let isVerticalTable = true;
-      let isPoints = true;
-
-
-      // getElementsByCamelCaseを使ってキャメルケースのIDで要素を取得
-      const elements = DomUtils.getElementsByCamelCase([
-        //"",
-        // 設定セクション
-        "settings",
-        "chart-radio", "quiz-radio",
-
-        "main-contents",
-        "signature-chart-section",
-        // ラジオボタン群
-        "japanese-radio", "english-radio", "german-radio",
-        "horizontal-table-radio", "vertical-table-radio",
-        "show-points-radio", "hide-points-radio",
-        // 日本語
-        'japanese-signature-chart-section',
-        "japanese-vertical-table",
-        "japanese-horizontal-table",
-        // 英語
-        'english-signature-chart-section',
-        "english-vertical-table",
-        "english-horizontal-table",
-        // ドイツ語
-        'german-signature-chart-section',
-        "german-vertical-table",
-        "german-horizontal-table",
-
-        //クイズセクション
-        "signature-quiz-section",
-        "a-quiz-type-select-radio","a-quiz-type-select-radio",
-        "a-quiz-type-section", "b-quiz-type-section"
-      ]);
-
-
-      console.log(elements);
-
-      function toggleElements(parentElement, elementsToShow) {
-        const targetElements = parentElement.querySelectorAll('.toggle-element'); // 例: class="toggle-element" の要素を対象とする
-
-        targetElements.forEach(element => {
-          if (elementsToShow.includes(element)) {
-            element.style.display = 'block'; // または visibility: 'visible', opacity: 1 など
-          } else {
-            element.style.display = 'none'; // または visibility: 'hidden', opacity: 0 など
-          }
-        });
-      }
-
-      function changeLanguage(currentLanguage) {
-        switch (currentLanguage) {
-          case LANGUAGE_JAPAN:
-            toggleElements(
-              elements.signatureChartSection,
-              [elements.japaneseSignatureChartSection]
-            );
-
-            break;
-          case LANGUAGE_ENGLISH:
-            toggleElements(
-              elements.signatureChartSection,
-              [elements.englishSignatureChartSection]
-            );
-            break;
-          case LANGUAGE_GERMAN:
-            toggleElements(
-              elements.signatureChartSection,
-              [elements.germanSignatureChartSection]
-            );
-            break;
-          default:
-            console.log("言語が不明です。");
-        }
-      }
-
-      // ラジオボタンの変更処理をまとめる関数
-      function handleLanguageChange() {
-        changeLanguage(currentLanguage);
-        toggleTable(isVerticalTable);
-        togglePoints(isPoints);
-      }
-
-      function toggleTable(isVerticalTable) {
-        if (isVerticalTable) {
-          toggleElements(elements.japaneseSignatureChartSection, [elements.japaneseVerticalTable]);
-          toggleElements(elements.englishSignatureChartSection, [elements.englishVerticalTable]);
-          toggleElements(elements.germanSignatureChartSection, [elements.germanVerticalTable]);
-        } else {
-          toggleElements(elements.japaneseSignatureChartSection, [elements.japaneseHorizontalTable]);
-          toggleElements(elements.englishSignatureChartSection, [elements.englishHorizontalTable]);
-          toggleElements(elements.germanSignatureChartSection, [elements.germanHorizontalTable]);
-        }
-      }
-
-      function togglePoints(isPoints) {
-        const pointsElements = document.querySelectorAll('.point-element');
-        const displayValue = isPoints ? 'block' : 'none'; // 表示状態に応じて値を決定
-        pointsElements.forEach(element => {
-          element.style.display = displayValue;
-        });
-      }
-
-      //クイズ用
-      function getData(searchClassesArray, property) {
-        let elements = document.querySelectorAll('.' + searchClassesArray.join('.'));
-        let result = [];
-
-        elements.forEach(element => {
-          switch (property) {
-            case 'textContent':
-              result.push(element.textContent.trim());
-              break;
-            case 'data-key-signature':
-              result.push(element.dataset.keySignature);
-              break;
-            // 他のプロパティもここに追加
-            // switch文の中で、element.dataset[property.replace("data-", "")] を使用してデータ属性にアクセスするように変更することも可能です。
-            default:
-              // 該当するプロパティがない場合の処理（必要に応じて）
-              console.warn(`Unknown property: ${property}`);
-              break;
-          }
-        });
-
-        return result;
-        /*  
-        // 使用例
-        // b7つの調は何調でしょうか？
-        let keyNameJa = getData(["quiz-detabase", "japan", "b7"], "textContent"); // 日本語の正解配列を返す
-        let keyNameEn = getData(["quiz-detabase", "english", "b7"], "textContent"); // 英語の正解配列を返す
-        let keyNameDe = getData(["quiz-detabase", "german", "b7"], "textContent"); // ドイツ語の正解配列を返す
-        console.log(keyNameJa); // ["Ces dur", "Ces-Dur"]
-
-        // Ces-Durの調号は、[▼選択]である。
-        // A. b7つ
-        let keySignatureDe = getData(["quiz-detabase", "german"], "data-key-signature"); 
-        console.log(keySignatureDe); // ["b7"]
-        */
-      }
-
-
-      // イベントリスナーの設定
-      //調号一覧 ラジオボタン
-      elements.chartRadio.addEventListener('change', function () {
-        function chartContentToChart(currentLanguage, isVerticalTable) {
-          // 調号一覧を開く
-          toggleElements(
-            elements.mainContents,
-            [elements.signatureChartSection]
-          );
-          changeLanguage(currentLanguage);
-          toggleTable(isVerticalTable);
-        }
-        chartContentToChart(currentLanguage, isVerticalTable);
-      });
-
-      // 調号クイズ ラジオボタン
-      elements.quizRadio.addEventListener('change', function () {
-        function chartContentToQuiz(currentLanguage, isVerticalTable) {
-          toggleElements(
-            elements.mainContents,
-            [elements.signatureQuizSection]
-          );
-        }
-        chartContentToQuiz(currentLanguage, isVerticalTable);
-      });
-
-      // 日本語 ラジオボタン
-      elements.japaneseRadio.addEventListener('change', function () {
-        currentLanguage = LANGUAGE_JAPAN;
-        handleLanguageChange();
-      });
-
-      // 英語 ラジオボタン
-      elements.englishRadio.addEventListener('change', function () {
-        currentLanguage = LANGUAGE_ENGLISH;
-        handleLanguageChange();
-      });
-
-      // ドイツ語 ラジオボタン
-      elements.germanRadio.addEventListener('change', function () {
-        currentLanguage = LANGUAGE_GERMAN;
-        handleLanguageChange();
-      });
-
-      // 縦長の表 ラジオボタン
-      elements.verticalTableRadio.addEventListener('change', function () {
-        isVerticalTable = true;
-        toggleTable(isVerticalTable);
-      });
-
-      // 横長の表 ラジオボタン
-      elements.horizontalTableRadio.addEventListener('change', function () {
-        isVerticalTable = false;
-        toggleTable(isVerticalTable);
-      });
-
-      // ポイントを表示 ラジオボタン
-      elements.showPointsRadio.addEventListener('change', () => {
-        isPoints = true;
-        togglePoints(isPoints);
-      });
-
-      // ポイントを非表示 ラジオボタン
-      elements.hidePointsRadio.addEventListener('change', () => {
-        isPoints = false;
-        togglePoints(isPoints);
-      });
-
-      /*  
-                  TODO:初期化の方法を指針版に。初期化関数？不要か。
-                  // 初期表示の設定 (日本語の縦長テーブル)
-                  elements.chartRadio.checked = true; // 初期状態で「調号一覧」ラジオボタンを選択
-                  elements.japaneseRadio.checked = true; // 初期状態で「日本語」ラジオボタンを選択
-                  elements.verticalTableRadio.checked = true; // 初期状態で「縦長の表」ラジオボタンを選択
-                  toggleElements(elements.signatureChartSection, [elements.japaneseSignatureChartSection]);
-                  toggleElements(elements.japaneseSignatureChartSection, [elements.japaneseVerticalTable]);
-        */
-    });
-  </script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <script src="script.js" type="module"></script>
+
 </body>
 
 </html>

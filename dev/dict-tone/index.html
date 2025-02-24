@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Web聴音アプリ テスト</title>
+  <!-- Tone.js を CDN から読み込み（例） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.min.js"></script>
+  <!-- 必要に応じてその他のスタイルシートなど -->
+</head>
+<body>
+  <section id="score-selection">
+    <h2>楽譜選択</h2>
+    <label for="score-select">楽譜:</label>
+    <select id="score-select" aria-label="楽譜選択">
+      <option value="score1">試験用</option>
+      <option value="score2">前半4小節</option>
+      <option value="score3">後半4小節</option>
+    </select>
+  </section>
+
+  <section id="playback-controls">
+    <h2>再生コントロール</h2>
+    <button id="start-button" type="button" aria-label="再生開始">
+      <span class="visually-hidden">再生</span>
+    </button>
+    <button id="stop-button" type="button" aria-label="再生停止">
+      <span class="visually-hidden">停止</span>
+    </button>
+  </section>
+
+  <section id="answer-display">
+    <h2>解答</h2>
+    <button id="answer-button" type="button" aria-label="解答表示">解答を表示</button>
+    <div id="answer-text" aria-live="polite"></div>
+  </section>
+
+  <div id="status-bar">
+    <span id="status-text"></span>
+  </div>
+
+  <!-- 楽譜データ -->
+  <script src="data.js"></script>
+  <!-- メインのテスト用スクリプト -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
