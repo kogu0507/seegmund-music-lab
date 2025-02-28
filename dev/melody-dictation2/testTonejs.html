@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tone.js Test</title>
+    <script src="/node_modules/tone/build/Tone.js"></script>
+</head>
+
+<body>
+    <h1>Tone.js Test</h1>
+    <button id="myButton">test2()を実行</button>
+    <script>
+        console.log("Tone.js version:", Tone.version);
+        Tone.start().then(() => {
+
+            document.getElementById("myButton").addEventListener("click", function () {
+                if (Tone.context.state !== 'running') {
+                    Tone.context.resume();
+                    console.log(`Tone.context.resume();`);
+                }
+
+                test2();
+            });
+        });
+
+        function test2() {
+            Tone.start();
+            // シンセサイザーを作成
+            const synth = new Tone.Synth().toDestination();
+            Tone.Transport.bpm.value = 60;
+
+            const ONE_BEAT = Tone.Time("4n") * 1;
+            let duration = ONE_BEAT * 0;
+            let startTime = ONE_BEAT * 0;
+
+            // 付点四分音符
+            startTime += duration;
+            duration = ONE_BEAT / 3 * 1;
+            console.log(`1 startTime: `, startTime, `\n duration: `, duration);
+            Tone.Transport.schedule((time) => {
+                synth.triggerAttackRelease("D4", duration, time);
+            }, startTime);
+
+
+            // 八分音符
+            startTime += duration;
+            duration = ONE_BEAT / 3 * 2;
+            console.log(`2 startTime: `, startTime, `\n duration: `, duration);
+            Tone.Transport.schedule((time) => {
+                synth.triggerAttackRelease("C4", duration, time);
+            }, startTime);
+
+
+            // 四分音符
+            startTime += duration;
+            duration = ONE_BEAT * 1
+            console.log(`3 startTime: `, startTime, `\n duration: `, duration);
+            Tone.Transport.schedule((time) => {
+                synth.triggerAttackRelease("D4", duration, time);
+            }, startTime);
+
+
+            // 四分音符
+            startTime += duration;
+            duration = ONE_BEAT * 1
+            console.log(`4 startTime: `, startTime, `\n duration: `, duration);
+            Tone.Transport.schedule((time) => {
+                synth.triggerAttackRelease("C4", duration, time);
+            }, startTime);
+            startTime += duration;
+
+            // Transportを開始
+            Tone.Transport.start();
+
+        }
+
+
+        /*
+                function test4() {
+                    // シンセサイザーを作成
+                    const synth = new Tone.Synth().toDestination();
+                    Tone.Transport.bpm.value = 60;
+        
+        
+                    // 付点四分音符
+                    Tone.Transport.schedule((time) => {
+                        synth.triggerAttackRelease("D4", Tone.Time("4n") * 1.5, time);
+                    }, 0);
+        
+                    // 八分音符
+                    Tone.Transport.schedule((time) => {
+                        synth.triggerAttackRelease("C4", "8n", time);
+                    }, Tone.Time(`4n`) * 1.5);
+        
+                    Tone.Transport.schedule((time) => {
+                        synth.triggerAttackRelease("D4", Tone.Time("4n"), time);
+                    }, Tone.Time(`4n`) * 2);
+        
+                    Tone.Transport.schedule((time) => {
+                        synth.triggerAttackRelease("C4", Tone.Time("4n"), time);
+                    }, Tone.Time(`4n`) * 3);
+        
+                    // Transportを開始
+                    Tone.Transport.start();
+                }
+        
+        
+                function test3() {
+                    // Audioの起動
+                    Tone.start();
+        
+                    // BPMを設定
+                    Tone.Transport.bpm.value = 120;
+        
+                    // シンセを作成し、出力先を設定
+                    const synth = new Tone.Synth().toDestination();
+        
+                    // Tone.now() を基準に時間を管理
+                    let currentTime = Tone.now();
+                    let duration = Tone.Time(0);
+        
+                    // Tone.Transport をスタート
+                    Tone.Transport.start();
+        
+                    // 最初の音 (4n/3*2)
+                    duration = Tone.Time("4n/3*2"); // 約 0.333秒 (BPM 120)
+                    synth.triggerAttackRelease("C4", duration, currentTime);
+                    currentTime += duration; // 次の発音時間を更新
+        
+                    // 2つ目の音 (4n/3)
+                    duration = Tone.Time("4n/3"); // 約 0.166秒
+                    synth.triggerAttackRelease("C4", duration, currentTime);
+                    currentTime += duration; // 次の発音時間を更新
+        
+                    // 3つ目の音 (4n/3)
+                    duration = Tone.Time("4n/3"); // 約 0.166秒
+                    synth.triggerAttackRelease("C4", duration, currentTime);
+        
+                }
+        
+                function test1() {
+                    const sigA = new Tone.Signal(3);
+                    const mult = new Tone.Multiply(4);
+        
+                    sigA.connect(mult);
+        
+                    console.log("Multiplication result:", mult.value);
+        
+                    const synth = new Tone.Synth().toDestination();
+                    synth.triggerAttackRelease("C4", "4n");
+        
+                    console.log("AudioContext initialized and synth played.");
+                }  */
+    </script>
+</body>
+
+</html>
