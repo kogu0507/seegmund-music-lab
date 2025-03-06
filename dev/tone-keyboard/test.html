@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToneKeyboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        #tone-piano-keyboard-section {
+            display: flex;
+            flex-wrap: nowrap;
+            width: 100%;
+            touch-action: manipulation;
+        }
+
+        .keys {
+            flex: 1;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 10px;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        .white-keys {
+            background-color: white;
+            border: 1px solid black;
+        }
+
+        .black-keys {
+            background-color: black;
+            color: white;
+            height: 120px;
+            position: relative;
+            z-index: 1;
+            margin: 0 -15px 0 -15px;
+        }
+
+        @media (max-width: 768px) {
+            #tone-piano-keyboard-section {
+                overflow-x: auto;
+            }
+
+            .keys {
+                min-width: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Tone.jsを有効にするボタン -->
+    <button id="activate-button">Tone.jsを有効にする</button>
+
+    <div id="tone-piano-keyboard-section" class="d-none">
+        <div class="keys white-keys" data-note="60"></div>
+        <div class="keys black-keys" data-note="61"></div>
+        <div class="keys white-keys" data-note="62"></div>
+        <div class="keys black-keys" data-note="63"></div>
+        <div class="keys white-keys" data-note="64"></div>
+        <div class="keys white-keys" data-note="65"></div>
+        <div class="keys black-keys" data-note="66"></div>
+        <div class="keys white-keys" data-note="67"></div>
+        <div class="keys black-keys" data-note="68"></div>
+        <div class="keys white-keys" data-note="69"></div>
+        <div class="keys black-keys" data-note="70"></div>
+        <div class="keys white-keys" data-note="71"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tone@15.0.4/build/Tone.min.js"></script>
+    <!--
+        TODO: 後で外部ファイル化
+        <script type="module" src="index.js" defer></script>
+    -->
+    <script type="module">
+        // script.js
+        import { ToneSetup } from './ToneSetup.mjs';
+        /*    
+                あとでインポート。今はテストだからここでクラスをつくる
+                import { ToneKeyboard } from './ToneKeyboard.mjs'; // 追加
+                聴音用の再生機を初期化＆操作
+        
+                import { ToneDictationPlayer } from './ToneDictationPlayer.mjs'; // 追加
+                音確認用のキーボートを初期化＆操作
+        */
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const activateButton = document.getElementById('activate-button');
+            const toneSetup = new ToneSetup(activateButton);
+
+            toneSetup.onActivation = async () => {
+                console.log('Custom activation logic!');
+                const Tone = toneSetup.getTone();
+                if (Tone) {
+                    const synth = new Tone.Synth().toDestination();
+                    synth.triggerAttackRelease('C4', '8n');
+                    // 鍵盤アプリと聴音アプリの初期化
+                    const keyboard = new ToneKeyboard(Tone, document.getElementById('tone-piano-keyboard-section'));
+                    const dictationPlayer = new ToneDictationPlayer(Tone);
+                }
+            };
+
+            console.log('Is Tone.js activated?', toneSetup.isToneActivated());
+
+
+
+            // -------------------------------
+
+
+            class ToneDictationPlayer {
+                constructor(Tone) {
+                    this.Tone = Tone;
+                    // ToneDictationPlayer の実装
+                }
+            }
+
+            class ToneKeyboard {
+                constructor(Tone, keyboardElement) {
+                    this.Tone = Tone;
+                    this.keyboardElement = keyboardElement;
+                    this.synth = new Tone.Synth().toDestination();
+                    this.setupKeyboard();
+                }
+
+                setupKeyboard() {
+                    this.keyboardElement.querySelectorAll('.keys').forEach(key => {
+                        key.addEventListener('mousedown', () => {
+                            const note = key.dataset.note;
+                            this.synth.triggerAttackRelease(this.Tone.Frequency(note, "midi").toNote(), '8n');
+                        });
+                    });
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

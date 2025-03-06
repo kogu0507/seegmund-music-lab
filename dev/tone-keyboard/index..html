@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToneKeyboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /*  #tone-keyboard-section {}  */
+
+        .key {
+            height: 100px;
+            border: 1px solid #000;
+            flex-shrink: 0;
+            width: 50px;
+            /* 追加 */
+            text-align: center;
+            display: flex; /* flexboxを有効化 */
+            flex-direction: column; /* 要素を縦方向に配置 */
+            justify-content: flex-end; /* 要素を下に配置 */            
+        }
+
+        .white-key {
+            background-color: #fff;
+            z-index: 1;
+        }
+
+        .black-key {
+            width: 30px;
+            height: 60px;
+            background-color: #000;
+            margin-left: -15px;
+            margin-right: -15px;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="display-1">Dictation</h1>
+    <!-- Tone.jsを有効にするボタン -->
+    <section id="activate-button-section" class="card card-body m-2">
+        <h2>Tone.jsを有効にしてください</h2>
+        <p>このWebアプリを使用するには、Tone.jsを有効にする必要があります。</p>
+        <p>
+            <strong>注意事項:</strong><br />
+            Tone.jsを有効にすると、ブラウザが音声処理を行うため、<br />
+            CPU使用率が上昇する場合があります。
+        </p>
+        <button id="activate-button" class="btn btn-primary btn-lg">Tone.jsを有効にする</button>
+        <div id="activate-status"></div>
+    </section>
+
+
+
+    <section id="tone-dictation-section" class="opacity-25">
+        <h2>旋律聴音</h2>
+        <p>高音部譜表，ハ長調，４／４拍子，８小節</p>
+        <p>再生するボタンを選択してください</p>
+
+        <section id="trial-section" class="card card-body my-3">
+            <h2>試験再生</h2>
+            <p>試験を想定したインターバル付きの演奏です。</p>
+            <div>ステータス: <span class="tone-status"></span></div>
+            <div class="my-3">
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="play-radio btn-check" name="section" id="trial" autocomplete="off"
+                        value="trial">
+                    <label class="btn btn-outline-success" for="trial">試験再生</label>
+                </div>
+            </div>
+            <button class="stop-button btn btn-danger">ストップ</button>
+        </section>
+
+        <!-- tone-keyboard -->
+        <section class="tone-keyboard-section container d-flex overflow-auto my-3 opacity-25">
+            <div class="key white-key" data-note="53"></div>
+            <div class="key black-key" data-note="54"></div>
+            <div class="key white-key" data-note="55"></div>
+            <div class="key black-key" data-note="56"></div>
+            <div class="key white-key" data-note="57"></div>
+            <div class="key black-key" data-note="58"></div>
+            <div class="key white-key" data-note="59"></div>
+            <div class="key white-key" data-note="60">C4</div>
+            <div class="key black-key" data-note="61"></div>
+            <div class="key white-key" data-note="62"></div>
+            <div class="key black-key" data-note="63"></div>
+            <div class="key white-key" data-note="64"></div>
+            <div class="key white-key" data-note="65"></div>
+            <div class="key black-key" data-note="66"></div>
+            <div class="key white-key" data-note="67"></div>
+            <div class="key black-key" data-note="68"></div>
+            <div class="key white-key" data-note="69"></div>
+            <div class="key black-key" data-note="70"></div>
+            <div class="key white-key" data-note="71"></div>
+            <div class="key white-key" data-note="72">C5</div>
+            <div class="key black-key" data-note="73"></div>
+            <div class="key white-key" data-note="74"></div>
+            <div class="key black-key" data-note="75"></div>
+            <div class="key white-key" data-note="76"></div>
+            <div class="key white-key" data-note="77"></div>
+            <div class="key black-key" data-note="78"></div>
+            <div class="key white-key" data-note="79"></div>
+            <div class="key black-key" data-note="80"></div>
+            <div class="key white-key" data-note="81"></div>
+            <div class="key black-key" data-note="82"></div>
+            <div class="key white-key" data-note="83"></div>
+        </section>
+
+
+        <section id="partial-playback-section" class="card card-body my-3">
+            <h2>部分再生</h2>
+            <p>指定の小節範囲を1回だけ演奏します</p>
+            <div>ステータス: <span class="tone-status"></span></div>
+            <div class="my-3">
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar1to8" autocomplete="off"
+                        value="bar1to8" data-start-bar="1" data-end-bar="8">
+                    <label class="btn btn-outline-primary" for="bar1to8">1-8小節</label>
+                </div>
+            </div>
+            <div class="my-3">
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar1to4" autocomplete="off"
+                        value="bar1to4" data-start-bar="1" data-end-bar="4">
+                    <label class="btn btn-outline-primary" for="bar1to4">1-4小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar5to8" autocomplete="off"
+                        value="bar5to8" data-start-bar="5" data-end-bar="8">
+                    <label class="btn btn-outline-primary" for="bar5to8">5-8小節</label>
+                </div>
+            </div>
+            <div class="my-3">
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar1to2" autocomplete="off"
+                        value="bar1to2" data-start-bar="1" data-end-bar="2">
+                    <label class="btn btn-outline-primary" for="bar1to2">1-2小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar3to4" autocomplete="off"
+                        value="bar3to4" data-start-bar="3" data-end-bar="4">
+                    <label class="btn btn-outline-primary" for="bar3to4">3-4小節</label>
+                </div>
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar5to6" autocomplete="off"
+                        value="bar5to6" data-start-bar="5" data-end-bar="6">
+                    <label class="btn btn-outline-primary" for="bar5to6">5-6小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar7to8" autocomplete="off"
+                        value="bar7to8" data-start-bar="7" data-end-bar="8">
+                    <label class="btn btn-outline-primary" for="bar7to8">7-8小節</label>
+                </div>
+            </div>
+
+            <div class="my-3">
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar1to1" autocomplete="off"
+                        value="bar1to1" data-start-bar="1" data-end-bar="1">
+                    <label class="btn btn-outline-primary" for="bar1to1">1小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar2to2" autocomplete="off"
+                        value="bar2to2" data-start-bar="2" data-end-bar="2">
+                    <label class="btn btn-outline-primary" for="bar2to2">2小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar3to3" autocomplete="off"
+                        value="bar3to3" data-start-bar="3" data-end-bar="3">
+                    <label class="btn btn-outline-primary" for="bar3to3">3小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar4to4" autocomplete="off"
+                        value="bar4to4" data-start-bar="4" data-end-bar="4">
+                    <label class="btn btn-outline-primary" for="bar4to4">4小節</label>
+                </div>
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar5to5" autocomplete="off"
+                        value="bar5to5" data-start-bar="5" data-end-bar="5">
+                    <label class="btn btn-outline-primary" for="bar5to5">5小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar6to6" autocomplete="off"
+                        value="bar6to6" data-start-bar="6" data-end-bar="6">
+                    <label class="btn btn-outline-primary" for="bar6to6">6小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar7to7" autocomplete="off"
+                        value="bar7to7" data-start-bar="7" data-end-bar="7">
+                    <label class="btn btn-outline-primary" for="bar7to7">7小節</label>
+                    <input type="radio" class="play-radio btn-check" name="section" id="bar8to8" autocomplete="off"
+                        value="bar8to8" data-start-bar="8" data-end-bar="8">
+                    <label class="btn btn-outline-primary" for="bar8to8">8小節</label>
+                </div>
+            </div>
+            <button class="stop-button btn btn-danger">ストップ</button>
+            
+            <!-- tone-keyboard -->
+            <section class="tone-keyboard-section container d-flex overflow-auto my-3 opacity-25">
+                <div class="key white-key" data-note="53"></div>
+                <div class="key black-key" data-note="54"></div>
+                <div class="key white-key" data-note="55"></div>
+                <div class="key black-key" data-note="56"></div>
+                <div class="key white-key" data-note="57"></div>
+                <div class="key black-key" data-note="58"></div>
+                <div class="key white-key" data-note="59"></div>
+                <div class="key white-key" data-note="60">C4</div>
+                <div class="key black-key" data-note="61"></div>
+                <div class="key white-key" data-note="62"></div>
+                <div class="key black-key" data-note="63"></div>
+                <div class="key white-key" data-note="64"></div>
+                <div class="key white-key" data-note="65"></div>
+                <div class="key black-key" data-note="66"></div>
+                <div class="key white-key" data-note="67"></div>
+                <div class="key black-key" data-note="68"></div>
+                <div class="key white-key" data-note="69"></div>
+                <div class="key black-key" data-note="70"></div>
+                <div class="key white-key" data-note="71"></div>
+                <div class="key white-key" data-note="72">C5</div>
+                <div class="key black-key" data-note="73"></div>
+                <div class="key white-key" data-note="74"></div>
+                <div class="key black-key" data-note="75"></div>
+                <div class="key white-key" data-note="76"></div>
+                <div class="key white-key" data-note="77"></div>
+                <div class="key black-key" data-note="78"></div>
+                <div class="key white-key" data-note="79"></div>
+                <div class="key black-key" data-note="80"></div>
+                <div class="key white-key" data-note="81"></div>
+                <div class="key black-key" data-note="82"></div>
+                <div class="key white-key" data-note="83"></div>
+            </section>
+        </section>
+
+    </section>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tone@15.0.4/build/Tone.min.js"></script>
+    <!--
+        TODO: 後で外部ファイル化
+        <script type="module" src="index.js" defer></script>
+    -->
+    <script type="module">
+        // script.js
+        import { ToneSetup } from './ToneSetup.mjs';
+        import { ToneKeyboard, SYNTH_PRESETS } from './ToneKeyboard.mjs';
+        /*    
+                あとでインポート。今はテストだからここでクラスをつくる
+                
+                聴音用の再生機を初期化＆操作
+        
+                import { ToneDictationPlayer } from './ToneDictationPlayer.mjs'; // 追加
+                音確認用のキーボートを初期化＆操作
+        */
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const activateButtonSection = document.getElementById('activate-button-section');
+            const activateButton = document.getElementById('activate-button');
+            const activateStatus = document.getElementById('activate-status');
+            const keyboardSections = document.querySelectorAll('.tone-keyboard-section');
+            const toneDictationSection = document.getElementById('tone-dictation-section');
+            const toneStatus = document.getElementById('tone-status');
+
+            const toneSetup = new ToneSetup(
+                activateButtonSection,
+                activateButton,
+                activateStatus,
+                [keyboardSections, toneDictationSection] // アクティブにするtoneエレメント
+            );
+
+            toneSetup.onActivation = async () => {
+                console.log('Custom activation logic!');
+                const Tone = toneSetup.getTone();
+                if (Tone) {
+                    // test用: const synth = new Tone.Synth().toDestination();
+                    // test用: synth.triggerAttackRelease('C4', '8n');
+
+                    // 鍵盤アプリと聴音アプリの初期化
+                    Tone.loaded().then(() => {
+
+                        keyboardSections.forEach(section => {
+                            const selectedPreset = SYNTH_PRESETS['triangle'];
+                            const toneKeyboard = new ToneKeyboard(Tone, section, selectedPreset);
+                        });
+
+                        // TODO: まだやらないけど。　const dictationPlayer = new ToneDictationPlayer(Tone);
+                    });
+                }
+
+            };
+
+            
+
+            console.log('Is Tone.js activated?', toneSetup.isToneActivated());
+
+
+
+            // -------------------------------
+
+
+            class ToneDictationPlayer {
+                constructor(Tone) {
+                    this.Tone = Tone;
+                    // ToneDictationPlayer の実装
+                }
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>
