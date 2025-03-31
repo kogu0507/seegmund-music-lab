@@ -1,0 +1,54 @@
+// EventBus.test.js
+
+import { EventBus } from '../EventBus.mjs';  // __tests__からアクセスする場合は［../］
+
+describe('EventBus', () => {
+    let eventBus;
+
+    beforeEach(() => {
+        eventBus = new EventBus();
+    });
+
+    it('イベントを購読し、発行できる', () => {
+        const mockCallback = jest.fn();
+        eventBus.subscribe('testEvent', mockCallback);
+        eventBus.publish('testEvent', 'testData');
+        expect(mockCallback).toHaveBeenCalledWith('testData');
+    });
+
+    it('複数の購読者がいる場合、すべての購読者に通知される', () => {
+        const mockCallback1 = jest.fn();
+        const mockCallback2 = jest.fn();
+        eventBus.subscribe('testEvent', mockCallback1);
+        eventBus.subscribe('testEvent', mockCallback2);
+        eventBus.publish('testEvent', 'testData');
+        expect(mockCallback1).toHaveBeenCalledWith('testData');
+        expect(mockCallback2).toHaveBeenCalledWith('testData');
+    });
+
+    it('購読解除できる', () => {
+        const mockCallback = jest.fn();
+        eventBus.subscribe('testEvent', mockCallback);
+        eventBus.unsubscribe('testEvent', mockCallback);
+        eventBus.publish('testEvent', 'testData');
+        expect(mockCallback).not.toHaveBeenCalled();
+    });
+
+    it('存在しないイベントを発行してもエラーにならない', () => {
+        expect(() => {
+            eventBus.publish('nonExistentEvent', 'testData');
+        }).not.toThrow();
+    });
+
+    it('clear() で全ての購読を解除できる', () => {
+        const mockCallback1 = jest.fn();
+        const mockCallback2 = jest.fn();
+        eventBus.subscribe('testEvent1', mockCallback1);
+        eventBus.subscribe('testEvent2', mockCallback2);
+        eventBus.clear();
+        eventBus.publish('testEvent1', 'testData');
+        eventBus.publish('testEvent2', 'testData');
+        expect(mockCallback1).not.toHaveBeenCalled();
+        expect(mockCallback2).not.toHaveBeenCalled();
+    });
+});

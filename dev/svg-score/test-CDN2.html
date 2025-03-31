@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verovio MEI fetchサンプル</title>
+
+    <!-- Verovio CDN 読み込み -->
+    <script src="https://www.verovio.org/javascript/latest/verovio-toolkit-wasm.js" defer></script>
+    <script>
+        // 定数としてセクションIDを定義
+        const FIRST_SECTION_ID = `measures-1-4`;
+        const SECOND_SECTION_ID = `measures-5-8`;
+        // 定数としてスケールを定義
+        const SCALE = 100;
+
+        /**
+         * MEIデータを指定されたセクションに基づいて分割する関数
+         * @param {string} mei - 分割するMEIデータの文字列
+         * @param {string} sectionIdToRemove - 削除するセクションのID
+         * @returns {string} - 指定されたセクションが削除されたMEIデータの文字列
+         */
+        function deleteSection(mei, sectionIdToRemove) {
+            // MEIデータをXMLとして解析
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(mei, "text/xml");
+
+            // 削除するセクション要素を取得
+            const sectionToRemove = xmlDoc.querySelector(`#${sectionIdToRemove}`);
+
+            // セクション要素が存在する場合、削除する
+            if (sectionToRemove) {
+                sectionToRemove.remove();
+            } else {
+                console.error(`Section with ID '${sectionIdToRemove}' not found.`);
+                return null; // セクションが見つからない場合はnullを返す
+            }
+
+            // 変更されたXMLを文字列に変換
+            const serializer = new XMLSerializer();
+            const modifiedMei = serializer.serializeToString(xmlDoc);
+
+            return modifiedMei;
+        }
+
+        /**
+         * MEIデータを前半と後半のセクションに分割する関数
+         * @param {string} mei - 分割するMEIデータの文字列
+         * @returns {{mei_1to4: string, mei_5to8: string}} - 分割されたMEIデータのオブジェクト
+         */
+        function splitMeiBySection(mei) {
+            // mei_1to4: measures-5-8を削除
+            const mei_1to4 = deleteSection(mei, SECOND_SECTION_ID);
+
+            // mei_5to8: measures-1-4を削除
+            const mei_5to8 = deleteSection(mei, FIRST_SECTION_ID);
+
+            return { mei_1to4, mei_5to8 };
+        }
+
+        // DOMの読み込み完了後に実行
+        document.addEventListener("DOMContentLoaded", (event) => {
+            verovio.module.onRuntimeInitialized = async _ => {
+                // Verovio toolkit の初期化
+                let tk1 = new verovio.toolkit();
+                let tk2 = new verovio.toolkit();
+
+                // 楽譜表示用のコンテナを取得
+                const container1 = document.getElementById("notation1");
+                const container2 = document.getElementById("notation2");
+
+                // コンテナの幅を取得（ここではピクセル数）
+                let container1Width = container1.clientWidth;
+                let container2Width = container2.clientWidth;
+
+                // Verovioのオプションを設定
+                tk1.setOptions({
+                    scale: SCALE,               // 楽譜の拡大率
+                    landscape: true,         // 横長のレイアウト
+                    adjustPageWidth: false,  // 自動でページ幅を調整しない（手動で設定）
+                    pageWidth: container1Width,  // コンテナの幅に合わせて設定
+                    header: false             // タイトルを非表示にする
+                });
+
+                tk2.setOptions({
+                    scale: SCALE,               // 楽譜の拡大率
+                    landscape: true,         // 横長のレイアウト
+                    adjustPageWidth: false,  // 自動でページ幅を調整しない（手動で設定）
+                    pageWidth: container2Width,  // コンテナの幅に合わせて設定
+                    header: false             // タイトルを非表示にする
+                });
+
+                // sample.mei をフェッチして読み込み
+                fetch("sample.mei")
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then((mei) => {
+                        // MEIデータを分割
+                        const { mei_1to4, mei_5to8 } = splitMeiBySection(mei);
+                        if (!mei_1to4 || !mei_5to8) {
+                            throw new Error("Failed to split MEI data.");
+                        }
+
+                        // 読み込んだ MEI データを元に SVG を生成
+                        let svg1 = tk1.renderData(mei_1to4, {});
+                        let svg2 = tk2.renderData(mei_5to8, {});
+
+                        // コンテナにSVGを挿入
+                        container1.innerHTML = svg1;
+                        container2.innerHTML = svg2;
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching or processing MEI data:", error);
+                        // ユーザーにエラーメッセージを表示するなどの処理を追加できます
+                    });
+            };
+        });
+
+    </script>
+
+    <style>
+        /* 楽譜表示用の枠のスタイル設定 */
+        #notation1,
+        #notation2 {
+            width: 100%;
+            /* コンテナの幅を親要素に合わせる */
+            max-width: 800px;
+            /* 必要に応じて最大幅を指定 */
+            border: 1px solid #ccc;
+            /* 枠線 */
+            padding: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+            /* 横はみ出し時にスクロールできるように */
+        }
+
+        /* SVG自体のサイズを100%にしておくと、コンテナに合わせて縮小されます */
+        #notation1 svg,
+        #notation2 svg {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hello Verovio!</h1>
+    <div id="notation1"></div>
+    <div id="notation2"></div>
+</body>
+
+</html>

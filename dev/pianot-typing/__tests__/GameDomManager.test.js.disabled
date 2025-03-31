@@ -1,0 +1,125 @@
+// GameDomManager.test.js
+
+// インポート
+// __tests__からアクセスする場合は［../］
+import { GameDomManager } from '../GameDomManager.mjs';
+import { EventBus } from '../EventBus.mjs';
+
+describe('GameDomManager', () => {
+    let gameDomManager;
+    let eventBus;
+    let domElements;
+
+    beforeEach(() => {
+        // テスト用の HTML をセットアップ
+        document.body.innerHTML = `
+            <div id="game-score-value"></div>
+            <div id="game-time-limit-bar"></div>
+            <div id="game-combo-value"></div>
+            <div id="game-lives-value"></div>
+            <div id="game-mode-1-question-display"></div>
+            <div class="result-symbol"></div>
+            <div id="ending-high-score"></div>
+            <div id="ending-score-value"></div>
+            <div id="ending-time-value"></div>
+            <div id="game-section"></div>
+            <div id="ending-section"></div>
+            <div id="opening-section"></div>
+            <div id="game-status-section"></div>
+        `;
+
+        eventBus = new EventBus();
+        domElements = {
+            "game-score-value": document.getElementById("game-score-value"),
+            "game-time-limit-bar": document.getElementById("game-time-limit-bar"),
+            "game-combo-value": document.getElementById("game-combo-value"),
+            "game-lives-value": document.getElementById("game-lives-value"),
+            "game-mode-1-question-display": document.getElementById("game-mode-1-question-display"),
+            "result-symbol": document.querySelector(".result-symbol"),
+            "ending-high-score": document.getElementById("ending-high-score"),
+            "ending-score-value": document.getElementById("ending-score-value"),
+            "ending-time-value": document.getElementById("ending-time-value"),
+            "game-section": document.getElementById("game-section"),
+            "ending-section": document.getElementById("ending-section"),
+            "opening-section": document.getElementById("opening-section"),
+            "game-status-section": document.getElementById("game-status-section"),
+        };
+        gameDomManager = new GameDomManager({ domElements, eventBus });
+    });
+
+    it('コンストラクタで必要なDOM要素が正しく初期化されている', () => {
+        expect(gameDomManager.scoreElement).toBe(domElements["game-score-value"]);
+        expect(gameDomManager.timeLimitElement).toBe(domElements["game-time-limit-bar"]);
+        expect(gameDomManager.comboElement).toBe(domElements["game-combo-value"]);
+        expect(gameDomManager.livesElement).toBe(domElements["game-lives-value"]);
+        expect(gameDomManager.questionElement).toBe(domElements["game-mode-1-question-display"]);
+        expect(gameDomManager.resultElement).toBe(domElements["result-symbol"]);
+        expect(gameDomManager.highScoreElement).toBe(domElements["ending-high-score"]);
+        expect(gameDomManager.endingScoreElement).toBe(domElements["ending-score-value"]);
+        expect(gameDomManager.endingTimeElement).toBe(domElements["ending-time-value"]);
+        expect(gameDomManager.gameSectionElement).toBe(domElements["game-section"]);
+        expect(gameDomManager.endingSectionElement).toBe(domElements["ending-section"]);
+        expect(gameDomManager.openingSectionElement).toBe(domElements["opening-section"]);
+        expect(gameDomManager.gameStatusSectionElement).toBe(domElements["game-status-section"]);
+    });
+
+    it('updateScore でスコアが正しく更新される', () => {
+        gameDomManager.updateScore(100);
+        expect(gameDomManager.scoreElement.textContent).toBe('100');
+    });
+
+    it('updateTimeLimit で残り時間が正しく更新される', () => {
+        gameDomManager.updateTimeLimit(30);
+        expect(gameDomManager.timeLimitElement.style.width).toBe('50%');
+    });
+
+    it('updateCombo でコンボ数が正しく更新される', () => {
+        gameDomManager.updateCombo(5);
+        expect(gameDomManager.comboElement.textContent).toBe('5');
+    });
+
+    it('updateLives でライフが正しく更新される', () => {
+        gameDomManager.updateLives(2);
+        expect(gameDomManager.livesElement.textContent).toBe('2');
+    });
+
+    it('updateQuestions で問題が正しく更新される', () => {
+        gameDomManager.updateQuestions('C');
+        expect(gameDomManager.questionElement.textContent).toBe('C');
+    });
+
+    it('updateHighScore でハイスコアが正しく更新される', () => {
+        gameDomManager.updateHighScore(1000);
+        expect(gameDomManager.highScoreElement.textContent).toBe('1000');
+    });
+
+    it('updateEndingScore で最終スコアが正しく更新される', () => {
+        gameDomManager.updateEndingScore(500);
+        expect(gameDomManager.endingScoreElement.textContent).toBe('500');
+    });
+
+    it('updateEndingTime でクリアタイムが正しく更新される', () => {
+        gameDomManager.updateEndingTime(45);
+        expect(gameDomManager.endingTimeElement.textContent).toBe('45');
+    });
+
+    it('reset でDOM要素が初期状態に戻る', () => {
+        gameDomManager.updateScore(100);
+        gameDomManager.updateTimeLimit(30);
+        gameDomManager.updateCombo(5);
+        gameDomManager.updateLives(2);
+        gameDomManager.updateQuestions('C');
+        gameDomManager.updateHighScore(1000);
+        gameDomManager.updateEndingScore(500);
+        gameDomManager.updateEndingTime(45);
+        gameDomManager.reset();
+        expect(gameDomManager.scoreElement.textContent).toBe('0');
+        expect(gameDomManager.timeLimitElement.style.width).toBe('100%');
+        expect(gameDomManager.comboElement.textContent).toBe('0');
+        expect(gameDomManager.livesElement.textContent).toBe('3');
+        expect(gameDomManager.questionElement.textContent).toBe('');
+        expect(gameDomManager.highScoreElement.textContent).toBe('0');
+        expect(gameDomManager.endingScoreElement.textContent).toBe('0');
+        expect(gameDomManager.endingTimeElement.textContent).toBe('0');
+    });
+});

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verovio App demo</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        .header {
+            padding: 30px;
+            height: 80px;
+        }
+
+        #app {
+            height: auto;
+            width: 100%;
+            position: absolute;
+            top: 80px;
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">How to use the Verovio App</div>
+    <div id="app">Verovio is loading...</div>
+    <script type="module">
+        import 'https://editor.verovio.org/javascript/app/verovio-app.js';
+
+        const options = {
+            defaultView: 'responsive', // default is 'responsive', alternative is 'document'
+            //documentZoom: 4, // 0-7, default is 3
+            responsiveZoom: 3, // 0-7, default is 4
+            enableResponsive: true, // default is true
+            enableDocument: true // default is true
+        }
+
+        // A MusicXML file
+        var file = 'sample.mei';
+        //var file = 'https://www.verovio.org/examples/musicxml/Vivaldi_Concerto_No.4_in_F_Minor_Winter.xml';
+        
+        // A MEI file
+        //var file = 'https://www.verovio.org/editor/brahms.mei';
+
+        // Create the app - here with an empty option object
+        const app = new Verovio.App(document.getElementById("app"), options);
+
+        // Load a file (MEI or MusicXML)
+        fetch(file)
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (text) {
+                app.loadData(text);
+            });
+    </script>
+</body>
+
+</html>

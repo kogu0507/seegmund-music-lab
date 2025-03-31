@@ -17,9 +17,12 @@
             width: 50px;
             /* 追加 */
             text-align: center;
-            display: flex; /* flexboxを有効化 */
-            flex-direction: column; /* 要素を縦方向に配置 */
-            justify-content: flex-end; /* 要素を下に配置 */            
+            display: flex;
+            /* flexboxを有効化 */
+            flex-direction: column;
+            /* 要素を縦方向に配置 */
+            justify-content: flex-end;
+            /* 要素を下に配置 */
         }
 
         .white-key {
@@ -181,7 +184,7 @@
                 </div>
             </div>
             <button class="stop-button btn btn-danger">ストップ</button>
-            
+
             <!-- tone-keyboard -->
             <section class="tone-keyboard-section container d-flex overflow-auto my-3 opacity-25">
                 <div class="key white-key" data-note="53"></div>
@@ -243,20 +246,47 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            const activateButtonSection = document.getElementById('activate-button-section');
-            const activateButton = document.getElementById('activate-button');
-            const activateStatus = document.getElementById('activate-status');
+            const targetIds = [
+                // アクティベート系
+                'activate-button-section',
+                'activate-button',
+                'activate-status',
+                'tone-dictation-section',
+                'tone-status'
+                // 再生・停止系ボタン
+
+            ];
+
+            const elements = getElementByIds(targetIds);
             const keyboardSections = document.querySelectorAll('.tone-keyboard-section');
-            const toneDictationSection = document.getElementById('tone-dictation-section');
-            const toneStatus = document.getElementById('tone-status');
 
             const toneSetup = new ToneSetup(
-                activateButtonSection,
-                activateButton,
-                activateStatus,
-                [keyboardSections, toneDictationSection] // アクティブにするtoneエレメント
+                // セットアップに必要なもの（終了後非表示にする）
+                elements['activate-button-section'],
+                elements['activate-button'],
+                elements['activate-status'],
+                [
+                    // セットアップ後にアクティブにするもの
+                    keyboardSections,
+                    elements['tone-dictation-section']
+                ]
             );
 
+            /*  
+                const activateButtonSection = document.getElementById('activate-button-section');
+                const activateButton = document.getElementById('activate-button');
+                const activateStatus = document.getElementById('activate-status');
+                const keyboardSections = document.querySelectorAll('.tone-keyboard-section');
+                const toneDictationSection = document.getElementById('tone-dictation-section');
+                const toneStatus = document.getElementById('tone-status');
+    
+                const toneSetup = new ToneSetup(
+                    activateButtonSection,
+                    activateButton,
+                    activateStatus,
+                    [keyboardSections, toneDictationSection] // アクティブにするtoneエレメント
+                );
+              */
             toneSetup.onActivation = async () => {
                 console.log('Custom activation logic!');
                 const Tone = toneSetup.getTone();
@@ -278,13 +308,27 @@
 
             };
 
-            
+
 
             console.log('Is Tone.js activated?', toneSetup.isToneActivated());
 
 
 
             // -------------------------------
+            // あとでモジュール化するよ
+            function getElementByIds(targetIds) {
+                const elements = {}; // ローカル変数として宣言
+                targetIds.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        elements[id] = element;
+                        console.log(`要素 ${id} を取得しました。`);
+                    } else {
+                        console.error(`要素 ${id} が見つかりません。`);
+                    }
+                });
+                return elements;
+            }
 
 
             class ToneDictationPlayer {

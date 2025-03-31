@@ -1,0 +1,95 @@
+/* style.css */
+
+/* ユーザー回答のキーボード */
+.answer-keyboard-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    width: 100%; /* 親要素の幅いっぱいに表示 */
+  }
+  
+  .key {
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --white-key-width: calc(100% / 7);
+    --black-key-width: calc(var(--white-key-width) * 0.75);
+    --black-key-height: calc(var(--white-key-width) * 1.2);
+    --key-height: calc(var(--white-key-width) * 2); /* 鍵盤の高さを横幅の2倍に設定 */
+  }
+  
+  .white-key {
+    width: var(--white-key-width);
+    height: var(--key-height);
+    background-color: white;
+  }
+  
+  .black-key {
+    width: var(--black-key-width);
+    height: var(--black-key-height);
+    background-color: black;
+    margin-left: calc(var(--black-key-width) / -2);
+    margin-right: calc(var(--black-key-width) / -2);
+    z-index: 1;
+  }
+
+/* .answer-keyboard-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.key {
+    height: 100px;
+    width: 50px;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 14px;
+}
+
+.white-key {
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.black-key {
+    width: 30px;
+    height: 60px;
+    background-color: #000;
+    margin-left: -15px;
+    margin-right: -15px;
+    z-index: 2;
+} */
+
+/* 音名出題 */
+.note-name-container {
+    display: flex;
+    flex-direction: column;
+    /* 音名と結果記号を縦に並べる */
+    align-items: center;
+    /* 中央揃えにする */
+}
+
+.note-name-container {
+    display: flex;
+    flex-direction: column;
+    /* 音名と結果記号を縦に並べる */
+    align-items: center;
+    /* 中央揃えにする */
+}
+
+/* 1文字につき 正解：〇 不正解：✖ */
+.result-symbol {
+    font-size: 0.5em;
+    /* 初期サイズを1.0emに設定(1emがデフォルトサイズ) */
+    line-height: 1.0;
+    /* 行の高さを文字の高さと同じに設定 */
+    height: 1.0em;
+    /* 高さを設定しておかないと入力時にキーボードの位置がずれちゃうため */
+}

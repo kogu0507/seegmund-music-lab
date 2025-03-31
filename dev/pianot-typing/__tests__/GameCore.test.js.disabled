@@ -1,0 +1,286 @@
+// GameCore.test.js
+
+// インポート
+// __tests__からアクセスする場合は［../］
+import { GameSettingsManager, GameScoreManager, GameQuestionGenerator, GameTimeLimitTimer, GameCounter, GameManager, StorageManager } from '../GameCore.mjs';
+import { EventBus, GAME_EVENTS } from '../EventBus.mjs';
+import { GameDomManager } from '../GameDomManager.mjs';
+
+describe('GameSettingsManager', () => {
+    let settingsManager;
+    let eventBus;
+
+    beforeEach(() => {
+        eventBus = new EventBus();
+        settingsManager = new GameSettingsManager({ eventBus });
+    });
+
+    it('初期設定が正しく設定されている', () => {
+        expect(settingsManager.get('gameMode')).toBe('game-mode-1');
+        expect(settingsManager.get('noteNameType')).toBe('note-name-type-japanese');
+        expect(settingsManager.get('difficulty')).toBe(1);
+    });
+
+    it('設定を更新できる', () => {
+        settingsManager.update('gameMode', 'game-mode-2');
+        expect(settingsManager.get('gameMode')).toBe('game-mode-2');
+    });
+
+    it('設定をリセットできる', () => {
+        settingsManager.update('gameMode', 'game-mode-2');
+        settingsManager.reset();
+        expect(settingsManager.get('gameMode')).toBe('game-mode-1');
+    });
+
+    it('不正な値を設定しようとするとエラーになる', () => {
+        console.error = jest.fn(); // console.error をモック化
+        settingsManager.update('difficulty', 'invalid');
+        expect(console.error).toHaveBeenCalled();
+    });
+});
+
+describe('GameScoreManager', () => {
+    let scoreManager;
+    let eventBus;
+    let gameDomManager;
+
+    beforeEach(() => {
+        eventBus = new EventBus();
+        // テスト用の HTML をセットアップ
+        document.body.innerHTML = `
+            <div id="game-score-value"></div>
+            <div id="game-time-limit-bar"></div>
+            <div id="game-combo-value"></div>
+            <div id="game-lives-value"></div>
+            <div id="game-mode-1-question-display"></div>
+            <div class="result-symbol"></div>
+            <div id="ending-high-score"></div>
+            <div id="ending-score-value"></div>
+            <div id="ending-time-value"></div>
+            <div id="game-section"></div>
+            <div id="ending-section"></div>
+            <div id="opening-section"></div>
+            <div id="game-status-section"></div>
+        `;
+
+        const domElements = {
+            "game-score-value": document.getElementById("game-score-value"),
+            "game-time-limit-bar": document.getElementById("game-time-limit-bar"),
+            "game-combo-value": document.getElementById("game-combo-value"),
+            "game-lives-value": document.getElementById("game-lives-value"),
+            "game-mode-1-question-display": document.getElementById("game-mode-1-question-display"),
+            "result-symbol": document.querySelector(".result-symbol"),
+            "ending-high-score": document.getElementById("ending-high-score"),
+            "ending-score-value": document.getElementById("ending-score-value"),
+            "ending-time-value": document.getElementById("ending-time-value"),
+            "game-section": document.getElementById("game-section"),
+            "ending-section": document.getElementById("ending-section"),
+            "opening-section": document.getElementById("opening-section"),
+            "game-status-section": document.getElementById("game-status-section"),
+        };
+        gameDomManager = new GameDomManager({ domElements, eventBus });
+        scoreManager = new GameScoreManager({ eventBus, gameDomManager });
+    });
+
+    it('初期スコアが0である', () => {
+        expect(scoreManager.score).toBe(0);
+    });
+
+    it('addScore でスコアが加算される', () => {
+        scoreManager.addScore(1);
+        expect(scoreManager.score).toBeGreaterThan(0);
+    });
+
+    it('resetScore でスコアがリセットされる', () => {
+        scoreManager.addScore(1);
+        scoreManager.resetScore();
+        expect(scoreManager.score).toBe(0);
+    });
+});
+
+describe('GameQuestionGenerator', () => {
+    let questionGenerator;
+    let settingsManager;
+    let eventBus;
+
+    beforeEach(() => {
+        eventBus = new EventBus();
+        settingsManager = new GameSettingsManager({ eventBus });
+        questionGenerator = new GameQuestionGenerator({ settingsManager });
+    });
+
+    it('問題が生成される', () => {
+        const questions = questionGenerator.generateQuestions({ gameMode: 'game-mode-1', difficulty: 1, noteNameType: 'note-name-type-japanese' });
+        expect(questions.length).toBeGreaterThan(0);
+    });
+});
+
+describe('GameTimeLimitTimer', () => {
+    let timer;
+    let eventBus;
+
+    beforeEach(() => {
+        eventBus = new EventBus();
+        timer = new GameTimeLimitTimer({ eventBus });
+        jest.useFakeTimers(); // タイマーをモック化
+    });
+
+    afterEach(() => {
+        jest.clearAllTimers(); // タイマーをクリア
+        jest.useRealTimers(); // 本物のタイマーに戻す
+    });
+
+    it('タイマーが開始される', () => {
+        timer.start();
+        expect(timer.timer).not.toBeNull();
+    });
+
+    it('タイマーが停止する', () => {
+        timer.start();
+        timer.stop();
+        expect(timer.timer).toBeNull();
+    });
+
+    it('タイマーがリセットされる', () => {
+        timer.start();
+        timer.reset();
+        expect(timer.seconds).toBe(GameTimeLimitTimer.MAX_SECONDS);
+    });
+
+    it('タイマーが時間切れになる', () => {
+        timer.start(1); // 1秒で時間切れになるように設定
+        jest.advanceTimersByTime(1000); // 1秒進める
+        expect(timer.isEnded).toBe(true);
+    });
+});
+
+describe('GameCounter', () => {
+    let counter;
+    let eventBus;
+
+    beforeEach(() => {
+        eventBus = new EventBus();
+        counter = new GameCounter({ eventBus });
+    });
+
+    it('カウンターがインクリメントされる', () => {
+        counter.increment('questionCount');
+        expect(counter.get('questionCount')).toBe(1);
+    });
+
+    it('カウンターがデクリメントされる', () => {
+        counter.increment('questionCount');
+        counter.decrement('questionCount');
+        expect(counter.get('questionCount')).toBe(0);
+    });
+
+    it('カウンターがリセットされる', () => {
+        counter.increment('questionCount');
+        counter.reset('questionCount');
+        expect(counter.get('questionCount')).toBe(0);
+    });
+
+    it('存在しないカウンターを操作しようとするとエラーになる', () => {
+        console.error = jest.fn(); // console.error をモック化
+        counter.increment('nonExistentCounter');
+        expect(console.error).toHaveBeenCalled();
+    });
+});
+
+describe('StorageManager', () => {
+    let storageManager;
+
+    beforeEach(() => {
+        storageManager = new StorageManager();
+        localStorage.clear(); // テスト前に localStorage をクリア
+    });
+
+    it('データを保存できる', () => {
+        storageManager.save('testKey', { test: 'data' });
+        expect(localStorage.getItem('testKey')).toBe(JSON.stringify({ test: 'data' }));
+    });
+
+    it('データをロードできる', () => {
+        localStorage.setItem('testKey', JSON.stringify({ test: 'data' }));
+        const data = storageManager.load('testKey');
+        expect(data).toEqual({ test: 'data' });
+    });
+
+    it('データを削除できる', () => {
+        localStorage.setItem('testKey', JSON.stringify({ test: 'data' }));
+        storageManager.remove('testKey');
+        expect(localStorage.getItem('testKey')).toBeNull();
+    });
+
+    it('全てのデータをクリアできる', () => {
+        localStorage.setItem('testKey1', JSON.stringify({ test: 'data1' }));
+        localStorage.setItem('testKey2', JSON.stringify({ test: 'data2' }));
+        storageManager.clear();
+        expect(localStorage.getItem('testKey1')).toBeNull();
+        expect(localStorage.getItem('testKey2')).toBeNull();
+    });
+});
+
+describe('GameManager', () => {
+    let gameManager;
+    let eventBus;
+    let storageManager;
+    let gameDomManager;
+    let gameTimeLimitTimer;
+
+    beforeEach(() => {
+        eventBus = new EventBus();
+        storageManager = new StorageManager();
+        // テスト用の HTML をセットアップ
+        document.body.innerHTML = `
+            <div id="game-score-value"></div>
+            <div id="game-time-limit-bar"></div>
+            <div id="game-combo-value"></div>
+            <div id="game-lives-value"></div>
+            <div id="game-mode-1-question-display"></div>
+            <div class="result-symbol"></div>
+            <div id="ending-high-score"></div>
+            <div id="ending-score-value"></div>
+            <div id="ending-time-value"></div>
+            <div id="game-section"></div>
+            <div id="ending-section"></div>
+            <div id="opening-section"></div>
+            <div id="game-status-section"></div>
+        `;
+
+        const domElements = {
+            "game-score-value": document.getElementById("game-score-value"),
+            "game-time-limit-bar": document.getElementById("game-time-limit-bar"),
+            "game-combo-value": document.getElementById("game-combo-value"),
+            "game-lives-value": document.getElementById("game-lives-value"),
+            "game-mode-1-question-display": document.getElementById("game-mode-1-question-display"),
+            "result-symbol": document.querySelector(".result-symbol"),
+            "ending-high-score": document.getElementById("ending-high-score"),
+            "ending-score-value": document.getElementById("ending-score-value"),
+            "ending-time-value": document.getElementById("ending-time-value"),
+            "game-section": document.getElementById("game-section"),
+            "ending-section": document.getElementById("ending-section"),
+            "opening-section": document.getElementById("opening-section"),
+            "game-status-section": document.getElementById("game-status-section"),
+        };
+        gameDomManager = new GameDomManager({ domElements, eventBus });
+        gameTimeLimitTimer = new GameTimeLimitTimer({ gameDomManager: gameDomManager, eventBus: eventBus });
+        gameManager = new GameManager({
+            gameDomManager: gameDomManager,
+            storageManager: storageManager,
+            gameTimeLimitTimer: gameTimeLimitTimer,
+            eventBus: eventBus
+        });
+    });
+
+    it('初期化処理が正しく実行される', () => {
+        expect(gameManager.isData.isGameActive).toBe(false);
+        expect(gameManager.isData.isGameOver).toBe(false);
+        expect(gameManager.isData.isFirstQuestion).toBe(true);
+    });
+
+    it('ゲームが開始される', () => {
+        gameManager.startGame();
+        expect(gameManager.isData.isGameActive).toBe(true);
+    });
+});

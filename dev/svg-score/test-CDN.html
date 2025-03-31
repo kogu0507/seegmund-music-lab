@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verovio MEI fetchサンプル</title>
+
+    <!-- Verovio CDN 読み込み -->
+    <script src="https://www.verovio.org/javascript/latest/verovio-toolkit-wasm.js" defer></script>
+    <script>
+        // DOMの読み込み完了後に実行
+        document.addEventListener("DOMContentLoaded", (event) => {
+            verovio.module.onRuntimeInitialized = async _ => {
+                // Verovio toolkit の初期化
+                let tk = new verovio.toolkit();
+                console.log("Verovio has loaded!");
+
+                // 楽譜表示用のコンテナを取得
+                let container = document.getElementById("notation");
+                // コンテナの幅を取得（ここではピクセル数）
+                let containerWidth = container.clientWidth;
+                console.log("Container width:", containerWidth);
+
+                // Verovioのオプションを設定
+                tk.setOptions({
+                    scale: 60,               // 楽譜の拡大率
+                    landscape: true,         // 横長のレイアウト
+                    adjustPageWidth: false,  // 自動でページ幅を調整しない（手動で設定）
+                    pageWidth: containerWidth  // コンテナの幅に合わせて設定
+                });
+                console.log("Verovio options:", tk.getOptions());
+
+                // sample.mei をフェッチして読み込み
+                fetch("sample.mei")
+                    .then((response) => response.text())
+                    .then((mei) => {
+                        // 読み込んだ MEI データを元に SVG を生成
+                        let svg = tk.renderData(mei, {});
+                        // コンテナにSVGを挿入
+                        container.innerHTML = svg;
+                    });
+            };
+        });
+    </script>
+
+    <style>
+        /* 楽譜表示用の枠のスタイル設定 */
+        #notation {
+            width: 100%;
+            /* コンテナの幅を親要素に合わせる */
+            max-width: 800px;
+            /* 必要に応じて最大幅を指定 */
+            border: 1px solid #ccc;
+            /* 枠線 */
+            padding: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+            /* 横はみ出し時にスクロールできるように */
+        }
+
+        /* SVG自体のサイズを100%にしておくと、コンテナに合わせて縮小されます */
+        #notation svg {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hello Verovio!</h1>
+    <div id="notation"></div>
+</body>
+
+</html>
